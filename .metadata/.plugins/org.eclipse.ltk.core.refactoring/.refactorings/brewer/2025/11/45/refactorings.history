@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;brewer/src/main/resources/static/javascripts/mascara-cpf-cnpj.js&apos; to &apos;cliente.mascara-cpf-cnpj.js&apos;" description="Rename resource &apos;mascara-cpf-cnpj.js&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/main/resources/static/javascripts/mascara-cpf-cnpj.js" name="cliente.mascara-cpf-cnpj.js" stamp="1762523514964" updateReferences="true"/>
+</session>

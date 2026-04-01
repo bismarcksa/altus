@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloGeral.xhtml">
+	<ui:define name="metadata">
+		<f:metadata>
+			 <f:viewParam name="sacacao" value="#{producaoBean.acao}"/>
+			<f:viewParam name="saccod" value="#{producaoBean.codigo}"/>		
+	 		<f:event listener="#{producaoBean.carregarCadastro}" type="preRenderView"/>
+	 	</f:metadata>
+	</ui:define>
+	
+	<ui:define name="conteudo">
+		<p:toolbar>
+			<f:facet name="left">
+				<h:outputText value="SOLICITAÇÃO DE PRODUÇÃO" style="font-weight:bold"/>
+			</f:facet>
+		</p:toolbar>	
+		<div class="card">
+  			<p:growl id="growlCoordenacao" showDetail="true" skipDetailIfEqualsSummary="true"/> 
+	    		
+	    	<h:form id="frmSacCad">
+	    		<p:messages id="messages" showDetail="true" closable="true" life="3000">
+	    			<p:autoUpdate/>
+	        	</p:messages>
+	               		
+	            <h:panelGrid id="pnlSacCadDados" columns="4" cellpadding="5">
+	            	<p:outputLabel for="filial" value="FILIAL" style="font-weight:bold;"/>
+					<p:selectOneMenu id="filial" value="#{producaoBean.producaoCadastro.filial}" converter="filialConverter" style="width: 272px;">
+						<f:selectItem itemValue="" itemLabel=""/>
+						<f:selectItems value="#{producaoBean.listaFiliais}" itemValue="#{filial}" itemLabel="#{filial.codigo} - #{filial.razaoSocial.toUpperCase()}" var="filial"/>
+						<f:validateBean />
+					</p:selectOneMenu>
+					
+					<p:outputLabel for="tipo" value="TIPO" style="font-weight:bold"/>
+					<p:selectOneMenu id="tipo" value="#{producaoBean.producaoCadastro.tipo}" style="font-weight:bold; width: 200px" disabled="#{producaoBean.acao == 'Editar'}">
+			            <f:selectItem itemLabel="" itemValue=""/>
+			            <f:selectItem itemLabel="SACHÊ" itemValue="SACHÊ"/>
+			            <f:selectItem itemLabel="CÁPSULA ÓLEOSA" itemValue="CÁPSULA ÓLEOSA"/>
+			            <f:selectItem itemLabel="SHAKE" itemValue="SHAKE"/>
+			            <f:selectItem itemLabel="ENVASE" itemValue="ENVASE"/>
+			        </p:selectOneMenu>
+							
+			        <p:outputLabel value="DAV" style="font-weight:bold;"/>
+					<p:inputNumber id="dav" value="#{producaoBean.producaoCadastro.dav}" style="font-weight:bold" thousandSeparator="" decimalSeparator="." decimalPlaces="0" maxValue="999999999" readonly="#{producaoBean.acao == 'Editar'}"/>
+			  				
+			  		<p:outputLabel value="IDENTIFICADOR DAV" style="font-weight:bold;"/>
+					<p:inputText id="identificador" value="#{producaoBean.producaoCadastro.identificador}" style="font-weight:bold; text-transform:uppercase" maxlength="1" readonly="#{producaoBean.acao == 'Excluir'}"/>
+			  					            
+			  		<p:outputLabel value="QUANTIDADE" style="font-weight:bold" />
+ 					<p:inputNumber id="quatidade_producao" value="#{producaoBean.producaoCadastro.quantidade}" style="font-weight:bold" thousandSeparator="" decimalSeparator="." decimalPlaces="0" maxValue="999999999" readonly="#{producaoBean.acao == 'Editar'}"/>
+			        
+			        <p:outputLabel value="CÁPS DOBRADA" style="font-weight:bold" />
+			        <p:toggleSwitch id="capsula_dobrada" value="#{producaoBean.producaoCadastro.capsula_dobrada}" />
+			                  
+			        <p:outputLabel for="data_dispensacao" value="DATA DISPENSAÇÃO " style="font-weight:bold; width: 100px"/>
+			        <p:calendar id="data_dispensacao" value="#{producaoBean.producaoCadastro.data_dispensacao}" showOn="button" style="font-weight:bold; width: 100px;" readonly="#{producaoBean.acao == 'Editar'}"/>
+			        
+			        <p:outputLabel value="CÁPS TRIPLICADA" style="font-weight:bold"/>
+			        <p:toggleSwitch id="capsula_triplicada" value="#{producaoBean.producaoCadastro.capsula_triplicada}"/>			         
+			       			            
+			        <p:outputLabel for="status" value="STATUS" style="font-weight:bold; width: 100px" rendered="#{autenticacaoBean.funcionarioLogado.funcao == 'COORDENADOR DE LABORATÓRIO' or autenticacaoBean.funcionarioLogado.login == 'WILLIANE'}"/>
+					<p:selectOneMenu id="status" value="#{producaoBean.producaoCadastro.status}" style="font-weight:bold;" disabled="#{producaoBean.acao == 'Excluir'}" rendered="#{autenticacaoBean.funcionarioLogado.funcao == 'COORDENADOR DE LABORATÓRIO' or autenticacaoBean.funcionarioLogado.login == 'WILLIANE'}">
+			            <f:selectItem itemLabel="PENDENTE" itemValue="PENDENTE"/>
+			            <f:selectItem itemLabel="CONFERÊNCIA" itemValue="CONFERÊNCIA"/>
+			            <f:selectItem itemLabel="PRODUÇÃO" itemValue="PRODUÇÃO"/>
+			            <f:selectItem itemLabel="DISPENSADO" itemValue="DISPENSADO"/>
+			        </p:selectOneMenu> 
+			        
+			         <p:outputLabel value="CÁPS QUADRUPLICADA" style="font-weight:bold"/>
+			        <p:toggleSwitch id="capsula_quadruplicada" value="#{producaoBean.producaoCadastro.capsula_quadruplicada}"/>   
+	            </h:panelGrid>
+	
+	            <p:divider />
+	            		
+	            <h:panelGrid columns="2">
+	            	<p:commandButton value="SALVAR" actionListener="#{producaoBean.salvar}" update=":msgGlobal :frmSacCad:pnlSacCadDados" rendered="#{producaoBean.acao == 'Novo'}" icon="pi pi-check"/>
+	            	<p:commandButton value="EDITAR" actionListener="#{producaoBean.editar}" update=":msgGlobal" rendered="#{producaoBean.acao == 'Editar'}" icon="pi pi-user-edit"/>
+	            	<p:commandButton value="EXCLUIR" actionListener="#{producaoBean.excluir}" update=":msgGlobal" rendered="#{producaoBean.acao == 'Excluir'}" icon="pi pi-trash"/> 
+	            	<p:button value="VOLTAR" outcome="/pages/coordenacaoPesquisa.xhtml" icon="pi pi-chevron-left"/>
+	        	</h:panelGrid>
+	    	</h:form>
+		</div>			
+	</ui:define>
+	</ui:composition>
+</html>
+
+
+
+
+
+
+
+

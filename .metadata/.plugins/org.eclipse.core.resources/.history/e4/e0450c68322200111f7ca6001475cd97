@@ -1,0 +1,40 @@
+package com.algaworks.brewer.config;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
+
+import jakarta.annotation.PostConstruct;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3Client;
+
+@Configuration
+@PropertySource(value = {"file://${HOME}/.brewer-s3.properties"}, ignoreResourceNotFound = true)
+public class S3Config {
+
+    @Autowired
+    private Environment env;
+
+    @PostConstruct
+    public void init() {
+ //       System.out.println(">>> PROFILE PROD ATIVO <<<");
+    }
+    
+    @Bean
+    public S3Client s3Client() {
+
+    		AwsBasicCredentials credentials = AwsBasicCredentials.create(
+                env.getProperty("AWS_ACCESS_KEY_ID"),
+                env.getProperty("AWS_SECRET_ACCESS_KEY")
+        );
+
+        return S3Client.builder()
+                .region(Region.US_EAST_1) // região
+                .credentialsProvider(StaticCredentialsProvider.create(credentials))
+                .build();
+    }
+}

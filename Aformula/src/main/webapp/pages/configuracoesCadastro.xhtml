@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<ui:composition template="/templates/modeloGeral.xhtml">
+		<ui:define name="metadata">
+			<f:metadata>
+			 	<f:viewParam name="conacao" value="#{configuracoesBean.acao}"/>
+				<f:viewParam name="concod" value="#{configuracoesBean.codigo}"/>		
+	 			<f:event listener="#{configuracoesBean.carregarCadastro}" type="preRenderView"/>
+	 		</f:metadata>
+		</ui:define>
+		<ui:define name="conteudo"> 
+			<p:fieldset legend="PARÂMETROS DE CONFIGURAÇÃO">
+           		<h:form id="frmConCad">
+	           		<h:panelGrid id="pnlConCadDados" columns="4" cellpadding="5">
+						<p:outputLabel value="LIMITE DIÁRIO SACHÊ " style="font-weight:bold"/>
+						<p:inputText value="#{configuracoesBean.configuracoesCadastro.limiteDiarioSache}" size="10" />
+						
+						<p:outputLabel value="LIMITE DIÁRIO CÁPSULA " style="font-weight:bold"/>
+						<p:inputText value="#{configuracoesBean.configuracoesCadastro.limiteDiarioCapsula}" size="10" />
+						
+						<p:outputLabel value="LIMITE DIÁRIO SHAKE " style="font-weight:bold"/>
+						<p:inputText value="#{configuracoesBean.configuracoesCadastro.limiteDiarioShake}" size="10" />
+						
+						<p:outputLabel value="LIMITE DIÁRIO ENVASE " style="font-weight:bold"/>
+						<p:inputText value="#{configuracoesBean.configuracoesCadastro.limiteDiarioEnvase}" size="10" />
+						
+						<p:outputLabel value="ANO BASE " style="font-weight:bold"/>
+						<p:selectOneMenu id="ano" value="#{configuracoesBean.configuracoesCadastro.anoBase}"  style="font-weight:bold; width: 127px;">						
+							<f:selectItem itemLabel="" itemValue=""/>
+							<f:selectItem itemLabel="2025" itemValue="2025"/> 
+						</p:selectOneMenu>
+					</h:panelGrid>
+					<p:divider/>
+					<h:panelGrid id="pnlConCadDadosBloqueio" columns="6" cellpadding="5">	
+						<p:outputLabel value="BLOQUEAR DIA PRODUÇÃO 1" style="font-weight:bold"/>
+						<p:calendar size="10" id="bloquear_lancamento_producao" value="#{configuracoesBean.configuracoesCadastro.bloquearLancamentoProducao}" disabledWeekends="true" showOn="button" style="font-weight:bold; width: 226px;"/>			
+				        <p:selectBooleanCheckbox value="#{configuracoesBean.configuracoesCadastro.bloquearLancamentoProducaoItemSache}" itemLabel="SACHÊ"/>
+				        <p:selectBooleanCheckbox value="#{configuracoesBean.configuracoesCadastro.bloquearLancamentoProducaoItemCapsula}" itemLabel="CÁPSULA ÓLEOSA"/>
+				        <p:selectBooleanCheckbox value="#{configuracoesBean.configuracoesCadastro.bloquearLancamentoProducaoItemShake}" itemLabel="SHAKE"/>
+				        <p:selectBooleanCheckbox value="#{configuracoesBean.configuracoesCadastro.bloquearLancamentoProducaoItemEnvase}" itemLabel="ENVASE"/>
+											
+						<p:outputLabel value="BLOQUEAR DIA PRODUÇÃO 2" style="font-weight:bold"/>
+						<p:calendar size="10" id="bloquear_lancamento_producao2" value="#{configuracoesBean.configuracoesCadastro.bloquearLancamentoProducao2}" disabledWeekends="true" showOn="button" style="font-weight:bold; width: 226px;"/>
+						<p:selectBooleanCheckbox value="#{configuracoesBean.configuracoesCadastro.bloquearLancamentoProducao2ItemSache}" itemLabel="SACHÊ"/>
+				        <p:selectBooleanCheckbox value="#{configuracoesBean.configuracoesCadastro.bloquearLancamentoProducao2ItemCapsula}" itemLabel="CÁPSULA ÓLEOSA"/>
+				        <p:selectBooleanCheckbox value="#{configuracoesBean.configuracoesCadastro.bloquearLancamentoProducao2ItemShake}" itemLabel="SHAKE"/>
+				        <p:selectBooleanCheckbox value="#{configuracoesBean.configuracoesCadastro.bloquearLancamentoProducao2ItemEnvase}" itemLabel="ENVASE"/>
+						
+						<p:outputLabel value="BLOQUEAR DIA PRODUÇÃO 3" style="font-weight:bold"/>
+						<p:calendar size="10" id="bloquear_lancamento_producao3" value="#{configuracoesBean.configuracoesCadastro.bloquearLancamentoProducao3}" disabledWeekends="true" showOn="button" style="font-weight:bold; width: 226px;"/>																								
+						<p:selectBooleanCheckbox value="#{configuracoesBean.configuracoesCadastro.bloquearLancamentoProducao3ItemSache}" itemLabel="SACHÊ"/>
+				        <p:selectBooleanCheckbox value="#{configuracoesBean.configuracoesCadastro.bloquearLancamentoProducao3ItemCapsula}" itemLabel="CÁPSULA ÓLEOSA"/>
+				        <p:selectBooleanCheckbox value="#{configuracoesBean.configuracoesCadastro.bloquearLancamentoProducao3ItemShake}" itemLabel="SHAKE"/>
+				        <p:selectBooleanCheckbox value="#{configuracoesBean.configuracoesCadastro.bloquearLancamentoProducao3ItemEnvase}" itemLabel="ENVASE"/>
+											
+					</h:panelGrid>
+					<p:divider/>
+					<h:panelGrid id="pnlConCadDadosMeeta" columns="6" cellpadding="5">
+			        	<p:outputLabel value="META LOJA 67" style="font-weight:bold"/>
+			            <p:spinner id="meta67" value="#{configuracoesBean.configuracoesCadastro.meta67}" suffix="%" min="0" max="100" style="width:120px;"/>
+			         		           
+			            <p:outputLabel value="META LOJA 68" style="font-weight:bold"/>
+			            <p:spinner id="meta68" value="#{configuracoesBean.configuracoesCadastro.meta68}" suffix="%" min="0" max="100" style="width:120px;"/>
+			       
+			            <p:outputLabel value="META LOJA 70" style="font-weight:bold"/>
+			            <p:spinner id="meta70" value="#{configuracoesBean.configuracoesCadastro.meta70}" suffix="%" min="0" max="100" style="width:120px;"/>
+			        </h:panelGrid>
+					<p:divider/>
+					<h:panelGrid columns="2"> 
+						<p:commandButton value="GRAVAR" actionListener="#{configuracoesBean.editar}" update=":msgGlobal" rendered="#{configuracoesBean.acao == 'Editar'}" icon="pi pi-file-edit"/>						
+						<p:button value="VOLTAR" outcome="/pages/principal.xhtml" icon="pi pi-chevron-left"/>
+					</h:panelGrid>	
+				</h:form>	
+        	</p:fieldset>				
+		</ui:define>
+	</ui:composition>
+</html>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<ui:composition template="/templates/modeloGeral.xhtml">
+		<ui:define name="metadata"> 
+			<f:metadata>				
+				<f:event listener="#{gestaoPerformanceBean.carregarPesquisa}" type="preRenderView"/>
+				<f:event listener="#{gestaoPerformanceBean.carregarCadastro}" type="preRenderView"/>
+			</f:metadata>
+		</ui:define>
+			    			
+		<ui:define name="conteudo">
+			<p:toolbar>
+	            <p:toolbarGroup>
+	                <p:commandButton value="GERAR PERFORMANCE FUNCIONÁRIO" actionListener="#{gestaoPerformanceBean.novo}" update=":frmDialogoPerformance:pnlDialogoPerformance" icon="pi pi-folder-open" styleClass="ui-button-success" oncomplete="PF('abrirDialogoPerformance').show();"/>
+	            </p:toolbarGroup>
+	        </p:toolbar>
+			<h:form id="frmDialogoPerformance">
+				<p:dialog widgetVar="abrirDialogoPerformance" header="PERFORMANCE" draggable="false" resizable="false" modal="true" showEffect="fade"  responsive="true"> 
+					<p:panel id="pnlDialogoPerformance" style="margin-bottom:10px;">
+						<h:panelGrid columns="2" cellpadding="2">        
+							<p:outputLabel value="ANO" style="font-weight:bold" />
+							<p:selectOneMenu id="ano" value="#{gestaoPerformanceBean.gestaoPerformanceCadastro.ano}"  style="font-weight:bold; width: 100px;" required="true" requiredMessage="O campo ANO é obrigatório.">
+								<f:selectItem itemLabel="" itemValue=""/>
+								<f:selectItem itemLabel="2023" itemValue="2023"/>
+								<f:selectItem itemLabel="2024" itemValue="2024"/>
+								<f:selectItem itemLabel="2025" itemValue="2025"/>
+							</p:selectOneMenu>
+							<p:outputLabel value="FUNCIONÁRIO" style="font-weight:bold"/>
+							<p:selectOneMenu value="#{gestaoPerformanceBean.gestaoPerformanceCadastro.funcionario}" converter="funcionarioConverter" style="width: 428px;" required="true" requiredMessage="O campo FUNCIONÁRIO é obrigatório.">
+								<f:selectItem itemValue="" itemLabel=""/>
+								<f:selectItems value="#{gestaoPerformanceBean.listaFuncionarios}" itemValue="#{funcionario}" itemLabel="#{funcionario.nome.toUpperCase()}" var="funcionario"/>
+								<f:validateBean />
+							</p:selectOneMenu>				
+						</h:panelGrid>
+					</p:panel>
+					<f:facet name="footer">
+				       	<p:commandButton value="SALVAR" icon="pi pi-check" actionListener="#{gestaoPerformanceBean.salvar}" update=":msgGlobal pnlDialogoPerformance frmListagemFunc" process="pnlDialogoPerformance @this" />
+					</f:facet>
+				</p:dialog>   
+			</h:form>
+			
+			<div class="card performance">
+			    <h:form id="frmListagemFunc">			        
+					<p:dataTable id="tblFuncPerformance" var="gestaoPerformanceCursor" value="#{gestaoPerformanceBean.listaGestaoPerformance}"  rowKey="#{gestaoPerformanceCursor.codigo}" emptyMessage="Nenhum registro encontrado" rows="10" paginator="true" paginatorPosition="bottom" style="margin-right: 0; padding: 0rem; font-size: 15px;" stripedRows="true"  size="small">
+						<p:column style="width:2rem; width: 2%">
+			                <p:rowToggler/>
+			            </p:column>
+			            
+			            <p:column headerText="PERFORMANCE" style="width: 5%">						
+							<h:outputText value="#{gestaoPerformanceCursor.codigo}"/>
+						</p:column>			
+			            						
+						<p:column headerText="CÓDIGO" style="width: 3%">						
+							<h:outputText value="#{gestaoPerformanceCursor.funcionario.codigo}"/>
+						</p:column>
+						
+						<p:column headerText="NOME" style="width: 30%">						
+							<h:outputText value="#{gestaoPerformanceCursor.funcionario.nome.toUpperCase()}"/>
+						</p:column>
+						
+						<p:column headerText="ANO" style="width: 5%">						
+							<h:outputText value="#{gestaoPerformanceCursor.ano}"/>
+						</p:column>
+						
+						<p:column headerText="STATUS" style="width: 5%">						
+							<h:outputText value="ABERTO"/>
+						</p:column>
+						
+						<p:column headerText="" style="width: 30%">						
+							<p:button value="PERFORMANCE" outcome="/pages/gestaoPerformanceFunc.xhtml" icon="pi pi-plus" styleClass="ui-button-success" style="margin-right: .5rem">
+  								<f:param name="funccod" value="#{gestaoPerformanceCursor.funcionario.codigo}"/>
+  								<f:param name="perfcod" value="#{gestaoPerformanceCursor.codigo}"/>
+							</p:button>
+							
+							<p:button value="EXCLUIR" outcome="/pages/producaoCadastro.xhtml" styleClass="ui-button-secondary"  icon="pi pi-trash">
+	  							<f:param name="saccod" value="#{gestaoPerformanceCursor.funcionario.codigo}"/>
+							 	<f:param name="sacacao" value="Excluir"/>
+							</p:button>	
+						</p:column>
+						
+						<p:rowExpansion>
+			            	<p:panelGrid id="pnlFunCadDados" columns="10" cellpadding="5" styleClass="status-badge status-formula">	
+								<p:outputLabel value="TOTAL META " style="font-weight:bold"/>		
+								<p:inputNumber value="#{gestaoPerformanceFuncBean.totalMetaPerformanceFunc}"  symbol="R$ " readonly="true" inputStyle="font-weight:bold; font-size: 19px; width:170px;"/>
+									
+								<p:outputLabel value="TOTAL VENDAS " style="font-weight:bold"/>
+								<p:inputNumber value="#{gestaoPerformanceFuncBean.totalVendasPerformanceFunc}"  symbol="R$ " readonly="true" inputStyle="font-weight:bold; font-size: 19px; width:170px;"/>
+									
+								<p:outputLabel value="MÉDIA % META " style="font-weight:bold"/>
+								<p:inputNumber value="#{gestaoPerformanceFuncBean.mediaMetaPercentual}" symbol="%" symbolPosition="s" readonly="true" inputStyle="font-weight:bold; font-size: 19px; width:170px" />
+											
+								<p:outputLabel value="MÉDIA REJEIÇÃO " style="font-weight:bold"/>
+								<p:inputNumber value="#{gestaoPerformanceFuncBean.mediaRejeicaoPercentual}" symbol="%" symbolPosition="s" readonly="true" inputStyle="font-weight:bold; font-size: 19px; width:170px" />
+								
+								<p:outputLabel value="MÉDIA REJEIÇÃO " style="font-weight:bold"/>
+								<p:inputNumber value="#{gestaoPerformanceFuncBean.mediaRejeicaoPercentual}" symbol="%" symbolPosition="s" readonly="true" inputStyle="font-weight:bold; font-size: 19px; width:170px" />
+								
+								<p:outputLabel value="MÉDIA REJEIÇÃO " style="font-weight:bold"/>
+								<p:inputNumber value="#{gestaoPerformanceFuncBean.mediaRejeicaoPercentual}" symbol="%" symbolPosition="s" readonly="true" inputStyle="font-weight:bold; font-size: 19px; width:170px" />
+																
+								<p:outputLabel value="MÉDIA % META " style="font-weight:bold"/>
+								<p:inputNumber value="#{gestaoPerformanceFuncBean.mediaMetaPercentual}" symbol="%" symbolPosition="s" readonly="true" inputStyle="font-weight:bold; font-size: 19px; width:170px" />
+											
+								<p:outputLabel value="MÉDIA REJEIÇÃO " style="font-weight:bold"/>
+								<p:inputNumber value="#{gestaoPerformanceFuncBean.mediaRejeicaoPercentual}" symbol="%" symbolPosition="s" readonly="true" inputStyle="font-weight:bold; font-size: 19px; width:170px" />
+																	
+								<p:outputLabel value="ABAIXO 80% META" style="font-weight:bold"/>
+								<p:inputText value="#" readonly="true" style="font-weight:bold; width: 170px;"/>
+									
+								<p:outputLabel value="RANKING ANUAL" style="font-weight:bold"/>
+								<p:inputText id="ranking" value="#" readonly="true" style="font-weight:bold; width: 170px;"/>
+								<p:tooltip for="ranking" value="Posição em Valor de Vendas" position="bottom"/>								
+							</p:panelGrid>	               
+			            </p:rowExpansion>
+					</p:dataTable>		
+				</h:form>	
+			</div>	
+		</ui:define>
+	</ui:composition>
+</html>

@@ -1,0 +1,206 @@
+@charset "UTF-8";
+
+
+.ui-widget, .ui-widget .ui-widget{
+	font-size: 100%;
+}
+
+.ui-splitbutton {
+	margin-right: .5rem;
+}
+
+/* ALTURA DOS DIALOGS*/
+.ui-dialog .ui-dialog-titlebar {
+    padding: 8px 8px !important; /* altura reduzida */
+    font-size: 14px !important;   /* opcional: diminui o tamanho da fonte */
+}
+
+.status-badge {
+    border-radius: 2px;
+    padding: 0.25em 0.5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+}
+
+.status-badge.status-bancohoraPositivo {
+    background-color: #c8e6c9;
+    color: #256029;
+}
+
+.status-badge.status-bancohoraNegativo {
+    background-color: #ffcdd2;
+    color: #c63737;
+}
+
+.status-badge.status-bancohoraZero {
+    background-color: #feedaf;
+    color: #8a5340;
+}
+
+.status-badge.status-dispensado {
+    background-color: #c8e6c9;
+    color: #256029;
+}
+
+.status-badge.status-realizada {
+    background-color: #c8e6c9;
+    color: #256029;
+}
+
+.status-badge.status-pendente {
+    background-color: #ffcdd2;
+    color: #c63737;
+}
+
+.status-badge.status-conferência {
+    background-color: #b3e5fc;
+    color: #23547b;
+/*    border-radius: 12px;  Bordas arredondadas */
+/*    padding: 5px 10px;  Espaçamento interno */
+/*    font-weight: bold;  Texto em negrito */
+/*    display: inline-block;  Mantém o badge compacto */
+}
+
+.statusEntrega-badge.statusEntrega-pendente {
+    background-color: #ffcdd2;
+    color: #c63737;
+}
+
+.status-badge.status-produção {
+    background-color: #feedaf;
+    color: #8a5340;
+}
+
+.status-badge.status-novo {
+    background-color: #b3e5fc;
+    color: #23547b;
+}
+
+.status-badge.status-bege {
+    background-color: #ffd8b2;
+    color: #805b36;
+}
+
+.status-badge.status-renovo {
+    background-color: #eccfff;
+    color: #694382;
+}
+
+.status-badge.status-formula {
+    background-color: #008a97;
+    color: #ffffff;
+}
+
+
+.status-badge.status-formula1 {
+    background-color: #00535B;
+    color: #ffffff;
+}
+
+.status-badge.status-formula2 {
+    background-color: #008A97;
+    color: #ffffff;
+}
+
+.status-badge.status-formula3 {
+    background-color: #66B9C1;
+    color: #ffffff;
+}
+
+.status-badge.status-formula4 {
+    background-color: #CCE8EA;
+    color: #ffffff;
+}
+
+.status-badge.status-bloqueado {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.container-pai{
+  height: 75vh;  
+  /*alinhando*/
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.container-pai p{
+  background-color: #ccc;
+  box-shadow: 0 0 .5rem lightgrey;
+  padding: .5rem 1rem;
+  border-radius: .2rem;
+}
+
+body .ui-accordion .ui-accordion-content {
+    border: 1px solid #dee2e6;
+    background: #fff;
+    color: #495057;
+    padding: 0rem;
+    margin: 0;
+    position: static;
+    border-top: 0 none
+}
+
+.semBorda {
+	padding: 0rem;
+}
+
+body .ui-tabs .ui-tabs-panels .ui-tabs-panel {
+    padding: 0rem;
+}
+
+.texto {
+    border-radius: 2px;
+    padding: 0.25em 0.5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+}
+
+.valorMaior{
+    background-color: #c8e6c9;
+    color: #256029;
+}
+
+.valorMenor{
+    background-color: #ffcdd2;
+    color: #c63737;
+}
+
+.valorZero{
+    background-color: #c0c0c0;
+    color: #6e6e6e;
+}
+
+ .controlePontoDomingo {
+        background-color: #808080 !important;
+        background-image: none !important;
+        color: #ffffff !important;
+}
+
+.status-badge.status-aberto {
+    background-color: #b3e5fc;
+    color: #23547b;
+}
+
+.status-badge.status-fechado {
+    background-color: #c0c0c0;
+    color: #6e6e6e;
+}
+
+.status-badge.status-fechado {
+    background-color: #c0c0c0;
+    color: #6e6e6e;
+}
+
+body .ui-card .ui-card-body {
+    padding: 0.5rem;
+}
+
+body .ui-card .ui-card-content {
+    padding: 0rem 0;
+}

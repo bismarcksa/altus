@@ -1,0 +1,29 @@
+package com.algaworks.brewer.services;
+
+import com.algaworks.brewer.model.Cidade;
+import com.algaworks.brewer.repository.CidadeRepository;
+import com.algaworks.brewer.services.exception.NomeCidadeJaCadastradaException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
+
+@Service
+public class CidadeService {
+
+	@Autowired
+	private CidadeRepository cidadeRepository;
+	
+	@Transactional
+	public void salvar(Cidade cidade) {
+		Optional<Cidade> cidadeExistente = cidadeRepository.findByNomeAndEstado(cidade.getNome(), cidade.getEstado());
+		if (cidadeExistente.isPresent()) {
+			throw new NomeCidadeJaCadastradaException("Nome de cidade já cadastrado");
+		}
+		
+		cidadeRepository.save(cidade);
+	}
+
+
+}

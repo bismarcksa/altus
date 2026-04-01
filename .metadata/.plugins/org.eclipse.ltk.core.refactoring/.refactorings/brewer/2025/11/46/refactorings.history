@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;com.algaworks.brewer.controller.CidadeController&apos; to &apos;CidadesController&apos;&#x0D;&#x0A;- Original project: &apos;brewer&apos;&#x0D;&#x0A;- Original element: &apos;com.algaworks.brewer.controller.CidadeController&apos;&#x0D;&#x0A;- Renamed element: &apos;com.algaworks.brewer.controller.CidadesController&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;CidadeController&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.algaworks.brewer.controller{CidadeController.java[CidadeController" matchStrategy="1" name="CidadesController" qualified="false" references="true" similarDeclarations="false" stamp="1762650122474" textual="false" version="1.0"/>
+</session>

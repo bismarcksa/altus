@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<ui:composition template="/templates/modeloGeral.xhtml">
+		<ui:define name="metadata">
+			<f:metadata>
+			 	<f:viewParam name="filacao" value="#{filialBean.acao}"/>
+				<f:viewParam name="filcod" value="#{filialBean.codigo}"/>		
+	 			<f:event listener="#{filialBean.carregarCadastro}" type="preRenderView"/>
+	 			<f:event listener="#{filialBean.carregarPesquisaFuncFilial}" type="preRenderView"/>
+	 		</f:metadata>
+		</ui:define>
+		<ui:define name="conteudo">
+			<h:form id="frmFilCad">
+				<p:toolbar>
+					<f:facet name="left">
+						<h:outputText value="CADASTRO DE FILIAL" style="font-size: 1.5em; font-weight: bold;"/>
+					</f:facet>
+				</p:toolbar>
+				
+				<h:panelGrid id="pnlFilCadDados" columns="4" cellpadding="5">
+					<p:outputLabel value="CÓDIGO " style="font-weight:bold"/>
+					<p:inputText size="20" readonly="true"/>
+					
+					<p:outputLabel value="RAZÃO SOCIAL " style="font-weight:bold"/>
+					<p:inputText maxlength="100" size="30" value="#{filialBean.filialCadastro.razaoSocial}" readonly="#{filialBean.acao == 'Excluir'}">
+						<f:validateBean />
+					</p:inputText>
+									
+					<p:outputLabel value="CNPJ " style="font-weight:bold"/>
+					<p:inputMask mask="99.999.999/9999-99" size="20" value="#{filialBean.filialCadastro.cnpj}" readonly="#{filialBean.acao == 'Excluir'}">
+						<f:validateBean/>
+					</p:inputMask>
+					
+					<p:outputLabel value="STATUS" style="font-weight:bold" />
+			        <p:toggleSwitch id="status" value="#{filialBean.filialCadastro.status}" onIcon="pi pi-check" offIcon="pi pi-times"/>			     
+				</h:panelGrid>
+				
+				<h:panelGrid columns="5">
+  				    <p:commandButton value="NOVO" actionListener="#{filialBean.novo}" update=":frmFilCad:pnlFilCadDados" rendered="#{filialBean.acao == 'Novo'}" icon="pi pi-user-plus"/> 
+					<p:commandButton value="SALVAR" actionListener="#{filialBean.salvar}" update=":msgGlobal :frmFilCad:pnlFilCadDados" rendered="#{filialBean.acao == 'Novo'}" icon="pi pi-check"/>
+					<p:commandButton value="EXCLUIR" actionListener="#{filialBean.excluir}" update=":msgGlobal" rendered="#{filialBean.acao == 'Excluir'}" icon="pi pi-trash"/> 
+					<p:commandButton value="EDITAR" actionListener="#{filialBean.editar}" update=":msgGlobal" rendered="#{filialBean.acao == 'Editar'}" icon="pi pi-file-edit"/>
+					
+					<p:button value="VOLTAR" outcome="/pages/filialPesquisa.xhtml" icon="pi pi-chevron-left"/>
+				</h:panelGrid>
+				
+				<p:divider align="center">
+        			<div class="inline-flex align-items-center">
+            			<i class="pi pi-user mr-2"/>
+            			<b>FUNCIONÁRIOS DA FILIAL</b>
+        			</div>
+				</p:divider>
+				
+				<p:dataTable var="funcionarioCursor" value="#{filialBean.listaFuncionariosFilial}" emptyMessage="Nenhum registro encontrado" rows="10" paginator="true" paginatorPosition="bottom" style="margin-right: 0; padding: 0rem; font-size: 15px;" stripedRows="true" size="small">					
+					<p:column headerText="CÓDIGO" style="width: 6%">
+						<h:outputText value="#{funcionarioCursor.codigo}"/>
+					</p:column>
+					
+					<p:column headerText="NOME" >
+						<h:outputText value="#{funcionarioCursor.nome.toUpperCase()}"/>
+					</p:column>				
+					
+					<p:column headerText="FUNÇÃO" style="width: 20%">
+						<h:outputText value="#{funcionarioCursor.funcao}"/>
+					</p:column>
+						
+					<p:column headerText="STATUS" style="width: 8%">
+						<h:outputText value="#{funcionarioCursor.status==true?'ATIVO':'INATIVO'}" /> 
+					</p:column>					
+				</p:dataTable>	
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>

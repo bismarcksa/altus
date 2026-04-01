@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:composition template="/templates/modeloGeral.xhtml">
+        <ui:define name="metadata">
+            <f:metadata>
+
+            </f:metadata>
+            <script>
+                var ws;
+
+                // Função para obter o valor do parâmetro de URL
+                function getQueryParam(param) {
+                    var urlParams = new URLSearchParams(window.location.search);
+                    return urlParams.get(param);
+                }
+
+                function connect(username) {
+                    ws = new WebSocket("ws://" + window.location.host + "/Aformula/privateChat/username=" + username);
+
+                    ws.onopen = function() {
+                        console.log("Conectado ao WebSocket como " + username);
+                        document.getElementById("status").innerText = "Conectado como: " + username;
+                    };
+
+                    ws.onmessage = function(event) {
+                        console.log("Mensagem recebida do WebSocket: ", event.data);
+                        if (event.data.startsWith("USERS:")) {
+                            var usuarios = event.data.substring(6).split(",");
+                            var listaUsuarios = document.getElementById("usuariosOnline");
+                            listaUsuarios.innerHTML = "";  // Limpa a lista atual
+
+                            if (usuarios.length === 0) {
+                                listaUsuarios.innerHTML = "Nenhum usuário conectado.";
+                            }
+
+                            usuarios.forEach(function(usuario) {
+                                var item = document.createElement("li");
+                                item.textContent = usuario;
+                                listaUsuarios.appendChild(item);
+                            });
+                        } else {
+                            // Exibe a mensagem normal
+                            var mensagens = document.getElementById("messages");
+                            var novaMensagem = document.createElement("div");
+                            novaMensagem.textContent = event.data;
+                            mensagens.appendChild(novaMensagem);
+                        }
+                    };
+
+
+
+                    ws.onclose = function() {
+                        console.log("WebSocket desconectado");
+                        document.getElementById("status").innerText = "Desconectado.";
+                    };
+
+                    ws.onerror = function(error) {
+                        console.error("Erro no WebSocket:", error);
+                    };
+                }
+
+                function enviarMensagem() {
+                    var destinatario = document.getElementById("destinatario").value;
+                    var mensagem = document.getElementById("mensagem").value;
+
+                    if (ws === null || ws === undefined) {
+                        console.error("WebSocket não está definido.");
+                        return;
+                    }
+
+                    if (ws.readyState === WebSocket.OPEN) {
+                        ws.send(destinatario + ":" + mensagem);
+                    } else {
+                        console.error("WebSocket não está aberto.");
+                    }
+                }
+
+                // Inicia a conexão ao carregar a página usando o nome de usuário na URL
+                window.onload = function() {
+                    var username = getQueryParam("funcnome"); // Aqui usando funcnome da URL
+                    if (username) {
+                        connect(username);
+                    } else {
+                        console.error("Parâmetro funcnome não encontrado na URL.");
+                    }
+                };
+            </script>
+        </ui:define>
+
+        <ui:define name="conteudo">
+            <h:outputText value="Funcionario ID: #{param.funccod}" />
+            <br/>
+            <h:outputText value="Funcionario Nome: #{param.funcnome}" />
+            <br/>
+
+            <!-- Exibição do status de conexão -->
+            <h:outputText id="status" style="font-weight: bold; color: green;" value="Conectando..." />
+
+            <!-- Formulário de envio de mensagem -->
+            <h:form>
+                <h:outputText value="Mensagem para: " />
+                <p:inputText id="destinatario" value="#{chatBean.destinatario}" />
+                <h:outputText value="Mensagem: " />
+                <p:inputText id="mensagem" value="#{chatBean.mensagem}" />
+
+                <p:commandButton value="Enviar" onclick="enviarMensagem(); return false;" />
+            </h:form>
+
+            <!-- Exibição das mensagens -->
+            <h:panelGrid id="messages" columns="1">
+                <h:outputText value="#{chatBean.mensagem}" escape="false" />
+            </h:panelGrid>
+
+            <!-- Exibição da lista de usuários online -->
+            <h:outputText value="Usuários Online:" />
+            <ul id="usuariosOnline">
+                <!-- A lista de usuários conectados será preenchida aqui -->
+            </ul>
+        </ui:define>
+    </ui:composition>
+</html>

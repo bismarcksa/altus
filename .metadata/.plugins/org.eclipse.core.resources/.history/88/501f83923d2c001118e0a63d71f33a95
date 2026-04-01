@@ -1,0 +1,8 @@
+package com.altus;
+
+@SpringBootApplication
+public class AltusApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(AltusApplication.class, args);
+    }
+}

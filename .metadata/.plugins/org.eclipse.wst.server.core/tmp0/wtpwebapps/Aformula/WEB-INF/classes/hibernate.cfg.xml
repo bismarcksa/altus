@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+	<session-factory>
+
+		<!-- CONFIGURAÇÕES DA CONEXÃO -->
+		<property name="connection.driver_class">org.postgresql.Driver</property>
+		<property name="connection.url">jdbc:postgresql://localhost:5432/aformula</property>
+		<property name="connection.username">postgres</property>
+		<property name="connection.password">mktplc10</property>
+
+		<!-- POOL DE CONEXÕES JDBC -->
+		<property name="connection.pool_size">5</property>
+
+		<!-- POSTGRES DIALECT -->
+		<property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+
+		<!-- GERENCIAMENTO DA SESSÃO -->
+		<property name="current_session_context_class">thread</property>
+
+		<!-- DESABILITA O CACHE -->
+		<property name="hibernate.cache.use_second_level_cache">false</property>
+
+		<!-- MOSTRAR COMANDOS SQL EXECUTADOS PELO HIBERNATE -->
+		<property name="show_sql">false</property>
+
+		<!-- CRIA AS TABELAS -->
+		<property name="hbm2ddl.auto">update</property>
+		
+<!--		<property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>
+
+		<property name="hibernate.bytecode.use_reflection_optimizer">false</property> -->
+		
+		<!-- MAPEANDO AS ENTIDADES/TABELAS -->
+		<mapping class="br.com.aformula.domain.Funcionario"/>
+		<mapping class="br.com.aformula.domain.Producao"/>
+		<mapping class="br.com.aformula.domain.ProducaoPCP"/>
+		<mapping class="br.com.aformula.domain.Configuracoes"/>
+		<mapping class="br.com.aformula.domain.ConfiguracoesLog"/>
+		<mapping class="br.com.aformula.domain.IndicadoresRejeicao"/>
+		<mapping class="br.com.aformula.domain.IndicadoresCliente"/>
+		<mapping class="br.com.aformula.domain.IndicadoresDesconto"/>
+		<mapping class="br.com.aformula.domain.IndicadoresTicketMedio"/>
+		<mapping class="br.com.aformula.domain.IndicadoresCortesia"/>
+		<mapping class="br.com.aformula.domain.FechamentoProducao"/>
+		<mapping class="br.com.aformula.domain.AnaliseGrupo"/>
+		<mapping class="br.com.aformula.domain.AnaliseRepresentante"/>
+		<mapping class="br.com.aformula.domain.AnaliseRepresentanteGrupo"/>
+		<mapping class="br.com.aformula.domain.MetasLoja67"/>
+		<mapping class="br.com.aformula.domain.MetasLoja68"/>
+		<mapping class="br.com.aformula.domain.MetasLoja70"/>
+		<mapping class="br.com.aformula.domain.MetasGrupo"/>
+		<mapping class="br.com.aformula.domain.GestaoPerformance"/>
+		<mapping class="br.com.aformula.domain.GestaoPerformanceFunc"/>
+		<mapping class="br.com.aformula.domain.ControlePonto"/>
+		<mapping class="br.com.aformula.domain.ControlePontoDetalhe"/>
+		<mapping class="br.com.aformula.domain.Filial"/>
+		<mapping class="br.com.aformula.domain.Bairro"/>
+		<mapping class="br.com.aformula.domain.Entrega"/>
+		<mapping class="br.com.aformula.domain.Cargo"/>
+		<mapping class="br.com.aformula.domain.FechamentoEntrega"/>
+		<mapping class="br.com.aformula.domain.Entregador"/>
+		<mapping class="br.com.aformula.domain.Cidade"/>
+		<mapping class="br.com.aformula.domain.Mensagem"/>
+		<mapping class="br.com.aformula.domain.MensagemContato"/>
+		<mapping class="br.com.aformula.domain.DescricaoCargo"/>
+		<mapping class="br.com.aformula.domain.Grupo"/>
+		<mapping class="br.com.aformula.domain.GrupoContato"/>
+		<mapping class="br.com.aformula.domain.ChatMensagem"/>
+		<mapping class="br.com.aformula.domain.Ocorrencia"/>
+		<mapping class="br.com.aformula.domain.SupervisaoEquipe"/>
+	</session-factory>
+</hibernate-configuration>

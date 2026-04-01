@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:composition template="/templates/modeloGeral.xhtml">
+        <ui:define name="metadata">
+            <f:metadata>
+                <f:viewParam name="funacao" value="#{funcionarioBean.acao}"/>
+                <f:viewParam name="funcod" value="#{funcionarioBean.codigo}"/>
+                <f:event listener="#{funcionarioBean.carregarCadastro}" type="preRenderView"/>
+            </f:metadata>
+        </ui:define>
+        <ui:define name="conteudo">
+            <h:form id="frmFunCad" enctype="multipart/form-data">
+                <p:toolbar>
+                    <f:facet name="left">
+                        <h:outputText value="CADASTRO DE FUNCIONÁRIO" style="font-size: 1.5em; font-weight: bold;"/>
+                    </f:facet>
+                </p:toolbar>
+                
+                <h:panelGrid id="pnlFunCadGeralDados" columns="3" style="display: flex; justify-content: space-between; margin-top: 20px;">
+                    <h:column style="flex: 1; padding-right: 20px;">                
+                        <h:panelGrid id="pnlFunCadDados" columns="4" cellpadding="5">
+                            <p:outputLabel value="CÓDIGO " style="font-weight:bold"/>
+                            <p:inputText size="20" readonly="true" style="background-color: #f0f0f0;"/>
+                            	
+                            <p:outputLabel value="NOME COMPLETO" style="font-weight:bold"/>
+                            <p:inputText maxlength="50" size="30" value="#{funcionarioBean.funcionarioCadastro.nome}" style="text-transform: uppercase;" readonly="#{funcionarioBean.acao == 'Excluir' or funcionarioBean.acao == 'EditarUsuario'}">
+                                <f:validateBean />
+                            </p:inputText>
+
+                            <p:outputLabel value="CPF " style="font-weight:bold"/>
+                            <p:inputMask mask="999.999.999-99" size="20" value="#{funcionarioBean.funcionarioCadastro.cpf}" readonly="#{funcionarioBean.acao == 'Excluir' or funcionarioBean.acao == 'EditarUsuario'}">
+                                <f:validateBean/>
+                            </p:inputMask>
+                            	
+                            <p:outputLabel for="data_nascimento" value="DATA NASCIMENTO" style="font-weight:bold; width: 150px"/>
+                            <p:calendar size="25" id="data_nascimento" value="#{funcionarioBean.funcionarioCadastro.data_nascimento}" navigator="true" yearRange="c-60:c-15" showOn="button" style="font-weight:bold; width: 226px;" readonly="#{funcionarioBean.acao == 'Excluir' or funcionarioBean.acao == 'EditarUsuario'}"/>
+
+							<p:outputLabel value="FILIAL" style="font-weight:bold"/>
+                            <p:selectOneMenu value="#{funcionarioBean.funcionarioCadastro.filial}" converter="filialConverter"  disabled="#{funcionarioBean.acao == 'Excluir' or funcionarioBean.acao == 'EditarUsuario'}" style="width: 227px;">
+                                <f:selectItem itemValue="" itemLabel=""/>
+                                <f:selectItems value="#{funcionarioBean.listaFiliais}" itemValue="#{filial}" itemLabel="#{filial.codigo} - #{filial.razaoSocial.toUpperCase()}" var="filial"/>
+                                <f:validateBean />
+                            </p:selectOneMenu>	
+                            
+                            <p:outputLabel value="FUNÇÃO " style="font-weight:bold"/>
+                            <p:selectOneMenu size="40" value="#{funcionarioBean.funcionarioCadastro.funcao}" disabled="#{funcionarioBean.acao == 'Excluir' or funcionarioBean.acao == 'EditarUsuario'}" style="width: 276px;">
+                                <f:validateBean />
+                                <f:selectItem itemValue="" itemLabel="Selecione uma opção"/>
+                                <f:selectItem itemValue="ATENDENTE" itemLabel="ATENDENTE"/>
+                                <f:selectItem itemValue="AUXILIAR ADMINISTRATIVO" itemLabel="AUXILIAR ADMINISTRATIVO"/>
+                                <f:selectItem itemValue="AUXILIAR DE LABORATÓRIO" itemLabel="AUXILIAR DE LABORATÓRIO"/> 
+                                <f:selectItem itemValue="AUXILIAR DE LIMPEZA" itemLabel="AUXILIAR DE LIMPEZA"/>
+                                <f:selectItem itemValue="CAIXA" itemLabel="CAIXA"/>
+                                <f:selectItem itemValue="COORDENADOR DE LABORATÓRIO" itemLabel="COORDENADOR DE LABORATÓRIO"/>
+                                <f:selectItem itemValue="ENTREGADOR" itemLabel="ENTREGADOR"/>
+                                <f:selectItem itemValue="FARMACÊUTICO" itemLabel="FARMACÊUTICO"/>
+                                <f:selectItem itemValue="FINANCEIRO" itemLabel="FINANCEIRO"/>
+                                <f:selectItem itemValue="GERENTE" itemLabel="GERENTE"/>
+                                <f:selectItem itemValue="LOGÍSTICA" itemLabel="LOGÍSTICA"/>
+                                <f:selectItem itemValue="TÉCNICO DE LABORATÓRIO" itemLabel="TÉCNICO DE LABORATÓRIO"/>                                                            	
+                            </p:selectOneMenu>
+	
+                            <p:outputLabel value="VÍNCULO " style="font-weight:bold"/>
+                            <p:selectOneMenu size="40" value="#{funcionarioBean.funcionarioCadastro.vinculo}" disabled="#{funcionarioBean.acao == 'Excluir' or funcionarioBean.acao == 'EditarUsuario'}" style="width: 227px;">
+                                <f:validateBean />
+                                <f:selectItem itemValue="" itemLabel="Selecione uma opção"/>
+                                <f:selectItem itemValue="CELETISTA" itemLabel="CELETISTA"/>
+                                <f:selectItem itemValue="TERCEIRIZADO" itemLabel="TERCEIRIZADO"/>
+                                <f:selectItem itemValue="OUTROS" itemLabel="OUTROS"/>                                	
+                            </p:selectOneMenu>
+                            
+                            <p:outputLabel value="LIDERANÇA" style="font-weight:bold"/>
+                            <p:toggleSwitch id="lideranca" value="#{funcionarioBean.funcionarioCadastro.lideranca}" onIcon="pi pi-check" offIcon="pi pi-times" disabled="#{funcionarioBean.acao == 'Excluir' or funcionarioBean.acao == 'EditarUsuario'}"/>                     
+                            	                          
+                       		<p:outputLabel value="LOGIN" style="font-weight:bold"/>
+                            <p:inputText maxlength="20" value="#{funcionarioBean.funcionarioCadastro.login}" style="text-transform: uppercase;" onkeypress="return event.key !== ' '"/>
+                            
+                       		<p:outputLabel value="SENHA" style="font-weight:bold" />
+                            <p:password maxlength="8" size="15" redisplay="true" value="#{funcionarioBean.funcionarioCadastro.senha}" readonly="#{funcionarioBean.acao == 'Excluir'}" >
+                                <f:validateBean />
+                            </p:password>
+                            
+                            <p:outputLabel value="ATIVO" style="font-weight:bold"/>
+                            <p:toggleSwitch id="status" value="#{funcionarioBean.funcionarioCadastro.status}" onIcon="pi pi-check" offIcon="pi pi-times" disabled="#{funcionarioBean.acao == 'Excluir' or funcionarioBean.acao == 'EditarUsuario'}"/>
+                       		
+                        </h:panelGrid>
+                    </h:column>
+                      
+                   <!-- Foto do Funcionário -->
+					<h:column style="flex: 0 0 200px; display: flex; flex-direction: column; align-items: center;">
+					    <p:graphicImage id="fotoFuncionario" value="/image?path=#{funcionarioBean.funcionarioCadastro.foto}" fallbackImage="resources/images/usuario.jpg" width="200" height="200" style="border-radius: 50%; border: 2px solid #ccc;" />
+					    
+					    <div class="card" style="margin-top: 20px; text-align: center;">
+					        <h:form enctype="multipart/form-data">
+					            <p:fileUpload value="#{funcionarioBean.arquivoImagem}" label="Alterar Foto" chooseIcon="pi pi-camera" mode="simple" skinSimple="true" immediate="true" update=":msgGlobal" listener="#{funcionarioBean.uploadFoto}" icon="pi pi-camera" accept="image/jpeg, image/png, image/jpg"/>
+					        </h:form>
+					    </div>                  
+					</h:column>					                                         
+                </h:panelGrid>
+                              
+                <h:panelGrid columns="5" style="margin-top: 20px;">
+                    <p:commandButton value="NOVO" actionListener="#{funcionarioBean.novo}" update=":frmFunCad:pnlFunCadDados" rendered="#{funcionarioBean.acao == 'Novo'}" icon="pi pi-user-plus" style="width: 100px;"/> 
+                    <p:commandButton value="SALVAR" actionListener="#{funcionarioBean.salvar}" update=":msgGlobal :frmFunCad:pnlFunCadDados" rendered="#{funcionarioBean.acao == 'Novo'}" icon="pi pi-check" style="width: 100px;"/>
+                    <p:commandButton value="EXCLUIR" actionListener="#{funcionarioBean.excluir}" update=":msgGlobal" rendered="#{funcionarioBean.acao == 'Excluir'}" icon="pi pi-trash" style="width: 100px;"/> 
+                    <p:commandButton value="EDITAR" actionListener="#{funcionarioBean.editar}" update=":msgGlobal :frmFunCad" rendered="#{funcionarioBean.acao == 'Editar' or funcionarioBean.acao == 'EditarUsuario'}" icon="pi pi-file-edit" style="width: 100px;"/>
+                    
+                    <p:button value="VOLTAR" outcome="/pages/funcionarioPesquisa.xhtml" rendered="#{funcionarioBean.acao == 'Editar' or funcionarioBean.acao != 'EditarUsuario'}" icon="pi pi-chevron-left" style="width: 100px;"/>
+                </h:panelGrid>    
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/LayoutPadrao}"
+      xmlns:brewer="http://brewer.algaworks.com">
+
+<head>
+    <title>Brewer - Pesquisa de estilos</title>
+</head>
+
+<body>
+
+<section layout:fragment="conteudo">
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-10">
+                    <h1>Pesquisa de estilos</h1>
+                </div>
+                <div class="col-xs-2">
+                    <div class="aw-page-header-controls">
+                        <a class="btn btn-default" th:href="@{/estilos/novo}"><i class="glyphicon glyphicon-plus-sign bw-glyphicon-large"></i>
+                            <span class="hidden-xs hidden-sm">Novo estilo</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <form method="GET" th:object="${estiloFilter}" class="form-vertical js-form-loading">
+            <div class="row">
+                
+                <div class="form-group  col-sm-12">
+                    <label class="control-label" for="nome">Descrição</label>
+                    <input type="text" class="form-control" id="descricao" th:field="*{descricao}"/>
+                </div>
+            </div>
+
+            <button type="submit" class="btn  btn-success">Pesquisar</button>
+        </form>
+
+        <div class="table-responsive bw-tabela-simples">
+            <table class="table table-hover table-striped table-condensed">
+                <thead>
+                <tr>
+                    <th class="table-estilos-col-codigo">Código</th>
+                    <th class="table-estilos-col-descricao">
+                        <brewer:order page="${pagina}" field="descricao" text="DESCRIÇÃO"/>
+                    </th>                   
+                    <th class="table-estilos-col-acoes">Ações</th>
+                </tr>
+                </thead>
+
+                <tbody>
+	                <tr th:each="estilo : ${pagina.conteudo}">
+	                    <td th:text="${estilo.codigo}">1</td>
+	                    <td th:text="${estilo.descricao}">descrição</td>
+	                                       
+	                    <td class="text-center">
+	                        <a class="btn  btn-link  btn-xs" title="Editar">
+	                            <i class="glyphicon glyphicon-pencil"></i>
+	                        </a>
+	                        <a class="btn  btn-link  btn-xs" title="Excluir">
+	                            <i class="glyphicon glyphicon-remove"></i>
+	                        </a>
+	                    </td>
+	                </tr>
+	                <tr th:if="${pagina.vazia}">
+	                    <td colspan="8">Nenhum estilo encontrado...</td>
+	                </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <brewer:pagination page="${pagina}"/>
+            
+    </div>
+</section>
+
+</body>
+
+</html>

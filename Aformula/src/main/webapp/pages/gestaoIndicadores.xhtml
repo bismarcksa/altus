@@ -1,0 +1,844 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloGeral.xhtml">
+	<ui:define name="metadata"> 
+		<f:metadata>
+			<f:event listener="#{indicadoresRejeicaoBean.carregarPesquisa}" type="preRenderView"/>	
+			<f:event listener="#{indicadoresClienteBean.carregarPesquisa}" type="preRenderView"/>				
+			<f:event listener="#{indicadoresDescontoBean.carregarPesquisa}" type="preRenderView"/>			
+			<f:event listener="#{indicadoresTicketMedioBean.carregarPesquisa}" type="preRenderView"/>	
+			<f:event listener="#{indicadoresCortesiaBean.carregarPesquisa}" type="preRenderView"/>				
+		</f:metadata>
+	</ui:define>
+			    			
+	<ui:define name="conteudo">
+		<p:tabView id="tabViewIndicadores">
+			<p:tab title="REJEITADOS" id="tabRejeitados">
+	        	<p:panelGrid columns="2">
+					<p:column style="width:65%; margin-top:0px; margin-left:0px; padding:0.3rem;">
+						<h:panelGrid columns="2" style="width:100%; background-color: #008a97 !important; text-align:center; font-weight:bold;">
+							<h:outputLabel>REJEITADOS - ÚLTIMOS 12 MESES</h:outputLabel>
+							<p:commandButton actionListener="#{indicadoresRejeicaoBean.novo}" update=":tabViewIndicadores:dialogSalvarIndicadoresRejeicao" icon="pi pi-star" style="font-size: 0.5rem; height: 1.5rem; width:1.5rem;" oncomplete="PF('abrirDialogoRejeicao').show();"/>
+				    	</h:panelGrid>
+				    	<h:panelGrid style="width:100%; text-align:center; font-weight:bold;">			
+							 <p:lineChart id="grafico1" model="#{indicadoresRejeicaoBean.graficoLinhaRejeitados}" style="width: 100%; height: 350px;"/>
+				    	</h:panelGrid>		    	
+				    			
+						<h:form id="dialogSalvarIndicadoresRejeicao">		
+							<p:dialog widgetVar="abrirDialogoRejeicao" header="REJEITADOS" draggable="false" resizable="false" modal="true"> 	
+							    <h:panelGrid columns="4" cellpadding="2">        
+							    	<p:outputLabel value="ANO" style="font-weight:bold"/>
+									<p:selectOneMenu id="ano" value="#{indicadoresRejeicaoBean.indicadoresRejeicaoCadastro.ano}"  style="font-weight:bold; width: 200px;">
+										<f:selectItem itemLabel="" itemValue=""/>
+										<f:selectItem itemLabel="2021" itemValue="2021"/>
+										<f:selectItem itemLabel="2022" itemValue="2022"/>
+										<f:selectItem itemLabel="2023" itemValue="2023"/>
+										<f:selectItem itemLabel="2024" itemValue="2024"/> 
+									</p:selectOneMenu>
+							
+							    	<p:outputLabel value="MÊS" style="font-weight:bold"/>
+							    	<p:selectOneMenu id="mes" value="#{indicadoresRejeicaoBean.indicadoresRejeicaoCadastro.mes}"  style="font-weight:bold; width: 200px;">
+							        	<f:selectItem itemLabel="" itemValue=""/>
+							            <f:selectItem itemLabel="JANEIRO" itemValue="JANEIRO"/>
+							            <f:selectItem itemLabel="FEVEREIRO" itemValue="FEVEREIRO"/>
+							            <f:selectItem itemLabel="MARÇO" itemValue="MARÇO"/>
+							            <f:selectItem itemLabel="ABRIL" itemValue="ABRIL"/>
+							            <f:selectItem itemLabel="MAIO" itemValue="MAIO"/>
+							            <f:selectItem itemLabel="JUNHO" itemValue="JUNHO"/>
+							            <f:selectItem itemLabel="JULHO" itemValue="JULHO"/>
+							            <f:selectItem itemLabel="AGOSTO" itemValue="AGOSTO"/>
+							            <f:selectItem itemLabel="SETEMBRO" itemValue="SETEMBRO"/>
+							            <f:selectItem itemLabel="OUTUBRO" itemValue="OUTUBRO"/>
+							            <f:selectItem itemLabel="NOVEMBRO" itemValue="NOVEMBRO"/>
+							            <f:selectItem itemLabel="DEZEMBRO" itemValue="DEZEMBRO"/>
+							        </p:selectOneMenu>
+											               
+							        <p:outputLabel value="LOJA 67" style="font-weight:bold"/>
+									<p:inputNumber id="loja67" value="#{indicadoresRejeicaoBean.indicadoresRejeicaoCadastro.filial01}" symbol="%" symbolPosition="s" maxValue="99.99" decimalPlaces="2" style="font-weight:bold;  width: 150px;"/>
+									  			   
+									<p:outputLabel value="LOJA 68" style="font-weight:bold"/>
+									<p:inputNumber id="loja68" value="#{indicadoresRejeicaoBean.indicadoresRejeicaoCadastro.filial02}" symbol="%" symbolPosition="s" maxValue="99.99" decimalPlaces="2" style="font-weight:bold; width: 150px;"/>
+											               
+								    <p:outputLabel value="LOJA 70" style="font-weight:bold"/>
+								    <p:inputNumber id="loja70" value="#{indicadoresRejeicaoBean.indicadoresRejeicaoCadastro.filial03}" symbol="%" symbolPosition="s" maxValue="99.99" decimalPlaces="2" style="font-weight:bold; width: 150px;"/>
+											               
+								    <p:outputLabel value="GRUPO" style="font-weight:bold"/>
+								    <p:inputNumber id="grupo" value="#{indicadoresRejeicaoBean.indicadoresRejeicaoCadastro.grupo}" symbol="%" symbolPosition="s" maxValue="99.99" decimalPlaces="2" style="font-weight:bold; width: 150px;"/>            
+								</h:panelGrid>
+								<p:divider/>				
+
+								<p:commandButton value="SALVAR" style="margin-right:0.5rem;" actionListener="#{indicadoresRejeicaoBean.salvar}" update=":msgGlobal :tabViewIndicadores:tabRejeitados" icon="pi pi-check"/>
+								<p:commandButton value="CANCELAR" type="button" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('abrirDialogoRejeicao').hide()" />
+							</p:dialog>
+						</h:form>	
+								
+ 						<h:form id="dialogDeleteIndicadoresRejeicao">
+							<p:confirmDialog widgetVar="deleteDialogRejeicao" showEffect="fade" width="350" message="DELETAR REJEIÇÃO #{indicadoresRejeicaoBean.indicadoresRejeicaoCadastro.mes}?" header="Confirmação" severity="warn">
+								<p:commandButton value="SIM" icon="pi pi-check" actionListener="#{indicadoresRejeicaoBean.excluir}" process="@this" update=":tabViewIndicadores:tabRejeitados" oncomplete="PF('deleteDialogRejeicao').hide()" />
+								<p:commandButton value="NÃO" type="button" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('deleteDialogRejeicao').hide()" />
+							</p:confirmDialog>
+						</h:form>																						
+					</p:column>
+					<p:column style="width:35%; margin-top:0px; margin-left:0px; padding:0.3rem;">
+						<p:card styleClass="status-badge status-formula" style="font-weight:bold; font-size: 13px; width: 100%; height:400px;" title="MÉDIA REJEITADOS">
+							<h:panelGrid columns="2" width="100%">
+								<h:panelGrid id="pnlReijeitadosCadDados" columns="2" cellpadding="5" styleClass="status-badge status-formula" style="width:100%;font-weight:bold;">	
+									<p:outputLabel value="LOJA 67" style="font-weight:bold; font-size: 17px;"/>		
+									<p:inputText value="#{indicadoresRejeicaoBean.valorMediaLoja67}%"  readonly="true" style="font-weight:bold; font-size: 16px; width:200px;"/>													
+											
+									<p:outputLabel value="LOJA 68" style="font-weight:bold; font-size: 17px;"/>		
+									<p:inputText value="#{indicadoresRejeicaoBean.valorMediaLoja68}%"  readonly="true" style="font-weight:bold; font-size: 16px; width:200px;"/>													
+												
+									<p:outputLabel value="LOJA 70" style="font-weight:bold; font-size: 17px;"/>		
+									<p:inputText value="#{indicadoresRejeicaoBean.valorMediaLoja70}%" readonly="true" style="font-weight:bold; font-size: 16px; width:200px;"/>																						
+									
+									<p:outputLabel value="GRUPO" style="font-weight:bold; font-size: 17px;"/>
+									<p:inputText value="#{indicadoresRejeicaoBean.valorMediaGrupo}%"  readonly="true" style="font-weight:bold; font-size: 16px; width:200px;"/>
+								</h:panelGrid>  																								
+							</h:panelGrid>
+						</p:card>
+					</p:column>																		
+				</p:panelGrid>				
+						
+				<h:form id="frmRejeicaoCad">
+					<p:dataTable id="tabelaRejeicao" var="indicadoresRejeicaoCursor" widgetVar="tabelaRejeicaoVar" value="#{indicadoresRejeicaoBean.listaIndicadoresRejeicao}" filteredValue="#{indicadoresRejeicaoBean.listaIndicadoresRejeicaoFiltrados}" emptyMessage="Nenhum registro encontrado" rows="10" 
+					paginator="true" paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 	currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros" rowsPerPageTemplate="10,20,30,40" style="margin-right: 0; padding: 0rem; font-size: 16px; font-weight:bold;" stripedRows="true" showGridlines="true" size="small">								
+						<p:column headerText="ANO" style="width: 4%;">
+							<h:outputText value="#{indicadoresRejeicaoCursor.ano}"/>
+						</p:column>
+								
+						<p:column headerText="MÊS" style="width: 6%;">
+							<h:outputText value="#{indicadoresRejeicaoCursor.mes}"/>
+						</p:column>
+												
+						<p:column headerText="LOJA 67" style="width: 5%">
+							<h:outputText value="#{indicadoresRejeicaoCursor.filial01}%"/>
+						</p:column>
+												
+						<p:column headerText="LOJA 68" style="width: 5%">
+							<h:outputText value="#{indicadoresRejeicaoCursor.filial02}%"/>
+						</p:column>
+													
+						<p:column headerText="LOJA 70" style="width: 5%">
+							<h:outputText value="#{indicadoresRejeicaoCursor.filial03}%"/>
+						</p:column>
+													
+						<p:column headerText="GRUPO" style="width: 4%">
+							<h:outputText value="#{indicadoresRejeicaoCursor.grupo}%"/>
+						</p:column>
+										
+						<p:column headerText="" style="width: 1%; padding: 0.1rem 0.7rem;">    
+							<p:commandButton process="@this" styleClass="ui-button-danger" style="width: 1.8rem; height: 1.8rem;" icon="pi pi-trash" update=":tabViewIndicadores:dialogDeleteIndicadoresRejeicao" oncomplete="PF('deleteDialogRejeicao').show()">
+							       <f:setPropertyActionListener value="#{indicadoresRejeicaoCursor}" target="#{indicadoresRejeicaoBean.indicadoresRejeicaoCadastro}" />
+							</p:commandButton>				  							                							             
+						</p:column>		
+					</p:dataTable>
+				</h:form>			
+	        </p:tab>
+	        
+	        <p:tab title="CLIENTES" id="tabClientes">
+	        	<p:panelGrid columns="2">													
+					<p:column style="width:65%; margin-top:0px; margin-left:0px; padding:0.3rem;">						
+						<h:panelGrid columns="2" style="width:100%; background-color: #008a97 !important; text-align:center; font-weight:bold;">
+							<h:outputLabel>CLIENTES - ÚLTIMOS 12 MESES</h:outputLabel>
+							<p:commandButton actionListener="#{indicadoresClienteBean.novo}" update=":tabViewIndicadores:dialogSalvarIndicadoresCliente" icon="pi pi-star" style="font-size: 0.5rem; height: 1.5rem; width:1.5rem;" oncomplete="PF('abrirDialogoCliente').show();"/>
+				    	</h:panelGrid>
+				    	<h:panelGrid style="width:100%; text-align:center; font-weight:bold;">			
+							 <p:lineChart model="#{grafico.graficoLinhaClientes}" style="width: 100%; height: 350px;"/>
+				    	</h:panelGrid>		   											
+								
+						<h:form id="dialogSalvarIndicadoresCliente">		
+							<p:dialog widgetVar="abrirDialogoCliente" header="CLIENTES" draggable="false" resizable="false" modal="true"> 
+							    <h:panelGrid columns="4" cellpadding="2">        
+							        <p:outputLabel value="ANO" style="font-weight:bold"/>
+									<p:selectOneMenu id="ano" value="#{indicadoresClienteBean.indicadoresClienteCadastro.ano}"  style="font-weight:bold; width: 200px;">
+										<f:selectItem itemLabel="" itemValue=""/>
+										<f:selectItem itemLabel="2021" itemValue="2021"/>
+										<f:selectItem itemLabel="2022" itemValue="2022"/>
+										<f:selectItem itemLabel="2023" itemValue="2023"/>
+										<f:selectItem itemLabel="2024" itemValue="2024"/> 
+									</p:selectOneMenu>
+							        
+							        <p:outputLabel value="MÊS" style="font-weight:bold"/>
+								    <p:selectOneMenu id="mes" value="#{indicadoresClienteBean.indicadoresClienteCadastro.mes}"  style="font-weight:bold; width: 200px;">
+									    <f:selectItem itemLabel="" itemValue=""/>
+								        <f:selectItem itemLabel="JANEIRO" itemValue="JANEIRO"/>
+								        <f:selectItem itemLabel="FEVEREIRO" itemValue="FEVEREIRO"/>
+								        <f:selectItem itemLabel="MARÇO" itemValue="MARÇO"/>
+								        <f:selectItem itemLabel="ABRIL" itemValue="ABRIL"/>
+								        <f:selectItem itemLabel="MAIO" itemValue="MAIO"/>
+									    <f:selectItem itemLabel="JUNHO" itemValue="JUNHO"/>
+									    <f:selectItem itemLabel="JULHO" itemValue="JULHO"/>
+									    <f:selectItem itemLabel="AGOSTO" itemValue="AGOSTO"/>
+									    <f:selectItem itemLabel="SETEMBRO" itemValue="SETEMBRO"/>
+									    <f:selectItem itemLabel="OUTUBRO" itemValue="OUTUBRO"/>
+									    <f:selectItem itemLabel="NOVEMBRO" itemValue="NOVEMBRO"/>
+									    <f:selectItem itemLabel="DEZEMBRO" itemValue="DEZEMBRO"/>
+									</p:selectOneMenu>
+											               
+							        <p:outputLabel value="LOJA 67" style="font-weight:bold"/>
+									<p:inputNumber id="loja67" value="#{indicadoresClienteBean.indicadoresClienteCadastro.filial01}" maxValue="9999" style="font-weight:bold;  width: 150px;"/>
+									  			   
+							  		<p:outputLabel value="LOJA 68" style="font-weight:bold"/>
+									<p:inputNumber id="loja68" value="#{indicadoresClienteBean.indicadoresClienteCadastro.filial02}" maxValue="9999" style="font-weight:bold; width: 150px;"/>
+											               
+							 		<p:outputLabel value="LOJA 70" style="font-weight:bold"/>
+							       	<p:inputNumber id="loja70" value="#{indicadoresClienteBean.indicadoresClienteCadastro.filial03}" maxValue="9999" style="font-weight:bold; width: 150px;"/>
+											               
+							        <p:outputLabel value="GRUPO" style="font-weight:bold"/>
+							       	<p:inputNumber id="grupo" value="#{indicadoresClienteBean.indicadoresClienteCadastro.grupo}" maxValue="9999" style="font-weight:bold; width: 150px;"/>										            
+							    </h:panelGrid>								            
+							    <p:divider/>				
+
+								<p:commandButton value="SALVAR" style="margin-right:0.5rem;" actionListener="#{indicadoresClienteBean.salvar}" update=":msgGlobal :tabViewIndicadores:tabClientes" icon="pi pi-check"/>
+								<p:commandButton value="CANCELAR" type="button" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('abrirDialogoCliente').hide()" />
+							</p:dialog>	
+						</h:form>
+								
+						<h:form id="dialogDeleteIndicadoresCliente">
+							<p:confirmDialog widgetVar="deleteDialogCliente" showEffect="fade" width="350" message="DELETAR CLIENTE #{indicadoresClienteBean.indicadoresClienteCadastro.mes}?" header="Confirmação" severity="warn">
+								<p:commandButton value="SIM" icon="pi pi-check" actionListener="#{indicadoresClienteBean.excluir}" process="@this" update=":tabViewIndicadores:tabClientes" oncomplete="PF('deleteDialogCliente').hide()" />
+								<p:commandButton value="NÃO" type="button" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('deleteDialogCliente').hide()" />
+							</p:confirmDialog>
+						</h:form>
+					</p:column>
+					<p:column style="width:35%; margin-top:0px; margin-left:0px; padding:0.3rem;">
+						<p:card styleClass="status-badge status-formula" style="font-weight:bold; font-size: 13px; width: 100%; height:400px;" title="MÉDIA CLIENTES">
+							<h:panelGrid columns="2" width="100%">
+								<h:panelGrid id="pnlCliCadDados" columns="2" cellpadding="5" styleClass="status-badge status-formula" style="width:100%;font-weight:bold;">	
+									<p:outputLabel value="LOJA 67" style="font-weight:bold; font-size: 17px;"/>		
+									<p:inputText value="#{indicadoresClienteBean.valorMediaLoja67}"  readonly="true" style="font-weight:bold; font-size: 16px; width:200px;"/>													
+											
+									<p:outputLabel value="LOJA 68" style="font-weight:bold; font-size: 17px;"/>		
+									<p:inputText value="#{indicadoresClienteBean.valorMediaLoja68}"  readonly="true" style="font-weight:bold; font-size: 16px; width:200px;"/>													
+												
+									<p:outputLabel value="LOJA 70" style="font-weight:bold; font-size: 17px;"/>		
+									<p:inputText value="#{indicadoresClienteBean.valorMediaLoja70}" readonly="true" style="font-weight:bold; font-size: 16px; width:200px;"/>																						
+									
+									<p:outputLabel value="GRUPO" style="font-weight:bold; font-size: 17px;"/>
+									<p:inputText value="#{indicadoresClienteBean.valorMediaGrupo}"  readonly="true" style="font-weight:bold; font-size: 16px; width:200px;"/>
+								</h:panelGrid>  																								
+							</h:panelGrid>
+						</p:card>
+					</p:column>								
+				</p:panelGrid>
+				<h:form id="frmClienteCad">
+					<p:dataTable id="tabelaCliente" var="indicadoresClienteCursor" value="#{indicadoresClienteBean.listaIndicadoresCliente}" emptyMessage="Nenhum registro encontrado" rows="10" 
+					paginator="true" paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 	currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros" rowsPerPageTemplate="10,20,30,40" style="margin-right: 0; padding: 0rem; font-size: 16px; font-weight:bold;" stripedRows="true" showGridlines="true" size="small">			
+						<p:column headerText="ANO" style="width: 4%;">
+							<h:outputText value="#{indicadoresClienteCursor.ano}"/>
+						</p:column>
+						
+						<p:column headerText="MÊS" style="width: 6%;">
+							<h:outputText value="#{indicadoresClienteCursor.mes}"/>
+						</p:column>
+													
+						<p:column headerText="LOJA 67" style="width: 5%">
+							<h:outputText value="#{indicadoresClienteCursor.filial01}" />
+						</p:column>
+												
+						<p:column headerText="LOJA 68" style="width: 5%">
+							<h:outputText value="#{indicadoresClienteCursor.filial02}"/>
+						</p:column>
+													
+						<p:column headerText="LOJA 70" style="width: 5%">
+							<h:outputText value="#{indicadoresClienteCursor.filial03}"/>
+						</p:column>
+													
+						<p:column headerText="GRUPO" style="width: 4%">
+							<h:outputText value="#{indicadoresClienteCursor.grupo}"/>
+						</p:column>
+
+						<p:column headerText="" style="width: 1%; padding: 0.1rem 0.7rem;">    
+							<p:commandButton process="@this" styleClass="ui-button-danger" style="width: 1.8rem; height: 1.8rem;" icon="pi pi-trash" update=":tabViewIndicadores:dialogDeleteIndicadoresCliente" oncomplete="PF('deleteDialogCliente').show()">
+								<f:setPropertyActionListener value="#{indicadoresClienteCursor}" target="#{indicadoresClienteBean.indicadoresClienteCadastro}" />
+							</p:commandButton>				  							                							             
+						</p:column>
+					</p:dataTable>
+				</h:form>			
+	        </p:tab>
+	        
+	        <p:tab title="DESCONTOS" id="tabDescontos">
+	        	<p:panelGrid columns="2">													
+					<p:column style="width:65%; margin-top:0px; margin-left:0px; padding:0.3rem;">
+						<h:panelGrid columns="2" style="width:100%; background-color: #008a97 !important; text-align:center; font-weight:bold;">
+							<h:outputLabel>DESCONTOS - ÚLTIMOS 12 MESES</h:outputLabel>
+							<p:commandButton actionListener="#{indicadoresDescontoBean.novo}" update=":tabViewIndicadores:dialogSalvarIndicadoresDesconto" icon="pi pi-star" style="font-size: 0.5rem; height: 1.5rem; width:1.5rem;" oncomplete="PF('abrirDialogoDesconto').show();"/>
+				    	</h:panelGrid>
+				    	<h:panelGrid style="width:100%; text-align:center; font-weight:bold;">			
+							 <p:lineChart model="#{grafico.graficoLinhaDescontos}" style="width: 100%; height: 350px;"/>
+				    	</h:panelGrid>			    
+				    	
+						<h:form id="dialogSalvarIndicadoresDesconto">		
+							<p:dialog widgetVar="abrirDialogoDesconto" header="DESCONTOS" draggable="false" resizable="false" modal="true"> 
+								<h:panelGrid columns="4" cellpadding="2">        
+							    	<p:outputLabel value="ANO" style="font-weight:bold"/>
+									<p:selectOneMenu id="ano" value="#{indicadoresDescontoBean.indicadoresDescontoCadastro.ano}"  style="font-weight:bold; width: 200px;">
+										<f:selectItem itemLabel="" itemValue=""/>
+										<f:selectItem itemLabel="2021" itemValue="2021"/>
+										<f:selectItem itemLabel="2022" itemValue="2022"/>
+										<f:selectItem itemLabel="2023" itemValue="2023"/>
+										<f:selectItem itemLabel="2024" itemValue="2024"/> 
+									</p:selectOneMenu>
+							    	
+							    	<p:outputLabel value="MÊS" style="font-weight:bold"/>
+							        <p:selectOneMenu id="mes" value="#{indicadoresDescontoBean.indicadoresDescontoCadastro.mes}"  style="font-weight:bold; width: 200px;">
+							        	<f:selectItem itemLabel="" itemValue=""/>
+							            <f:selectItem itemLabel="JANEIRO" itemValue="JANEIRO"/>
+							            <f:selectItem itemLabel="FEVEREIRO" itemValue="FEVEREIRO"/>
+							            <f:selectItem itemLabel="MARÇO" itemValue="MARÇO"/>
+							            <f:selectItem itemLabel="ABRIL" itemValue="ABRIL"/>
+							            <f:selectItem itemLabel="MAIO" itemValue="MAIO"/>
+							            <f:selectItem itemLabel="JUNHO" itemValue="JUNHO"/>
+							            <f:selectItem itemLabel="JULHO" itemValue="JULHO"/>
+							            <f:selectItem itemLabel="AGOSTO" itemValue="AGOSTO"/>
+							            <f:selectItem itemLabel="SETEMBRO" itemValue="SETEMBRO"/>
+							            <f:selectItem itemLabel="OUTUBRO" itemValue="OUTUBRO"/>
+							            <f:selectItem itemLabel="NOVEMBRO" itemValue="NOVEMBRO"/>
+							            <f:selectItem itemLabel="DEZEMBRO" itemValue="DEZEMBRO"/>
+							        </p:selectOneMenu>
+											               
+							        <p:outputLabel value="LOJA 67" style="font-weight:bold"/>
+									<p:inputNumber id="loja67" value="#{indicadoresDescontoBean.indicadoresDescontoCadastro.filial01}" symbol="%" symbolPosition="s" maxValue="99.99" decimalPlaces="2" style="font-weight:bold;  width: 150px;"/>
+											  			   
+							  		<p:outputLabel value="LOJA 68" style="font-weight:bold"/>
+									<p:inputNumber id="loja68" value="#{indicadoresDescontoBean.indicadoresDescontoCadastro.filial02}" symbol="%" symbolPosition="s" maxValue="99.99" decimalPlaces="2" style="font-weight:bold; width: 150px;"/>
+											               
+							        <p:outputLabel value="LOJA 70" style="font-weight:bold"/>
+							        <p:inputNumber id="loja70" value="#{indicadoresDescontoBean.indicadoresDescontoCadastro.filial03}" symbol="%" symbolPosition="s" maxValue="99.99" decimalPlaces="2" style="font-weight:bold; width: 150px;"/>
+											               
+							        <p:outputLabel value="GRUPO" style="font-weight:bold"/>
+							        <p:inputNumber id="grupo" value="#{indicadoresDescontoBean.indicadoresDescontoCadastro.grupo}" symbol="%" symbolPosition="s" maxValue="99.99" decimalPlaces="2" style="font-weight:bold; width: 150px;"/>											            
+							    </h:panelGrid>								   								
+										
+								<p:divider/>				
+
+								<p:commandButton value="SALVAR" style="margin-right:0.5rem;" actionListener="#{indicadoresDescontoBean.salvar}" update=":msgGlobal :tabViewIndicadores" icon="pi pi-check"/>
+								<p:commandButton value="CANCELAR" type="button" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('abrirDialogoDesconto').hide()" />
+									
+							</p:dialog>	
+						</h:form>
+								
+						<h:form id="dialogDeleteIndicadoresDesconto">
+							<p:confirmDialog widgetVar="deleteDialogDesconto" showEffect="fade" width="350" message="DELETAR DESCONTO #{indicadoresDescontoBean.indicadoresDescontoCadastro.mes}?" header="Confirmação" severity="warn">
+								<p:commandButton value="SIM" icon="pi pi-check" actionListener="#{indicadoresDescontoBean.excluir}" process="@this" update=":tabViewIndicadores" oncomplete="PF('deleteDialogDesconto').hide()" />
+								<p:commandButton value="NÃO" type="button" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('deleteDialogDesconto').hide()" />
+							</p:confirmDialog>
+						</h:form>					
+					</p:column>	
+					<p:column style="width:35%; margin-top:0px; margin-left:0px; padding:0.3rem;">
+						<p:card styleClass="status-badge status-formula" style="font-weight:bold; font-size: 13px; width: 100%; height:400px;" title="MÉDIA DESCONTOS">
+							<h:panelGrid columns="2" width="100%">
+								<h:panelGrid id="pnlDescCadDados" columns="2" cellpadding="5" styleClass="status-badge status-formula" style="width:100%;font-weight:bold;">	
+									<p:outputLabel value="LOJA 67" style="font-weight:bold; font-size: 17px;"/>		
+									<p:inputText value="#{indicadoresDescontoBean.valorMediaLoja67}%"  readonly="true" style="font-weight:bold; font-size: 16px; width:200px;"/>													
+											
+									<p:outputLabel value="LOJA 68" style="font-weight:bold; font-size: 17px;"/>		
+									<p:inputText value="#{indicadoresDescontoBean.valorMediaLoja68}%"  readonly="true" style="font-weight:bold; font-size: 16px; width:200px;"/>													
+												
+									<p:outputLabel value="LOJA 70" style="font-weight:bold; font-size: 17px;"/>		
+									<p:inputText value="#{indicadoresDescontoBean.valorMediaLoja70}%" readonly="true" style="font-weight:bold; font-size: 16px; width:200px;"/>																						
+									
+									<p:outputLabel value="GRUPO" style="font-weight:bold; font-size: 17px;"/>
+									<p:inputText value="#{indicadoresDescontoBean.valorMediaGrupo}%"  readonly="true" style="font-weight:bold; font-size: 16px; width:200px;"/>
+								</h:panelGrid>  																								
+							</h:panelGrid>
+						</p:card>
+					</p:column>													
+				</p:panelGrid>	
+				<h:form id="frmDescontoCad">
+					<p:dataTable id="tabelaDesconto" var="indicadoresDescontoCursor" value="#{indicadoresDescontoBean.listaIndicadoresDesconto}" emptyMessage="Nenhum registro encontrado" rows="10" 
+					paginator="true" paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 	currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros" rowsPerPageTemplate="10,20,30,40" style="margin-right: 0; padding: 0rem; font-size: 16px; font-weight:bold;" stripedRows="true" showGridlines="true" size="small">			
+						<p:column headerText="ANO" style="width: 4%;">
+							<h:outputText value="#{indicadoresDescontoCursor.ano}"/>
+						</p:column>
+						
+						<p:column headerText="MÊS" style="width: 6%;">
+							<h:outputText value="#{indicadoresDescontoCursor.mes}"/>
+						</p:column>
+													
+						<p:column headerText="LOJA 67" style="width: 5%">
+							<h:outputText value="#{indicadoresDescontoCursor.filial01}%" />
+						</p:column>
+												
+						<p:column headerText="LOJA 68" style="width: 5%">
+							<h:outputText value="#{indicadoresDescontoCursor.filial02}%"/>
+						</p:column>
+													
+						<p:column headerText="LOJA 70" style="width: 5%">
+							<h:outputText value="#{indicadoresDescontoCursor.filial03}%"/>
+						</p:column>
+													
+						<p:column headerText="GRUPO" style="width: 4%">
+							<h:outputText value="#{indicadoresDescontoCursor.grupo}%"/>
+						</p:column>
+
+						<p:column headerText="" style="width: 1%; padding: 0.1rem 0.7rem;">    
+							<p:commandButton process="@this" styleClass="ui-button-danger" style="width: 1.8rem; height: 1.8rem;" icon="pi pi-trash" update=":tabViewIndicadores:dialogDeleteIndicadoresDesconto" oncomplete="PF('deleteDialogDesconto').show()">
+								<f:setPropertyActionListener value="#{indicadoresDescontoCursor}" target="#{indicadoresDescontoBean.indicadoresDescontoCadastro}" />
+							</p:commandButton>				  							                							             
+						</p:column>
+					</p:dataTable>
+				</h:form>					
+	        </p:tab>
+	        
+	               
+		    <p:tab title="TICKET MÉDIO" id="tabTicketMedio">
+	        	<p:panelGrid columns="2">													
+					<p:column style="width:65%; margin-top:0px; margin-left:0px; padding:0.3rem;">
+						<h:panelGrid columns="2" style="width:100%; background-color: #008a97 !important; text-align:center; font-weight:bold;">
+							<h:outputLabel>TICKET MÉDIO - ÚLTIMOS 12 MESES</h:outputLabel>
+							<p:commandButton actionListener="#{indicadoresTicketMedioBean.novo}" update=":tabViewIndicadores:dialogSalvarIndicadoresTicketMedio" icon="pi pi-star" style="font-size: 0.5rem; height: 1.5rem; width:1.5rem;" oncomplete="PF('abrirDialogoTicketMedio').show();"/>
+				    	</h:panelGrid>
+				    	<h:panelGrid style="width:100%; text-align:center; font-weight:bold;">			
+							 <p:lineChart model="#{grafico.graficoLinhaTicketMedios}" style="width: 100%; height: 300px;"/>
+				    	</h:panelGrid>			    	
+								
+						<h:form id="dialogSalvarIndicadoresTicketMedio">		
+							<p:dialog widgetVar="abrirDialogoTicketMedio" header="TICKET MÉDIO" draggable="false" resizable="false" modal="true"> 
+								<h:panelGrid columns="4" cellpadding="2">        
+							    	<p:outputLabel value="ANO" style="font-weight:bold"/>
+									<p:selectOneMenu id="ano" value="#{indicadoresTicketMedioBean.indicadoresTicketMedioCadastro.ano}"  style="font-weight:bold; width: 200px;">
+										<f:selectItem itemLabel="" itemValue=""/>
+										<f:selectItem itemLabel="2021" itemValue="2021"/>
+										<f:selectItem itemLabel="2022" itemValue="2022"/>
+										<f:selectItem itemLabel="2023" itemValue="2023"/>
+										<f:selectItem itemLabel="2024" itemValue="2024"/> 
+									</p:selectOneMenu>
+							    	
+							    	<p:outputLabel value="MÊS" style="font-weight:bold"/>
+							        <p:selectOneMenu id="mes" value="#{indicadoresTicketMedioBean.indicadoresTicketMedioCadastro.mes}"  style="font-weight:bold; width: 200px;">
+							        	<f:selectItem itemLabel="" itemValue=""/>
+							            <f:selectItem itemLabel="JANEIRO" itemValue="JANEIRO"/>
+							            <f:selectItem itemLabel="FEVEREIRO" itemValue="FEVEREIRO"/>
+							            <f:selectItem itemLabel="MARÇO" itemValue="MARÇO"/>
+							            <f:selectItem itemLabel="ABRIL" itemValue="ABRIL"/>
+							            <f:selectItem itemLabel="MAIO" itemValue="MAIO"/>
+							            <f:selectItem itemLabel="JUNHO" itemValue="JUNHO"/>
+							            <f:selectItem itemLabel="JULHO" itemValue="JULHO"/>
+							            <f:selectItem itemLabel="AGOSTO" itemValue="AGOSTO"/>
+							            <f:selectItem itemLabel="SETEMBRO" itemValue="SETEMBRO"/>
+							            <f:selectItem itemLabel="OUTUBRO" itemValue="OUTUBRO"/>
+							            <f:selectItem itemLabel="NOVEMBRO" itemValue="NOVEMBRO"/>
+							            <f:selectItem itemLabel="DEZEMBRO" itemValue="DEZEMBRO"/>
+							        </p:selectOneMenu>
+											               
+							        <p:outputLabel value="LOJA 67" style="font-weight:bold"/>
+									<p:inputNumber id="loja67" value="#{indicadoresTicketMedioBean.indicadoresTicketMedioCadastro.filial01}"  decimalPlaces="2" style="font-weight:bold;  width: 150px;"/>
+										  			   
+							  		<p:outputLabel value="LOJA 68" style="font-weight:bold"/>
+									<p:inputNumber id="loja68" value="#{indicadoresTicketMedioBean.indicadoresTicketMedioCadastro.filial02}" decimalPlaces="2" style="font-weight:bold; width: 150px;"/>
+											               
+							        <p:outputLabel value="LOJA 70" style="font-weight:bold"/>
+							        <p:inputNumber id="loja70" value="#{indicadoresTicketMedioBean.indicadoresTicketMedioCadastro.filial03}" decimalPlaces="2" style="font-weight:bold; width: 150px;"/>
+											               
+							        <p:outputLabel value="GRUPO" style="font-weight:bold"/>
+							        <p:inputNumber id="grupo" value="#{indicadoresTicketMedioBean.indicadoresTicketMedioCadastro.grupo}" decimalPlaces="2" style="font-weight:bold; width: 150px;"/>
+								</h:panelGrid>								   
+								<p:divider/>				
+
+								<p:commandButton value="SALVAR" style="margin-right:0.5rem;" actionListener="#{indicadoresTicketMedioBean.salvar}" update=":msgGlobal :tabViewIndicadores" icon="pi pi-check"/>
+								<p:commandButton value="CANCELAR" type="button" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('abrirDialogoTicketMedio').hide()" />
+							</p:dialog>	
+						</h:form>
+								
+						<h:form id="dialogDeleteIndicadoresTicketMedio">
+							<p:confirmDialog widgetVar="deleteDialogTicketMedio" showEffect="fade" width="350" message="DELETAR TICKET MÉDIO #{indicadoresTicketMedioBean.indicadoresTicketMedioCadastro.mes}?" header="Confirmação" severity="warn">
+								<p:commandButton value="SIM" icon="pi pi-check" actionListener="#{indicadoresTicketMedioBean.excluir}" process="@this" update=":tabViewIndicadores" oncomplete="PF('deleteDialogTicketMedio').hide()" />
+								<p:commandButton value="NÃO" type="button" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('deleteDialogTicketMedio').hide()" />
+							</p:confirmDialog>
+						</h:form>					
+					</p:column>
+					<p:column style="width:35%; margin-top:0px; margin-left:0px; padding:0.3rem;">
+						<p:card styleClass="status-badge status-formula" style="font-weight:bold; font-size: 13px; width: 100%; height:400px;" title="MÉDIA - TICKET MÉDIO">
+							<h:panelGrid columns="2" width="100%">
+								<h:panelGrid id="pnlTicketCadDados" columns="2" cellpadding="5" styleClass="status-badge status-formula" style="width:100%;font-weight:bold;">	
+									<p:outputLabel value="LOJA 67" style="font-weight:bold; font-size: 17px;"/>		
+									<p:inputText value="#{indicadoresTicketMedioBean.valorMediaLoja67}"  readonly="true" style="font-weight:bold; font-size: 16px; width:200px;"/>													
+											
+									<p:outputLabel value="LOJA 68" style="font-weight:bold; font-size: 17px;"/>		
+									<p:inputText value="#{indicadoresTicketMedioBean.valorMediaLoja68}"  readonly="true" style="font-weight:bold; font-size: 16px; width:200px;"/>													
+												
+									<p:outputLabel value="LOJA 70" style="font-weight:bold; font-size: 17px;"/>		
+									<p:inputText value="#{indicadoresTicketMedioBean.valorMediaLoja70}" readonly="true" style="font-weight:bold; font-size: 16px; width:200px;"/>																						
+									
+									<p:outputLabel value="GRUPO" style="font-weight:bold; font-size: 17px;"/>
+									<p:inputText value="#{indicadoresTicketMedioBean.valorMediaGrupo}"  readonly="true" style="font-weight:bold; font-size: 16px; width:200px;"/>
+								</h:panelGrid>  																								
+							</h:panelGrid>
+						</p:card>
+					</p:column>							
+				</p:panelGrid>
+				<h:form id="frmTicketMedioCad">
+					<p:dataTable id="tabelaTicketMedio" var="indicadoresTicketMedioCursor" value="#{indicadoresTicketMedioBean.listaIndicadoresTicketMedio}" emptyMessage="Nenhum registro encontrado" rows="10" 
+					paginator="true" paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 	currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros" rowsPerPageTemplate="10,20,30,40" style="margin-right: 0; padding: 0rem; font-size: 16px; font-weight:bold;" stripedRows="true" showGridlines="true" size="small">			
+						<p:column headerText="ANO" style="width: 4%;">
+							<h:outputText value="#{indicadoresTicketMedioCursor.ano}"/>
+						</p:column>
+						
+						<p:column headerText="MÊS" style="width: 6%;">
+							<h:outputText value="#{indicadoresTicketMedioCursor.mes}"/>
+						</p:column>
+													
+						<p:column headerText="LOJA 67" style="width: 5%">
+							<h:outputText value="#{indicadoresTicketMedioCursor.filial01}" />
+						</p:column>
+												
+						<p:column headerText="LOJA 68" style="width: 5%">
+							<h:outputText value="#{indicadoresTicketMedioCursor.filial02}"/>
+						</p:column>
+													
+						<p:column headerText="LOJA 70" style="width: 5%">
+							<h:outputText value="#{indicadoresTicketMedioCursor.filial03}"/>
+						</p:column>
+													
+						<p:column headerText="GRUPO" style="width: 4%">
+							<h:outputText value="#{indicadoresTicketMedioCursor.grupo}"/>
+						</p:column>
+
+						<p:column headerText="" style="width: 1%; padding: 0.1rem 0.7rem;">    
+							<p:commandButton process="@this" styleClass="ui-button-danger" style="width: 1.8rem; height: 1.8rem;" icon="pi pi-trash" update=":tabViewIndicadores:dialogDeleteIndicadoresTicketMedio" oncomplete="PF('deleteDialogTicketMedio').show()">
+								<f:setPropertyActionListener value="#{indicadoresTicketMedioCursor}" target="#{indicadoresTicketMedioBean.indicadoresTicketMedioCadastro}" />
+							</p:commandButton>				  							                							             
+						</p:column>
+					</p:dataTable>
+				</h:form>								
+	        </p:tab>
+			<p:tab title="CORTESIA" id="tabCortesia">
+				<h:panelGrid columns="2" style="width:100%; background-color: #bfddf3 !important; text-align:center; font-weight:bold;">
+						<h:outputLabel>CORTESIA</h:outputLabel>
+						<p:commandButton actionListener="#{indicadoresCortesiaBean.novo}" update=":tabViewIndicadores:frmDialogoCortesia" icon="pi pi-star" style="font-size: 0.5rem; height: 1.5rem; width:1.5rem;" oncomplete="PF('abrirDialogoCortesia').show();"/>
+					</h:panelGrid>
+											
+					<h:form id="frmCortesiaCad">
+						<p:dataTable id="tabelaCortesia" var="indicadoresCortesiaCursor" value="#{indicadoresCortesiaBean.listaIndicadoresCortesia}" emptyMessage="Nenhum registro encontrado" rows="4" reflow="true" style="margin-right: 0; padding: 0rem; font-size: 14px;" stripedRows="true" showGridlines="true" size="small" >
+							<p:column headerText="ANO" style="width: 4%; font-weight:bold;">
+								<h:outputText value="#{indicadoresCortesiaCursor.ano}"/>
+								<f:facet name="footer">
+									<h:outputText value="MÉDIA"/>
+								</f:facet>
+							</p:column>								
+															
+							<p:column headerText="JANEIRO" style="width: 10%; font-weight:bold;">
+								<h:outputText value="#{indicadoresCortesiaCursor.janeiro}">
+									<f:convertNumber type="currency" currencySymbol="R$"/>							
+								</h:outputText>									
+								<br/>						
+								<h:outputText value="#{indicadoresCortesiaCursor.valorJaneiro}%" rendered="#{indicadoresCortesiaCursor.valorJaneiro != '-100.00'}" styleClass="texto #{indicadoresCortesiaCursor.valorJaneiro gt 0 ? 'valorMaior' : (indicadoresCortesiaCursor.valorJaneiro lt 0 ? 'valorMenor' : 'valorZero')}" />															
+								<f:facet name="footer">
+									<h:outputText value="#{indicadoresCortesiaBean.mediaJaneiro}">
+										<f:convertNumber type="currency" currencySymbol="R$"/>
+	                            	</h:outputText>
+								</f:facet>
+							</p:column>
+							<p:column headerText="FEVEREIRO" style="width: 10%; font-weight:bold;">
+								<h:outputText value="#{indicadoresCortesiaCursor.fevereiro}">
+									<f:convertNumber type="currency" currencySymbol="R$"/>
+								</h:outputText>											
+								<br/>
+								<h:outputText value="#{indicadoresCortesiaCursor.valorFevereiro}%" rendered="#{indicadoresCortesiaCursor.valorFevereiro != '-100.00'}" styleClass="texto #{indicadoresCortesiaCursor.valorFevereiro gt 0 ? 'valorMaior' : (indicadoresCortesiaCursor.valorFevereiro lt 0 ? 'valorMenor' : 'valorZero')}" />
+								<f:facet name="footer">
+									<h:outputText value="#{indicadoresCortesiaBean.mediaFevereiro}">
+										<f:convertNumber type="currency" currencySymbol="R$"/>
+	                            	</h:outputText>
+								</f:facet>
+							</p:column>
+							<p:column headerText="MARÇO" style="width: 10%; font-weight:bold;">
+								<h:outputText value="#{indicadoresCortesiaCursor.marco}">
+									<f:convertNumber type="currency" currencySymbol="R$"/>
+								</h:outputText>
+								<br/>
+								<h:outputText value="#{indicadoresCortesiaCursor.valorMarco}%" rendered="#{indicadoresCortesiaCursor.valorMarco != '-100.00'}" styleClass="texto #{indicadoresCortesiaCursor.valorMarco gt 0 ? 'valorMaior' : (indicadoresCortesiaCursor.valorMarco lt 0 ? 'valorMenor' : 'valorZero')}" />
+								<f:facet name="footer">
+									<h:outputText value="#{indicadoresCortesiaBean.mediaMarco}">
+										<f:convertNumber type="currency" currencySymbol="R$"/>
+	                            	</h:outputText>
+								</f:facet>
+							</p:column>
+							<p:column headerText="ABRIL" style="width: 10%; font-weight:bold;">
+								<h:outputText value="#{indicadoresCortesiaCursor.abril}">
+									<f:convertNumber type="currency" currencySymbol="R$"/>
+								</h:outputText>
+								<br/>
+								<h:outputText value="#{indicadoresCortesiaCursor.valorAbril}%" rendered="#{indicadoresCortesiaCursor.valorAbril != '-100.00'}" styleClass="texto #{indicadoresCortesiaCursor.valorAbril gt 0 ? 'valorMaior' : (indicadoresCortesiaCursor.valorAbril lt 0 ? 'valorMenor' : 'valorZero')}" />
+								<f:facet name="footer">
+									<h:outputText value="#{indicadoresCortesiaBean.mediaAbril}">
+										<f:convertNumber type="currency" currencySymbol="R$"/>
+	                            	</h:outputText>
+								</f:facet>
+							</p:column>
+							<p:column headerText="MAIO" style="width: 10%; font-weight:bold;">
+								<h:outputText value="#{indicadoresCortesiaCursor.maio}">
+									<f:convertNumber type="currency" currencySymbol="R$"/>
+								</h:outputText>
+								<br/>
+								<h:outputText value="#{indicadoresCortesiaCursor.valorMaio}%" rendered="#{indicadoresCortesiaCursor.valorMaio != '-100.00'}" styleClass="texto #{indicadoresCortesiaCursor.valorMaio gt 0 ? 'valorMaior' : (indicadoresCortesiaCursor.valorMaio lt 0 ? 'valorMenor' : 'valorZero')}" />
+								<f:facet name="footer">
+									<h:outputText value="#{indicadoresCortesiaBean.mediaMaio}">
+										<f:convertNumber type="currency" currencySymbol="R$"/>
+	                            	</h:outputText>
+								</f:facet>
+							</p:column>
+							<p:column headerText="JUNHO" style="width: 10%; font-weight:bold;">
+								<h:outputText value="#{indicadoresCortesiaCursor.junho}">
+									<f:convertNumber type="currency" currencySymbol="R$"/>
+								</h:outputText>
+								<br/>
+								<h:outputText value="#{indicadoresCortesiaCursor.valorJunho}%" rendered="#{indicadoresCortesiaCursor.valorJunho != '-100.00'}" styleClass="texto #{indicadoresCortesiaCursor.valorJunho gt 0 ? 'valorMaior' : (indicadoresCortesiaCursor.valorJunho lt 0 ? 'valorMenor' : 'valorZero')}" />
+								<f:facet name="footer">
+									<h:outputText value="#{indicadoresCortesiaBean.mediaJunho}">
+										<f:convertNumber type="currency" currencySymbol="R$"/>
+	                            	</h:outputText>
+								</f:facet>
+							</p:column>
+							<p:column headerText="JULHO" style="width: 10%; font-weight:bold;">
+								<h:outputText value="#{indicadoresCortesiaCursor.julho}">
+									<f:convertNumber type="currency" currencySymbol="R$"/>
+								</h:outputText>
+								<br/>
+								<h:outputText value="#{indicadoresCortesiaCursor.valorJulho}%" rendered="#{indicadoresCortesiaCursor.valorJulho != '-100.00'}" styleClass="texto #{indicadoresCortesiaCursor.valorJulho gt 0 ? 'valorMaior' : (indicadoresCortesiaCursor.valorJulho lt 0 ? 'valorMenor' : 'valorZero')}" />
+								<f:facet name="footer">
+									<h:outputText value="#{indicadoresCortesiaBean.mediaJulho}">
+										<f:convertNumber type="currency" currencySymbol="R$"/>
+	                            	</h:outputText>
+								</f:facet>
+							</p:column>
+							<p:column headerText="AGOSTO" style="width: 10%; font-weight:bold;">
+								<h:outputText value="#{indicadoresCortesiaCursor.agosto}">
+									<f:convertNumber type="currency" currencySymbol="R$"/>
+								</h:outputText>
+								<br/>
+								<h:outputText value="#{indicadoresCortesiaCursor.valorAgosto}%" rendered="#{indicadoresCortesiaCursor.valorAgosto != '-100.00'}" styleClass="texto #{indicadoresCortesiaCursor.valorAgosto gt 0 ? 'valorMaior' : (indicadoresCortesiaCursor.valorAgosto lt 0 ? 'valorMenor' : 'valorZero')}" />
+								<f:facet name="footer">
+									<h:outputText value="#{indicadoresCortesiaBean.mediaAgosto}">
+										<f:convertNumber type="currency" currencySymbol="R$"/>
+	                            	</h:outputText>
+								</f:facet>
+							</p:column>
+							<p:column headerText="SETEMBRO" style="width: 10%; font-weight:bold;">
+								<h:outputText value="#{indicadoresCortesiaCursor.setembro}">
+									<f:convertNumber type="currency" currencySymbol="R$"/>
+								</h:outputText>
+								<br/>
+								<h:outputText value="#{indicadoresCortesiaCursor.valorSetembro}%" rendered="#{indicadoresCortesiaCursor.valorSetembro != '-100.00'}" styleClass="texto #{indicadoresCortesiaCursor.valorSetembro gt 0 ? 'valorMaior' : (indicadoresCortesiaCursor.valorSetembro lt 0 ? 'valorMenor' : 'valorZero')}" />
+								<f:facet name="footer">
+									<h:outputText value="#{indicadoresCortesiaBean.mediaSetembro}">
+										<f:convertNumber type="currency" currencySymbol="R$"/>
+	                            	</h:outputText>
+								</f:facet>
+							</p:column>
+							<p:column headerText="OUTUBRO" style="width: 10%; font-weight:bold;">
+								<h:outputText value="#{indicadoresCortesiaCursor.outubro}">
+									<f:convertNumber type="currency" currencySymbol="R$"/>
+								</h:outputText>
+								<br/>
+								<h:outputText value="#{indicadoresCortesiaCursor.valorOutubro}%" rendered="#{indicadoresCortesiaCursor.valorOutubro != '-100.00'}" styleClass="texto #{indicadoresCortesiaCursor.valorOutubro gt 0 ? 'valorMaior' : (indicadoresCortesiaCursor.valorOutubro lt 0 ? 'valorMenor' : 'valorZero')}" />
+								<f:facet name="footer">
+									<h:outputText value="#{indicadoresCortesiaBean.mediaOutubro}">
+										<f:convertNumber type="currency" currencySymbol="R$"/>
+	                            	</h:outputText>
+								</f:facet>
+							</p:column>
+							<p:column headerText="NOVEMBRO" style="width: 10%; font-weight:bold;">
+								<h:outputText value="#{indicadoresCortesiaCursor.novembro}">
+									<f:convertNumber type="currency" currencySymbol="R$"/>
+								</h:outputText>
+								<br/>
+								<h:outputText value="#{indicadoresCortesiaCursor.valorNovembro}%" rendered="#{indicadoresCortesiaCursor.valorNovembro != '-100.00'}" styleClass="texto #{indicadoresCortesiaCursor.valorNovembro gt 0 ? 'valorMaior' : (indicadoresCortesiaCursor.valorNovembro lt 0 ? 'valorMenor' : 'valorZero')}" />
+								<f:facet name="footer">
+									<h:outputText value="#{indicadoresCortesiaBean.mediaNovembro}">
+										<f:convertNumber type="currency" currencySymbol="R$"/>
+	                            	</h:outputText>
+								</f:facet>
+							</p:column>
+							<p:column headerText="DEZEMBRO" style="width: 10%; font-weight:bold;">
+								<h:outputText value="#{indicadoresCortesiaCursor.dezembro}">
+									<f:convertNumber type="currency" currencySymbol="R$"/>
+								</h:outputText>
+								<br/>
+								<h:outputText value="#{indicadoresCortesiaCursor.valorDezembro}%" rendered="#{indicadoresCortesiaCursor.valorDezembro != '-100.00'}" styleClass="texto #{indicadoresCortesiaCursor.valorDezembro gt 0 ? 'valorMaior' : (indicadoresCortesiaCursor.valorDezembro lt 0 ? 'valorMenor' : 'valorZero')}" />
+								<f:facet name="footer">
+									<h:outputText value="#{indicadoresCortesiaBean.mediaDezembro}">
+										<f:convertNumber type="currency" currencySymbol="R$"/>
+	                            	</h:outputText>
+								</f:facet>
+							</p:column>
+							<p:column headerText="TOTAL" style="width: 10%; font-weight:bold;">
+								<h:outputText value="#{indicadoresCortesiaCursor.totalAnual}">
+									<f:convertNumber type="currency" currencySymbol="R$"/>
+								</h:outputText>
+								<br/>
+								<h:outputText value="#{indicadoresCortesiaCursor.valorTotalAnual}%" styleClass="texto #{indicadoresCortesiaCursor.valorTotalAnual gt 0 ? 'valorMaior' : (indicadoresCortesiaCursor.valorTotalAnual lt 0 ? 'valorMenor' : 'valorZero')}" />
+							</p:column>
+								
+							<p:column style="width: 3%">							                						                
+								<p:commandButton process="@this" styleClass="ui-button-info" icon="pi pi-search" update=":tabViewIndicadores:dialogAlteraCortesia" oncomplete="PF('alteraCortesiaDialog').show()" >
+									<f:setPropertyActionListener value="#{indicadoresCortesiaCursor}" target="#{indicadoresCortesiaBean.indicadoresCortesiaCadastro}" />
+								</p:commandButton>
+												
+							</p:column>
+							<p:column style="width: 3%">    
+								<p:commandButton process="@this" styleClass="ui-button-danger" icon="pi pi-trash" update=":tabViewIndicadores:dialogDeleteCortesia" oncomplete="PF('deleteCortesiaDialog').show()">
+									<f:setPropertyActionListener value="#{indicadoresCortesiaCursor}" target="#{indicadoresCortesiaBean.indicadoresCortesiaCadastro}" />
+								</p:commandButton>				  							                							             
+							</p:column>
+						</p:dataTable>	
+					</h:form>				
+												
+					<h:form id="dialogAlteraCortesia">
+						<p:dialog widgetVar="alteraCortesiaDialog" header="CORTESIA" draggable="false" resizable="false" modal="true"> 
+							<h:panelGrid columns="2" cellpadding="2">        													    
+								<p:outputLabel value="ANO" style="font-weight:bold"/>
+								<p:selectOneMenu id="ano" value="#{indicadoresCortesiaBean.indicadoresCortesiaCadastro.ano}"  style="font-weight:bold; width: 160px;">
+									<f:selectItem itemLabel="" itemValue=""/>
+									<f:selectItem itemLabel="2021" itemValue="2021"/>
+									<f:selectItem itemLabel="2022" itemValue="2022"/>
+									<f:selectItem itemLabel="2023" itemValue="2023"/>
+									<f:selectItem itemLabel="2024" itemValue="2024"/> 
+								</p:selectOneMenu>
+							</h:panelGrid>
+							<h:panelGrid columns="8" cellpadding="2">    
+								<p:outputLabel value="JANEIRO" style="font-weight:bold"/>
+								<p:inputNumber id="janeiro" value="#{indicadoresCortesiaBean.indicadoresCortesiaCadastro.janeiro}"  maxValue="999999.99" decimalPlaces="2" inputStyle="width:110px" style="font-weight:bold;" emptyValue="zero" />
+															
+								<p:outputLabel value="FEVEREIRO" style="font-weight:bold"/>
+								<p:inputNumber id="fevereiro" value="#{indicadoresCortesiaBean.indicadoresCortesiaCadastro.fevereiro}"  maxValue="999999.99" decimalPlaces="2" inputStyle="width:110px" style="font-weight:bold;" emptyValue="zero" />
+																	
+								<p:outputLabel value="MARÇO" style="font-weight:bold"/>
+								<p:inputNumber id="marco" value="#{indicadoresCortesiaBean.indicadoresCortesiaCadastro.marco}"  maxValue="999999.99" decimalPlaces="2" inputStyle="width:110px" style="font-weight:bold;" emptyValue="zero" />
+																	
+								<p:outputLabel value="ABRIL" style="font-weight:bold"/>
+								<p:inputNumber id="abril" value="#{indicadoresCortesiaBean.indicadoresCortesiaCadastro.abril}"  maxValue="999999.99" decimalPlaces="2" inputStyle="width:110px" style="font-weight:bold;" emptyValue="zero" />
+																	
+								<p:outputLabel value="MAIO" style="font-weight:bold"/>
+								<p:inputNumber id="maio" value="#{indicadoresCortesiaBean.indicadoresCortesiaCadastro.maio}"  maxValue="999999.99" decimalPlaces="2" inputStyle="width:110px" style="font-weight:bold;" emptyValue="zero" />
+																	
+								<p:outputLabel value="JUNHO" style="font-weight:bold"/>
+								<p:inputNumber id="junho" value="#{indicadoresCortesiaBean.indicadoresCortesiaCadastro.junho}"  maxValue="999999.99" decimalPlaces="2" inputStyle="width:110px" style="font-weight:bold;" emptyValue="zero" />
+																	
+								<p:outputLabel value="JULHO" style="font-weight:bold"/>
+								<p:inputNumber id="julho" value="#{indicadoresCortesiaBean.indicadoresCortesiaCadastro.julho}"  maxValue="999999.99" decimalPlaces="2" inputStyle="width:110px" style="font-weight:bold;" emptyValue="zero" />
+																	
+								<p:outputLabel value="AGOSTO" style="font-weight:bold"/>
+								<p:inputNumber id="agosto" value="#{indicadoresCortesiaBean.indicadoresCortesiaCadastro.agosto}"  maxValue="999999.99" decimalPlaces="2" inputStyle="width:110px" style="font-weight:bold;" emptyValue="zero" />
+																	
+								<p:outputLabel value="SETEMBRO" style="font-weight:bold"/>
+								<p:inputNumber id="setembro" value="#{indicadoresCortesiaBean.indicadoresCortesiaCadastro.setembro}"  maxValue="999999.99" decimalPlaces="2" inputStyle="width:110px" style="font-weight:bold;" emptyValue="zero" />
+																	
+								<p:outputLabel value="OUTUBRO" style="font-weight:bold"/>
+								<p:inputNumber id="outubro" value="#{indicadoresCortesiaBean.indicadoresCortesiaCadastro.outubro}"  maxValue="999999.99" decimalPlaces="2" inputStyle="width:110px" style="font-weight:bold;" emptyValue="zero" />
+																	
+								<p:outputLabel value="NOVEMBRO" style="font-weight:bold"/>
+								<p:inputNumber id="novembro" value="#{indicadoresCortesiaBean.indicadoresCortesiaCadastro.novembro}"  maxValue="999999.99" decimalPlaces="2" inputStyle="width:110px" style="font-weight:bold;" emptyValue="zero" />
+																	
+								<p:outputLabel value="DEZEMBRO" style="font-weight:bold"/>
+								<p:inputNumber id="dezembro" value="#{indicadoresCortesiaBean.indicadoresCortesiaCadastro.dezembro}"  maxValue="999999.99" decimalPlaces="2" inputStyle="width:110px" style="font-weight:bold;" emptyValue="zero" />					
+							</h:panelGrid>
+											
+							<p:divider/>													
+							<p:commandButton value="ALTERAR" style="margin-right:0.5rem;" actionListener="#{indicadoresCortesiaBean.editar}" update="@form :msgGlobal :tabViewIndicadores:frmCortesiaCad" icon="pi pi-check"/>	
+							<p:commandButton value="CANCELAR" type="button" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('alteraAnaliseDialog').hide()" />			
+						</p:dialog>
+					</h:form>
+							
+					<h:form id="frmDialogoCortesia">
+						<p:dialog widgetVar="abrirDialogoCortesia" header="CORTESIA" draggable="false" resizable="false" modal="true"> 
+							<h:panelGrid columns="2" cellpadding="2">        
+								<p:outputLabel value="ANO" style="font-weight:bold"/>
+								<p:selectOneMenu id="ano" value="#{indicadoresCortesiaBean.indicadoresCortesiaCadastro.ano}"  style="font-weight:bold; width: 160px;">
+									<f:selectItem itemLabel="" itemValue=""/>
+									<f:selectItem itemLabel="2021" itemValue="2021"/>
+									<f:selectItem itemLabel="2022" itemValue="2022"/>
+									<f:selectItem itemLabel="2023" itemValue="2023"/>
+									<f:selectItem itemLabel="2024" itemValue="2024"/> 
+								</p:selectOneMenu>
+							</h:panelGrid>
+							<h:panelGrid columns="8" cellpadding="2">    
+								<p:outputLabel value="JANEIRO" style="font-weight:bold"/>
+								<p:inputNumber id="janeiro" value="#{indicadoresCortesiaBean.indicadoresCortesiaCadastro.janeiro}"  maxValue="999999.99" decimalPlaces="2" inputStyle="width:110px" style="font-weight:bold;" emptyValue="zero" />
+													
+								<p:outputLabel value="FEVEREIRO" style="font-weight:bold"/>
+								<p:inputNumber id="fevereiro" value="#{indicadoresCortesiaBean.indicadoresCortesiaCadastro.fevereiro}"  maxValue="999999.99" decimalPlaces="2" inputStyle="width:110px" style="font-weight:bold;" emptyValue="zero" />
+														
+								<p:outputLabel value="MARÇO" style="font-weight:bold"/>
+								<p:inputNumber id="marco" value="#{indicadoresCortesiaBean.indicadoresCortesiaCadastro.marco}"  maxValue="999999.99" decimalPlaces="2" inputStyle="width:110px" style="font-weight:bold;" emptyValue="zero" />
+														
+								<p:outputLabel value="ABRIL" style="font-weight:bold"/>
+								<p:inputNumber id="abril" value="#{indicadoresCortesiaBean.indicadoresCortesiaCadastro.abril}"  maxValue="999999.99" decimalPlaces="2" inputStyle="width:110px" style="font-weight:bold;" emptyValue="zero" />
+														
+								<p:outputLabel value="MAIO" style="font-weight:bold"/>
+								<p:inputNumber id="maio" value="#{indicadoresCortesiaBean.indicadoresCortesiaCadastro.maio}"  maxValue="999999.99" decimalPlaces="2" inputStyle="width:110px" style="font-weight:bold;" emptyValue="zero" />
+														
+								<p:outputLabel value="JUNHO" style="font-weight:bold"/>
+								<p:inputNumber id="junho" value="#{indicadoresCortesiaBean.indicadoresCortesiaCadastro.junho}"  maxValue="999999.99" decimalPlaces="2" inputStyle="width:110px" style="font-weight:bold;" emptyValue="zero" />
+														
+								<p:outputLabel value="JULHO" style="font-weight:bold"/>
+								<p:inputNumber id="julho" value="#{indicadoresCortesiaBean.indicadoresCortesiaCadastro.julho}"  maxValue="999999.99" decimalPlaces="2" inputStyle="width:110px" style="font-weight:bold;" emptyValue="zero" />
+														
+								<p:outputLabel value="AGOSTO" style="font-weight:bold"/>
+								<p:inputNumber id="agosto" value="#{indicadoresCortesiaBean.indicadoresCortesiaCadastro.agosto}"  maxValue="999999.99" decimalPlaces="2" inputStyle="width:110px" style="font-weight:bold;" emptyValue="zero" />
+														
+								<p:outputLabel value="SETEMBRO" style="font-weight:bold"/>
+								<p:inputNumber id="setembro" value="#{indicadoresCortesiaBean.indicadoresCortesiaCadastro.setembro}"  maxValue="999999.99" decimalPlaces="2" inputStyle="width:110px" style="font-weight:bold;" emptyValue="zero" />
+														
+								<p:outputLabel value="OUTUBRO" style="font-weight:bold"/>
+								<p:inputNumber id="outubro" value="#{indicadoresCortesiaBean.indicadoresCortesiaCadastro.outubro}"  maxValue="999999.99" decimalPlaces="2" inputStyle="width:110px" style="font-weight:bold;" emptyValue="zero" />
+														
+								<p:outputLabel value="NOVEMBRO" style="font-weight:bold"/>
+								<p:inputNumber id="novembro" value="#{indicadoresCortesiaBean.indicadoresCortesiaCadastro.novembro}"  maxValue="999999.99" decimalPlaces="2" inputStyle="width:110px" style="font-weight:bold;" emptyValue="zero" />
+														
+								<p:outputLabel value="DEZEMBRO" style="font-weight:bold"/>
+								<p:inputNumber id="dezembro" value="#{indicadoresCortesiaBean.indicadoresCortesiaCadastro.dezembro}"  maxValue="999999.99" decimalPlaces="2" inputStyle="width:110px" style="font-weight:bold;" emptyValue="zero" />
+							</h:panelGrid>
+										
+							<p:divider/>
+							<p:commandButton value="SALVAR" actionListener="#{indicadoresCortesiaBean.salvar}" style="margin-right:0.5rem;" update="@form :msgGlobal :tabViewIndicadores:frmDialogoCortesia :tabViewIndicadores:frmCortesiaCad:tabelaCortesia" icon="pi pi-check"/>
+							<p:commandButton value="CANCELAR" type="button" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('abrirDialogoCortesia').hide()" />
+						</p:dialog>
+					</h:form>							
+												
+					<h:form id="dialogDeleteCortesia">
+						<p:confirmDialog widgetVar="deleteCortesiaDialog" showEffect="fade" width="300" message="DELETAR CORTESIA #{indicadoresCortesiaBean.indicadoresCortesiaCadastro.ano}?" header="Confirmação" severity="warn">
+							<p:commandButton value="SIM" icon="pi pi-check" actionListener="#{indicadoresCortesiaBean.excluir}" process="@this" update=":tabViewIndicadores:frmCortesiaCad" oncomplete="PF('deleteCortesiaDialog').hide()" />
+							<p:commandButton value="NÃO" type="button" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('deleteCortesiaDialog').hide()" />
+						</p:confirmDialog>
+					</h:form>
+					<p:divider/>
+								
+					<h:panelGrid columns="2" style="width:100%">
+						<p:column style="width:75%">								
+							<div class="card">
+	    						<p:lineChart model="#{grafico.graficoLinhaCortesia}" style="width: 100%; height: 400px;"/>
+							</div>	
+						</p:column>	
+								
+						<p:column style="width:25%">
+							<p:card styleClass="status-badge status-formula" style="font-weight:bold; font-size: 13px; width: 100%; height:400px;" title="TOTAIS">
+								<h:panelGrid columns="2" width="100%">
+									<table border="0" style="width:100%">
+										<tr>
+											<td style="width:100%"></td>												      
+										</tr>
+									</table>
+									<table border="0" style="width:100%">    
+												
+									</table>								
+								</h:panelGrid>
+							</p:card>
+						</p:column>
+					</h:panelGrid>
+			</p:tab>        			    	
+		</p:tabView>
+	</ui:define>
+</ui:composition>
+</html>

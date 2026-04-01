@@ -1,0 +1,23 @@
+package com.altus.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.altus.model.Funcionario;
+
+@Controller
+public class FuncionarioController {
+	
+	@RequestMapping("/funcionario/novo")
+	public String novo() {
+		return "funcionario/CadastroFuncionario";
+	}
+	
+	@RequestMapping(value = "/funcionario/novo", method = RequestMethod.POST)
+	public String cadastrar(Funcionario funcionario) {
+		System.out.println(">>> CADASTRAR");
+		System.out.println(">>> NOME: " + funcionario.getNome());
+		return "funcionario/CadastroFuncionario";
+	}
+}

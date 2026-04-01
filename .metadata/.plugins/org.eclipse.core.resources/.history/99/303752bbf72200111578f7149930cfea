@@ -1,0 +1,138 @@
+package com.algaworks.brewer.storage.s3;
+
+import com.algaworks.brewer.config.S3Config;
+import com.algaworks.brewer.storage.FotoStorage;
+import jakarta.annotation.PostConstruct;
+import net.coobird.thumbnailator.Thumbnails;
+import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+@Profile("prod")
+@Component
+public class FotoStorageS3 implements FotoStorage {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(FotoStorageS3.class);
+
+    private static String BUCKET = "buket-teste-bismarck";
+
+    @Autowired
+    private S3Config s3config;
+
+//    @Value("${brewer.foto-storage-s3.url-base}")
+//    private String urlBase;
+    
+    @Override
+    public String salvar(MultipartFile[] files) {
+        String novoNome = null;
+
+        if (files != null && files.length > 0) {
+
+            MultipartFile arquivo = files[0];
+            novoNome = renomearArquivo(arquivo.getOriginalFilename());
+
+            try {
+                enviarFoto(novoNome, arquivo);        // ✅ sem ACL
+                enviarThumbnail(novoNome, arquivo);   // ✅ sem ACL
+
+            } catch (IOException e) {
+                throw new RuntimeException("Erro salvando arquivo no S3", e);
+            }
+        }
+        return novoNome;
+    }
+
+    @Override
+    public byte[] recuperar(String foto) {
+        return null;
+    }
+
+    @Override
+    public byte[] recuperarThumbnail(String foto) {
+    		return null;
+    }
+
+    @Override
+    public void excluir(String foto) {
+       
+    }
+
+    @SuppressWarnings("deprecation")
+	@Override
+    public String getUrl(String foto) {
+        if(!StringUtils.isEmpty(foto)){
+            return "https://buket-teste-bismarck.s3.us-east-1.amazonaws.com/" + foto;
+        }
+        return null;
+    }
+
+
+    private void enviarFoto(String novoNome, MultipartFile arquivo) throws IOException {
+
+        PutObjectRequest request = PutObjectRequest.builder()
+                .bucket(BUCKET)
+                .key(novoNome)
+                .contentType(arquivo.getContentType())
+                .acl(ObjectCannedACL.PUBLIC_READ)
+                .build();
+
+        		s3config.s3Client().putObject(request, RequestBody.fromBytes(arquivo.getBytes())
+        );
+    }
+
+    private void enviarThumbnail(String novoNome, MultipartFile arquivo) throws IOException {
+
+    		byte[] bytes = arquivo.getBytes();
+
+        BufferedImage image = ImageIO.read(new ByteArrayInputStream(bytes));
+
+        if (image == null) {
+            throw new RuntimeException("Arquivo enviado não é uma imagem válida");
+        }
+
+        // 🔥 Descobre o formato
+        String contentType = arquivo.getContentType();
+        String formato = "jpg"; // padrão seguro
+
+        if (contentType != null) {
+            if (contentType.equalsIgnoreCase("image/png")) {
+                formato = "png";
+            } else if (contentType.equalsIgnoreCase("image/jpeg")) {
+                formato = "jpg";
+            }
+        }
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+        Thumbnails.of(image).size(40, 68).outputFormat(formato) // 🔥 agora dinâmico
+                .toOutputStream(outputStream);
+
+        byte[] thumbnailBytes = outputStream.toByteArray();
+
+        PutObjectRequest request = PutObjectRequest.builder()
+                .bucket(BUCKET)
+                .key(THUMBNAIL_PREFIX + novoNome)
+                .contentType("image/" + formato) // 🔥 consistente
+                .acl(ObjectCannedACL.PUBLIC_READ)
+                .build();
+
+        s3config.s3Client().putObject(request, RequestBody.fromBytes(thumbnailBytes));
+        		
+        		
+    }
+}

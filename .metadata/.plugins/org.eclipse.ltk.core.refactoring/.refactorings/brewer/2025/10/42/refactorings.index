@@ -1,0 +1,9 @@
+1760777702090	Copy file
+1760777710622	Rename resource 'PesquisaCervejas.html'
+1760777802717	Copy compilation unit
+1760778173437	Copy compilation units
+1760778190021	Rename type 'CervejaRepositoryImpl'
+1760778201752	Rename type 'CervejasRepositoryQueries'
+1760815884432	Rename type 'ClienteController'
+1760816925745	Move 'V04__criar_cidade_estado.sql' to 'migration'
+1760816939294	Move 'V05__adicionar_tabela_cliente.sql' to 'migration'

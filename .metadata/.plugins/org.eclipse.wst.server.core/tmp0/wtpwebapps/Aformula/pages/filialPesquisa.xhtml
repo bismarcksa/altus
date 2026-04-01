@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<ui:composition template="/templates/modeloGeral.xhtml">
+		<ui:define name="metadata"> 
+			<f:metadata>
+				<f:event listener="#{filialBean.carregarPesquisa}" type="preRenderView"/>
+			</f:metadata>
+		</ui:define>
+		
+		<ui:define name="conteudo">
+			<h:form>
+				
+				<p:dataTable var="filialCursor" value="#{filialBean.listaFiliais}" filteredValue="#{filialBean.listaFiliaisFiltrados}" emptyMessage="Nenhum registro encontrado" rows="10" paginator="true" paginatorPosition="bottom" style="margin-right: 0; padding: 0rem; font-size: 15px;" stripedRows="true" size="small">
+					<f:facet name="header">
+						<p:button value="NOVA FILIAL" outcome="/pages/filialCadastro.xhtml" icon="pi pi-user-plus">
+		  					<f:param name="filacao" value="Novo"/>
+						</p:button>	
+					</f:facet>
+					
+					<p:column headerText="CÓDIGO" style="width: 6%">
+						<h:outputText value="#{filialCursor.codigo}"/>
+					</p:column>
+					
+					<p:column headerText="RAZÃO SOCIAL" >
+						<h:outputText value="#{filialCursor.razaoSocial.toUpperCase()}"/>
+					</p:column>
+					
+					<p:column headerText="CNPJ" style="width: 15%">
+						<h:outputText value="#{filialCursor.cnpj}"/>
+					</p:column>
+					
+					<p:column headerText="STATUS" style="width: 6%">					
+						<h:outputText value="#{filialCursor.status==true?'ATIVO':'INATIVO'}" /> 
+					</p:column>
+					
+					<p:column headerText="OPÇÕES" style="width: 17%">
+ <!-- 						<p:button value="Excluir" outcome="/pages/filialCadastro.xhtml" icon="pi pi-trash">
+	  						<f:param name="filcod" value="#{filialCursor.codigo}"/>
+							<f:param name="filacao" value="Excluir"/> 
+						</p:button> -->
+						
+						<p:button value="Editar" outcome="/pages/filialCadastro.xhtml" styleClass="ui-button-secondary" style="margin-left: .5em" icon="pi pi-file-edit">
+  							<f:param name="filcod" value="#{filialCursor.codigo}"/>
+						 	<f:param name="filacao" value="Editar"/>
+						</p:button>
+					</p:column>	
+				</p:dataTable>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>

@@ -1,0 +1,5 @@
+package com.algaworks.brewer.services.exception;
+
+public class NomeCidadeJaCadastradaException {
+
+}

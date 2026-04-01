@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<ui:composition template="/templates/modeloGeral.xhtml">
+		<ui:define name="metadata"> 
+			<f:metadata>
+				<f:event listener="#{ocorrenciaBean.carregarPesquisa}" type="preRenderView"/>
+				<f:event listener="#{ocorrenciaBean.carregarCadastro}" type="preRenderView"/>
+			</f:metadata>
+		</ui:define>
+		
+		<ui:define name="conteudo">
+			<h:form id="frmOcorrencia">		
+				<p:dataTable var="ocorrenciaCursor" value="#{ocorrenciaBean.listaOcorrencias}" filteredValue="#{ocorrenciaBean.listaOcorrenciasFiltrados}" emptyMessage="Nenhum registro encontrado" rows="10" paginator="true" paginatorPosition="bottom" style="margin-right: 0; padding: 0rem; font-size: 15px;" stripedRows="true" size="small">
+					<f:facet name="header">
+						<p:commandButton value="NOVA OCORRÊNCIA" actionListener="#{ocorrenciaBean.novo}" update=":frmDialogoOcorrencia:pnlDialogoOcorrencia" icon="pi pi-star" style="font-weight:bold;" oncomplete="PF('abrirDialogoOcorrencia').show();"/>								
+					</f:facet>
+					
+					<p:column headerText="CÓDIGO" style="width: 4%">
+						<h:outputText value="#{ocorrenciaCursor.codigo}"/>
+					</p:column>
+					
+					<p:column headerText="TÍTULO" style="width: 15%">
+						<h:outputText value="#{ocorrenciaCursor.titulo.toUpperCase()}"/>
+					</p:column>
+					
+					<p:column headerText="DESCRIÇÃO" style="width: 30%">
+						<h:outputText value="#{ocorrenciaCursor.descricao.toUpperCase()}"/>
+					</p:column>
+					
+					<p:column headerText="TIPO" >
+						<h:outputText value="#{ocorrenciaCursor.abonarDescontar}"/>
+					</p:column>
+					
+					<p:column headerText="HORA EXTRA" >
+						<h:outputText value="#{ocorrenciaCursor.geraHoraExtra ? 'SIM' : 'NÃO'}"/>
+					</p:column>	
+					
+					<p:column headerText="QUANT. HORAS" >
+						<h:outputText value="#{ocorrenciaCursor.quantidadeHoras}"/>
+					</p:column>	
+					
+
+  					<p:column headerText="" style="width: 6%">				
+						<p:button value="Editar" outcome="/pages/ocorrenciaCadastro.xhtml" styleClass="ui-button-secondary" style="margin-left: .5em" icon="pi pi-file-edit">
+  							<f:param name="ococod" value="#{ocorrenciaCursor.codigo}"/>
+						 	<f:param name="ocoacao" value="Editar"/>
+						</p:button>
+					</p:column>	
+						
+					<p:column headerText="" style="width: 6%">	
+						<p:button value="." outcome="/pages/ocorrenciaCadastro.xhtml" style="width:33px;" styleClass="ui-button-danger"  icon="pi pi-trash" >
+  							<f:param name="ococod" value="#{ocorrenciaCursor.codigo}"/>
+						 	<f:param name="ocoacao" value="Excluir"/>
+						</p:button>										    			  							                							             		
+					</p:column>
+			
+				</p:dataTable>
+			</h:form>
+			
+			<p:dialog widgetVar="abrirDialogoOcorrencia" header="OCORRÊNCIA" draggable="false" resizable="false" modal="true"> 
+				<h:form id="frmDialogoOcorrencia">
+					<p:panel id="pnlDialogoOcorrencia" style="margin-bottom:10px;">
+						<h:panelGrid columns="1" cellpadding="2">            			    
+							<h:panelGrid id="pnlSacCadDados" columns="2">
+					        	<p:outputLabel value="TÍTULO" style="font-weight:bold;"/>
+							    <p:inputText maxlength="50" size="30" value="#{ocorrenciaBean.ocorrenciaCadastro.titulo}" style="text-transform: uppercase;"/>
+					    
+							    <p:outputLabel value="DESCRIÇÃO" style="font-weight:bold;"/>
+        						<p:inputTextarea rows="6" cols="34" value="#{ocorrenciaBean.ocorrenciaCadastro.descricao}" Resize="false"/>
+							    						
+					        	<p:outputLabel value="TIPO" style="font-weight:bold;"/>
+					        	<p:selectOneRadio id="line" value="#{ocorrenciaBean.ocorrenciaCadastro.abonarDescontar}" layout="lineDirection">
+						            <f:selectItem itemLabel="ABONAR" itemValue="ABONAR"/>
+						            <f:selectItem itemLabel="DESCONTAR" itemValue="DESCONTAR"/>
+						        </p:selectOneRadio>
+						        
+						        <p:outputLabel value="H. EXTRA" style="font-weight:bold;"/>
+								<p:selectBooleanCheckbox value="#{ocorrenciaBean.ocorrenciaCadastro.geraHoraExtra}" itemLabel="GERA HORA EXTRA"/>
+					        						        	
+				                <p:outputLabel for="@next" value="HORAS" style="font-weight:bold;"/>
+				                <p:spinner id="rotate" value="#{ocorrenciaBean.ocorrenciaCadastro.quantidadeHoras}" min="0" max="8" rotate="true"/>
+					        </h:panelGrid>
+	 		
+					        <h:panelGrid columns="2">
+					        	<p:commandButton value="SALVAR" actionListener="#{ocorrenciaBean.salvar}" update=":msgGlobal :frmOcorrencia :frmDialogoOcorrencia:pnlDialogoOcorrencia" oncomplete="PF('abrirDialogoOcorrencia').hide();" icon="pi pi-check"/>
+					        	<p:button value="VOLTAR" outcome="/pages/ocorrenciaPesquisa.xhtml" icon="pi pi-chevron-left"/>
+					        </h:panelGrid>					
+						</h:panelGrid>
+					</p:panel>
+				</h:form>
+			</p:dialog>
+		</ui:define>
+	</ui:composition>
+</html>

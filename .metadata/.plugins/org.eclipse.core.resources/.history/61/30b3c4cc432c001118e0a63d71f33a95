@@ -1,0 +1,13 @@
+package com.altus.config;
+
+import com.algaworks.brewer.services.CervejaService;
+import com.algaworks.brewer.storage.FotoStorage;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan(basePackageClasses = {/*CervejaService.class, FotoStorage.class*/})
+public class ServiceConfig {
+
+
+}

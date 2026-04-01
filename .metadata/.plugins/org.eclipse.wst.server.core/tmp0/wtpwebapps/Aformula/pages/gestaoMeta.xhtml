@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<ui:composition template="/templates/modeloGeral.xhtml">
+		<ui:define name="metadata"> 
+			<f:metadata>
+				<f:event listener="#{metasGrupoBean.carregarPesquisa}" type="preRenderView"/>
+			</f:metadata>
+		</ui:define>
+		
+		<ui:define name="conteudo">
+			<h:form id="frmMetaGrupoCad">
+				<h:panelGrid columns="1">
+					<p:column style="width:100%">
+						<h:panelGrid columns="2" style="width:100%; background-color: #008a97 !important; text-align:center; font-weight:bold;">
+							<h:outputLabel>META GRUPO</h:outputLabel>
+							<p:commandButton actionListener="#{metasGrupoBean.novo}" update=":frmDialogoMetasGrupo:pnlDialogoMetasGrupo" icon="pi pi-star" style="font-size: 0.5rem; height: 1.5rem; width:1.5rem;" oncomplete="PF('abrirDialogoMetasGrupo').show();"/>
+						</h:panelGrid>
+						
+						<p:dataTable id="tabelaMetasGrupo" var="metasGrupoCursor" value="#{metasGrupoBean.listaMetasGrupo}" emptyMessage="Nenhum registro encontrado" rows="12" style="margin-right: 0; padding: 0rem; font-size: 13px;" stripedRows="true" showGridlines="true" size="small">
+							<p:column headerText="PERÍODO" style="width: 11%; font-weight:bold;">
+								<h:outputText value="#{metasGrupoCursor.periodo}"/>
+							</p:column>
+																		
+							<p:column headerText="META" style="width: 15%">
+								<h:outputText value="#{metasGrupoCursor.meta}">
+									<f:convertNumber type="currency" currencySymbol="R$"/>	
+								</h:outputText>
+							</p:column>
+																			
+							<p:column headerText="VENDA" style="width: 15%">
+								<h:outputText value="#{metasGrupoCursor.vendas}">
+									<f:convertNumber type="currency" currencySymbol="R$"/>	
+								</h:outputText>
+							</p:column>
+															
+							<p:column headerText="RESULTADO" style="width: 15%">
+								<h:outputText value="#{metasGrupoCursor.percentual}%">
+									<f:convertNumber pattern="#00.00" />
+								</h:outputText>
+							</p:column>
+							
+							<p:column headerText="MANIPULADO" style="width: 15%">
+								<h:outputText value="#{metasGrupoCursor.percentual}"/>
+							</p:column>
+							
+							<p:column headerText="REVENDA" style="width: 15%">
+								<h:outputText value="#{metasGrupoCursor.percentual}"/>
+							</p:column>
+							
+							<p:column headerText="CLIENTES" style="width: 15%">
+								<h:outputText value="#{metasGrupoCursor.percentual}"/>
+							</p:column>
+							
+							<p:column headerText="TICKET" style="width: 15%">
+								<h:outputText value="#{metasGrupoCursor.percentual}"/>
+							</p:column>
+							
+							<p:column headerText="DESCONTO" style="width: 15%">
+								<h:outputText value="#{metasGrupoCursor.percentual}"/>
+							</p:column>
+							
+							<p:column headerText="REJEIÇÃO" style="width: 15%">
+								<h:outputText value="#{metasGrupoCursor.percentual}"/>
+							</p:column>
+																		
+							<p:column headerText="" style="width: 4%">
+								<p:commandButton type="button" icon="pi pi-search"  styleClass="rounded-button ui-button-success ui-button-flat" style="font-size: 0.5rem; height: 1.5rem; width:1.5rem;" />	
+							</p:column>
+						</p:dataTable>
+					</p:column>
+				</h:panelGrid>
+				<h:panelGrid columns="1">
+					<p:column style="width:100%">
+						<h:panelGrid columns="2" style="width:100%; background-color: #008a97 !important; text-align:center; font-weight:bold;">
+							<h:outputLabel>META LOJAS</h:outputLabel>
+							<p:commandButton actionListener="#{metasGrupoBean.novo}" update=":frmDialogoMetasGrupo:pnlDialogoMetasGrupo" icon="pi pi-star" style="font-size: 0.5rem; height: 1.5rem; width:1.5rem;" oncomplete="PF('abrirDialogoMetasGrupo').show();"/>
+						</h:panelGrid>
+						
+						<p:dataTable id="tabelaMetasLojas" var="metasLojasCursor" value="#{metasGrupoBean.listaMetasGrupo}" emptyMessage="Nenhum registro encontrado" rows="12" style="margin-right: 0; padding: 0rem; font-size: 13px;" stripedRows="true" showGridlines="true" size="small">
+							<p:column headerText="PERÍODO" style="width: 11%; font-weight:bold;">
+								<h:outputText value="#{metasLojasCursor.periodo}"/>
+							</p:column>
+																		
+							<p:column headerText="META" style="width: 15%">
+								<h:outputText value="#{metasLojasCursor.meta}">
+									<f:convertNumber type="currency" currencySymbol="R$"/>	
+								</h:outputText>
+							</p:column>
+																			
+							<p:column headerText="VENDA" style="width: 15%">
+								<h:outputText value="#{metasLojasCursor.vendas}">
+									<f:convertNumber type="currency" currencySymbol="R$"/>	
+								</h:outputText>
+							</p:column>
+															
+							<p:column headerText="RESULTADO" style="width: 15%">
+								<h:outputText value="#{metasLojasCursor.percentual}%">
+									<f:convertNumber pattern="#00.00" />
+								</h:outputText>
+							</p:column>
+							
+							<p:column headerText="MANIPULADO" style="width: 15%">
+								<h:outputText value="#{metasLojasCursor.percentual}"/>
+							</p:column>
+							
+							<p:column headerText="REVENDA" style="width: 15%">
+								<h:outputText value="#{metasLojasCursor.percentual}"/>
+							</p:column>
+							
+							<p:column headerText="CLIENTES" style="width: 15%">
+								<h:outputText value="#{metasLojasCursor.percentual}"/>
+							</p:column>
+							
+							<p:column headerText="TICKET" style="width: 15%">
+								<h:outputText value="#{metasLojasCursor.percentual}"/>
+							</p:column>
+							
+							<p:column headerText="DESCONTO" style="width: 15%">
+								<h:outputText value="#{metasLojasCursor.percentual}"/>
+							</p:column>
+							
+							<p:column headerText="REJEIÇÃO" style="width: 15%">
+								<h:outputText value="#{metasLojasCursor.percentual}"/>
+							</p:column>
+																		
+							<p:column headerText="" style="width: 4%">
+								<p:commandButton type="button" icon="pi pi-search"  styleClass="rounded-button ui-button-success ui-button-flat" style="font-size: 0.5rem; height: 1.5rem; width:1.5rem;" />	
+							</p:column>
+						</p:dataTable>
+					</p:column>
+				</h:panelGrid>
+				<h:panelGrid columns="1">
+					<p:column style="width:100%">
+						<h:panelGrid columns="2" style="width:100%; background-color: #008a97 !important; text-align:center; font-weight:bold;">
+							<h:outputLabel>META VENDEDOR</h:outputLabel>
+							<p:commandButton actionListener="#{metasGrupoBean.novo}" update=":frmDialogoMetasGrupo:pnlDialogoMetasGrupo" icon="pi pi-star" style="font-size: 0.5rem; height: 1.5rem; width:1.5rem;" oncomplete="PF('abrirDialogoMetasGrupo').show();"/>
+						</h:panelGrid>
+						
+						<p:dataTable id="tabelaMetasVendedor" var="metasVendedorCursor" value="#{metasGrupoBean.listaMetasGrupo}" emptyMessage="Nenhum registro encontrado" rows="12" style="margin-right: 0; padding: 0rem; font-size: 13px;" stripedRows="true" showGridlines="true" size="small">
+							<p:column headerText="PERÍODO" style="width: 11%; font-weight:bold;">
+								<h:outputText value="#{metasVendedorCursor.periodo}"/>
+							</p:column>
+																		
+							<p:column headerText="META" style="width: 15%">
+								<h:outputText value="#{metasVendedorCursor.meta}">
+									<f:convertNumber type="currency" currencySymbol="R$"/>	
+								</h:outputText>
+							</p:column>
+																			
+							<p:column headerText="VENDA" style="width: 15%">
+								<h:outputText value="#{metasVendedorCursor.vendas}">
+									<f:convertNumber type="currency" currencySymbol="R$"/>	
+								</h:outputText>
+							</p:column>
+															
+							<p:column headerText="RESULTADO" style="width: 15%">
+								<h:outputText value="#{metasVendedorCursor.percentual}%">
+									<f:convertNumber pattern="#00.00" />
+								</h:outputText>
+							</p:column>
+							
+							<p:column headerText="MANIPULADO" style="width: 15%">
+								<h:outputText value="#{metasVendedorCursor.percentual}"/>
+							</p:column>
+							
+							<p:column headerText="REVENDA" style="width: 15%">
+								<h:outputText value="#{metasVendedorCursor.percentual}"/>
+							</p:column>
+							
+							<p:column headerText="CLIENTES" style="width: 15%">
+								<h:outputText value="#{metasVendedorCursor.percentual}"/>
+							</p:column>
+							
+							<p:column headerText="TICKET" style="width: 15%">
+								<h:outputText value="#{metasVendedorCursor.percentual}"/>
+							</p:column>
+							
+							<p:column headerText="DESCONTO" style="width: 15%">
+								<h:outputText value="#{metasVendedorCursor.percentual}"/>
+							</p:column>
+							
+							<p:column headerText="REJEIÇÃO" style="width: 15%">
+								<h:outputText value="#{metasVendedorCursor.percentual}"/>
+							</p:column>
+																		
+							<p:column headerText="" style="width: 4%">
+								<p:commandButton type="button" icon="pi pi-search"  styleClass="rounded-button ui-button-success ui-button-flat" style="font-size: 0.5rem; height: 1.5rem; width:1.5rem;" />	
+							</p:column>
+						</p:dataTable>
+					</p:column>
+				</h:panelGrid>
+			</h:form>
+														
+			<p:dialog widgetVar="abrirDialogoMetasGrupo" header="METAS - GRUPO" draggable="false" resizable="false" modal="true"> 
+				<h:form id="frmDialogoMetasGrupo">
+					<p:panel id="pnlDialogoMetasGrupo" style="margin-bottom:10px;">
+						<h:panelGrid columns="2" cellpadding="2">        
+							<p:outputLabel value="ANO" style="font-weight:bold"/>
+							<p:selectOneMenu id="ano" value="#{metasGrupoBean.metasGrupoCadastro.ano}"  style="font-weight:bold; width: 200px;">
+								<f:selectItem itemLabel="" itemValue=""/>
+								<f:selectItem itemLabel="2023" itemValue="2023"/>
+								<f:selectItem itemLabel="2024" itemValue="2024"/> 
+							</p:selectOneMenu>
+										
+							<p:outputLabel value="MÊS" style="font-weight:bold"/>
+							<p:selectOneMenu id="mes" value="#{metasGrupoBean.metasGrupoCadastro.mes}"  style="font-weight:bold; width: 200px;">
+								<f:selectItem itemLabel="" itemValue=""/>
+							    <f:selectItem itemLabel="JANEIRO" itemValue="JANEIRO"/>
+						        <f:selectItem itemLabel="FEVEREIRO" itemValue="FEVEREIRO"/>
+					            <f:selectItem itemLabel="MARÇO" itemValue="MARÇO"/>
+					            <f:selectItem itemLabel="ABRIL" itemValue="ABRIL"/>
+			  		            <f:selectItem itemLabel="MAIO" itemValue="MAIO"/>
+					            <f:selectItem itemLabel="JUNHO" itemValue="JUNHO"/>
+							    <f:selectItem itemLabel="JULHO" itemValue="JULHO"/>
+						        <f:selectItem itemLabel="AGOSTO" itemValue="AGOSTO"/>
+					            <f:selectItem itemLabel="SETEMBRO" itemValue="SETEMBRO"/>
+					            <f:selectItem itemLabel="OUTUBRO" itemValue="OUTUBRO"/>
+						        <f:selectItem itemLabel="NOVEMBRO" itemValue="NOVEMBRO"/>
+					            <f:selectItem itemLabel="DEZEMBRO" itemValue="DEZEMBRO"/>
+					        </p:selectOneMenu>
+														               
+							<p:outputLabel value="META" style="font-weight:bold"/>
+							<p:inputNumber id="meta" value="#{metasGrupoBean.metasGrupoCadastro.meta}" maxValue="999999.99" decimalPlaces="2" inputStyle="width:200px" style="font-weight:bold;  width: 150px;"/>												  		 
+						</h:panelGrid>
+						
+						<p:divider/>
+						
+						<p:commandButton value="SALVAR" actionListener="#{metasGrupoBean.salvar}" update="@form :msgGlobal :frmDialogoMetasGrupo:pnlDialogoMetasGrupo :frmMetaGrupoCad:tabelaMetasGrupo" icon="pi pi-check"/>
+					</p:panel>
+				</h:form>
+			</p:dialog>      		        								
+		</ui:define>
+	</ui:composition>
+</html>

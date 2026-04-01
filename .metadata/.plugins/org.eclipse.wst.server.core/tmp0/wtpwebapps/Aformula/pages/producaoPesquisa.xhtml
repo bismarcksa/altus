@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<ui:composition template="/templates/modeloGeral.xhtml">
+		<ui:define name="metadata"> 
+			<f:metadata>
+				<f:event listener="#{producaoBean.carregarPesquisaUsuario}" type="preRenderView"/>
+				<f:event listener="#{producaoBean.carregarCadastro}" type="preRenderView"/>
+			</f:metadata>
+		</ui:define>
+		
+		<ui:define name="conteudo">
+			<h:form id="frmProducaoCad">
+				<p:dataTable id="listagem_producao" var="producaoCursor" widgetVar="tabela_producao" value="#{producaoBean.listaProducoesUsuario}" 
+							 filteredValue="#{producaoBean.listaProducoesFiltrados}" emptyMessage="Nenhum registro encontrado" rows="10" paginator="true" 
+							 paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 			 currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
+                 			 rowsPerPageTemplate="10,20,30,40"  rowStyleClass="#{producao.status le 'PENDENTE' ? 'PENDENTE' : 'DISPENSADO'}" style="margin-right: 0; padding: 0rem; font-size: 15px;" stripedRows="true" size="small">
+					<f:facet name="header">
+						<p:commandButton value="SOLICITAÇÃO DE PRODUÇÃO" actionListener="#{producaoBean.novo}" update="frmDialogoProducao:pnlDialogoProducao" icon="pi pi-star" style="font-weight:bold;" oncomplete="PF('abrirDialogoProducao').show();" rendered="#{autenticacaoBean.funcionarioLogado.funcao == 'ATENDENTE'}"/>
+						<p:button value="SOLICITAÇÃO DE PRODUÇÃO" outcome="/pages/producaoCadastro.xhtml" icon="pi pi-user-plus" style="font-weight:bold;" rendered="#{autenticacaoBean.funcionarioLogado.funcao != 'ATENDENTE'}">
+		  					<f:param name="sacacao" value="Novo"/>
+						</p:button>	
+					</f:facet>
+									
+					<p:column headerText="FILIAL" style="width: 4%">  
+		            	<h:outputText value="#{producaoCursor.filial.codigo}" />  
+		        	</p:column> 
+		        	        	
+		        	<p:column headerText="DAV" style="width: 6%">  
+		            	<h:outputText value="#{producaoCursor.dav}-#{producaoCursor.identificador.toUpperCase()}" />  
+		        	</p:column> 
+		        	
+		        	<p:column headerText="TIPO" style="width: 13%">  
+		            	<h:outputText value="#{producaoCursor.tipo}" />  
+		        	</p:column>  
+		        	 
+		        	<p:column headerText="QUANT." style="width: 5%">
+		        		<h:outputText value="#{producaoCursor.quantidade}" />
+		        		<h:outputText value="  "/>  
+		            	<h:outputText id="capsula_dobrada" value="!" rendered="#{producaoCursor.capsula_dobrada != false}" styleClass="status-badge status-formula" style="font-weight:bold; font-size: 20px;"/>  
+		        	</p:column> 
+		        	        	
+		        	<p:column headerText="SOLICITAÇÃO" style="width: 14%">  
+		            	<h:outputText value="#{producaoCursor.data_solicitacao}">
+		            		<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/>
+		            	</h:outputText>  
+		        	</p:column>    
+		        	
+		        	<p:column headerText="DISPENSAÇÃO" style="width: 15%" >  
+		            	<h:outputText value="#{producaoCursor.data_dispensacao}">
+		            		<f:convertDateTime pattern="dd/MM/yyyy"/>
+		            	</h:outputText>
+		            	<h:outputText value="  "/>  
+		            	<h:outputText id="autoHideTrue" value="!" rendered="#{producaoCursor.data_dispensacao2 != null}" styleClass="status-badge status-novo" style="font-weight:bold; font-size: 20px;"/>
+		            	<p:tooltip for="autoHideTrue" autoHide="true">
+        					<h:outputText value="#{producaoCursor.data_dispensacao2}">
+		            			<f:convertDateTime pattern="dd/MM/yyyy"/>
+		            		</h:outputText>
+    					</p:tooltip>
+		        	</p:column>
+		        	
+		        	<p:column headerText="SOLICITANTE" style="width: 23%">  
+		            	<h:outputText value="#{producaoCursor.funcionario.nome.toUpperCase()}"/>	
+		        	</p:column>
+		        	    	
+		        	<p:column headerText="STATUS" style="width: 13%">	         		
+ 		         		<h:outputText value="#{producaoCursor.status}" styleClass="status-badge status-#{producaoCursor.status.toLowerCase()}" style="font-weight:bold; font-size: 20px;"/>
+		        	</p:column>
+
+					<p:column headerText="" style="width: 2.6%" exportable="false">					
+						<p:button value="." outcome="/pages/producaoCadastro.xhtml" style="width:33px;" rendered="#{producaoCursor.status == 'PENDENTE'}" styleClass="ui-button-secondary"  icon="pi pi-file-edit">
+  							<f:param name="saccod" value="#{producaoCursor.codigo}"/>
+						 	<f:param name="sacacao" value="Editar"/>
+						</p:button>
+					</p:column>	
+					
+ 					<p:column headerText="" style="width: 2.6%" exportable="false">					
+						<p:button value="." outcome="/pages/producaoCadastro.xhtml" style="width:33px;" rendered="#{producaoCursor.status == 'PENDENTE'}" styleClass="ui-button-secondary"  icon="pi pi-trash">
+  							<f:param name="saccod" value="#{producaoCursor.codigo}"/>
+						 	<f:param name="sacacao" value="Excluir"/>
+						</p:button>				
+					</p:column>	
+ 
+				</p:dataTable>
+			</h:form>
+			
+			<p:dialog widgetVar="abrirDialogoProducao" header="PRODUÇÃO" draggable="false" resizable="false" modal="true"> 
+				<h:form id="frmDialogoProducao">
+					<p:panel id="pnlDialogoProducao" style="margin-bottom:10px;">
+						<h:panelGrid columns="1" cellpadding="2">            			    
+							<h:panelGrid id="pnlSacCadDados" columns="4">
+				               	<p:outputLabel for="filial" value="FILIAL" style="font-weight:bold;"/>
+								<p:selectOneMenu id="filial" value="#{producaoBean.producaoCadastro.filial}" converter="filialConverter" style="width: 272px;">
+									<f:selectItem itemValue="" itemLabel=""/>
+									<f:selectItems value="#{producaoBean.listaFiliais}" itemValue="#{filial}" itemLabel="#{filial.codigo} - #{filial.razaoSocial.toUpperCase()}" var="filial"/>
+									<f:validateBean />
+								</p:selectOneMenu>						
+										
+						        <p:outputLabel for="tipo" value="TIPO" style="font-weight:bold"/>
+								<p:selectOneMenu id="tipo" value="#{producaoBean.producaoCadastro.tipo}" style="font-weight:bold; width: 200px">
+						           	<f:selectItem itemLabel="" itemValue=""/>
+						            <f:selectItem itemLabel="SACHÊ" itemValue="SACHÊ"/>
+						            <f:selectItem itemLabel="CÁPSULA ÓLEOSA" itemValue="CÁPSULA ÓLEOSA"/>
+						            <f:selectItem itemLabel="SHAKE" itemValue="SHAKE"/>
+						            <f:selectItem itemLabel="ENVASE" itemValue="ENVASE"/>
+						        </p:selectOneMenu>
+						        
+						        <p:outputLabel value="DAV" style="font-weight:bold;"/>
+								<p:inputNumber id="dav" value="#{producaoBean.producaoCadastro.dav}" style="font-weight:bold;" thousandSeparator="" decimalSeparator="." decimalPlaces="0" maxValue="999999999" />
+						  				
+						  		<p:outputLabel value="IDENTIF. DAV" style="font-weight:bold;"/>
+								<p:inputText id="identificador" value="#{producaoBean.producaoCadastro.identificador}" style="font-weight:bold; text-transform:uppercase" maxlength="1"/>
+						            
+						  		<p:outputLabel value="QUANT. " style="font-weight:bold" />
+			 					<p:inputNumber id="quatidade_producao" value="#{producaoBean.producaoCadastro.quantidade}" style="font-weight:bold" thousandSeparator="" decimalSeparator="." decimalPlaces="0" maxValue="999999999"/>
+						                
+						        <p:outputLabel for="data_dispensacao" value="DISPENSAÇÃO " style="font-weight:bold; width: 100px"/>
+						        <p:calendar id="data_dispensacao" value="#{producaoBean.producaoCadastro.data_dispensacao}" disabledWeekends="true" readonlyInput="true" showOn="button" mindate="#{producaoBean.hoje}" style="font-weight:bold; width: 100px;"/>
+						            
+						        <p:outputLabel for="status" value="STATUS" style="font-weight:bold; width: 100px" rendered="false"/>
+								<p:selectOneMenu id="status" value="#{producaoBean.producaoCadastro.status}" style="font-weight:bold" rendered="false">
+						           	<f:selectItem itemLabel="" itemValue=""/>
+						            <f:selectItem itemLabel="PENDENTE" itemValue="PENDENTE"/>
+						            <f:selectItem itemLabel="PRODUÇÃO" itemValue="PRODUÇÃO"/>
+						            <f:selectItem itemLabel="DISPENSADO" itemValue="DISPENSADO"/>
+						        </p:selectOneMenu>    
+				            </h:panelGrid>
+ 		
+				            <h:panelGrid columns="2">
+				            	<p:commandButton value="SALVAR" actionListener="#{producaoBean.salvar}" update=":msgGlobal :frmProducaoCad :frmProducaoCad" icon="pi pi-check" />
+				            	<p:button value="VOLTAR" outcome="/pages/producaoPesquisa.xhtml" icon="pi pi-chevron-left"/>
+				        	</h:panelGrid>					
+						</h:panelGrid>
+					</p:panel>
+				</h:form>
+			</p:dialog>			
+	</ui:define>
+	</ui:composition>
+</html>
+   

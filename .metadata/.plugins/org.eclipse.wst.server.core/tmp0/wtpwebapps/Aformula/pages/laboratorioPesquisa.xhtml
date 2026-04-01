@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<ui:composition template="/templates/modeloGeral.xhtml">
+		<ui:define name="metadata"> 
+			<f:metadata>
+				<f:event listener="#{producaoBean.carregarPesquisaPendente}" type="preRenderView"/>
+			</f:metadata>
+		</ui:define>
+		
+		<ui:define name="conteudo">
+			<h:form id="frmProducaoCad">
+				<p:dataTable id="listagem_producao" var="producaoCursor" widgetVar="tabela_producao" value="#{producaoBean.listaProducoes}" 
+							 filteredValue="#{producaoBean.listaProducoesFiltrados}" emptyMessage="Nenhum registro encontrado" rows="10" paginator="true" 
+							 paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 			 currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
+                 			 rowsPerPageTemplate="10,20,30,40"  rowStyleClass="#{producao.status le 'PENDENTE' ? 'PENDENTE' : 'DISPENSADO'}" style="margin-right: 0; padding: 0rem; font-size: 15px;" stripedRows="true" size="small">
+								
+					<p:column headerText="FILIAL" style="width: 4%"> 
+		            	<h:outputText value="#{producaoCursor.filial.codigo}" />  
+		        	</p:column> 
+		        	        	
+		        	<p:column headerText="DAV" style="width: 5%">  
+		            	<h:outputText value="#{producaoCursor.dav}" />  
+		        	</p:column> 
+		        	
+		        	<p:column headerText="TIPO" style="width: 12%" > 
+		            	<h:outputText value="#{producaoCursor.tipo}" />  
+		        	</p:column>  
+		        	 
+		        	<p:column headerText="QUANT." style="width: 5%">  
+		            	<h:outputText value="#{producaoCursor.quantidade}" />  
+		        	</p:column> 
+		        	        	
+		        	<p:column headerText="SOLICITAÇÃO" style="width: 13%">  
+		            	<h:outputText value="#{producaoCursor.data_solicitacao}">
+		            		<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/>
+		            	</h:outputText>  
+		        	</p:column>    
+		        	
+		        	<p:column headerText="DISPENSAÇÃO" style="width: 12%">  
+		            	<h:outputText value="#{producaoCursor.data_dispensacao}">
+		            		<f:convertDateTime pattern="dd/MM/yyyy"/>
+		            	</h:outputText>  
+		        	</p:column>
+
+		        	
+		        	<p:column headerText="TÉCNICO" style="width: 20%">  
+		            		
+		        	</p:column>
+		        	
+		        	    	
+		        	<p:column headerText="STATUS" style="width: 13%">
+ 		         		<h:outputText value="#{producaoCursor.status}" styleClass="status-badge status-#{producaoCursor.status.toLowerCase()}" style="font-weight:bold; font-size: 20px;"/>
+		        	</p:column>
+		
+	 				<p:column headerText="OPÇÕES" style="width: 10%" exportable="false">					
+						<h:form>
+							<p:commandButton value="INICIAR" actionListener="#{fechamentoProducaoBean.editar}" update=":msgGlobal" styleClass="ui-button-raised ui-button-success" rendered="#{producaoCursor.status == 'PENDENTE'}" icon="pi pi-play">
+							    <p:confirm header="CONFIRMAÇÃO" message="INICIAR PRODUÇÃO - DAV: #{producaoCursor.dav}" icon="pi pi-exclamation-triangle"/>
+							</p:commandButton>
+							
+							<p:commandButton value="DISPENSAR" actionListener="#{fechamentoProducaoBean.editar}" update=":msgGlobal" styleClass="mr-2" rendered="#{producaoCursor.status == 'PRODUÇÃO'}" icon="pi pi-check">
+								<p:confirm header="CONFIRMAÇÃO" message="DISPENSAR PRODUÇÃO?" icon="pi pi-exclamation-triangle"/>
+							</p:commandButton>
+							
+							<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="400">
+							    <p:commandButton value="NÃO" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+							    <p:commandButton value="SIM" type="button" styleClass="ui-confirmdialog-yes" />
+							</p:confirmDialog>
+						</h:form>				
+					</p:column>	
+ 
+				</p:dataTable>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>
+   

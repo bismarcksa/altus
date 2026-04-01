@@ -1,0 +1,3 @@
+1771244284111	Rename package 'com.algaworks.brewer.venda'
+1771244478499	Rename field 'tabelaItensVenda'
+1771673279062	Extract method 'calcularValorTotal'

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<ui:composition template="/templates/modeloGeral.xhtml">
+		<ui:define name="metadata"> 
+			<f:metadata>
+				<f:event listener="#{entregaBean.carregarPesquisaEntregaFin}" type="preRenderView"/>
+				<f:event listener="#{entregaBean.carregarCadastro}" type="preRenderView"/>
+			</f:metadata>
+			<h:outputScript>
+		        function desabilitaDomingo(date) {
+		            var day = date.getDay();
+		            return [day !== 0, '']; // Retorna true para habilitar, false para desabilitar.
+		        }
+		    </h:outputScript>
+		    <style>
+		        .uppercase {
+		            text-transform: uppercase;
+		        }
+		       
+		       .custom-panelgrid .ui-panelgrid-cell:nth-child(2n+1) {
+				    width: 150px; /* Defina a largura desejada para a primeira coluna */
+				    font-weight: bold; /* Mantém o texto em negrito */
+				}
+		    </style>
+		</ui:define>
+		
+		<ui:define name="conteudo">
+			<h:form id="frmEntregaCad">		
+				<div style="text-align: left; margin-bottom: 7px; margin-top: 7px;">
+					<p:commandButton value="PROCESSAR ENTREGAS" actionListener="#{entregaBean.processarRegistrosSelecionados}" update=":msgGlobal listagem_entrega" icon="pi pi-cog" styleClass="ui-button-success">
+						<p:confirm header="CONFIRMAÇÃO" message="PROCESSAR as entregas SELECIONADAS?" icon="pi pi-exclamation-triangle"/>
+					</p:commandButton>
+						
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="500">
+						<p:commandButton value="NÃO" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+						<p:commandButton value="SIM" type="button" styleClass="ui-confirmdialog-yes" />
+					</p:confirmDialog>
+
+    			</div>
+				<p:dataTable id="listagem_entrega" var="entregaCursor" widgetVar="tabela_entrega" value="#{entregaBean.listaEntregas}" 
+							 filteredValue="#{entregaBean.listaEntregasFiltrados}" emptyMessage="Nenhum registro encontrado" rows="20" paginator="true" 
+							 paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 			 currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
+                 			 rowsPerPageTemplate="20,40,60,80"  rowStyleClass="#{entrega.status le 'PENDENTE' ? 'PENDENTE' : 'REALIZADA'}" style="margin-right: 0; padding: 0rem; font-size: 15px;" 
+                 			 stripedRows="true" size="small" rowKey="#{entregaCursor.codigo}" selection="#{entregaBean.entregasSelecionadas}" selectionPageOnly="false" selectionRowMode="checkbox" cellNavigation="true">					
+					
+					<p:column selectionMode="multiple" style="width: 2%" />
+					
+					<p:column style="width:1.7rem" ariaHeaderText="Row Toggler">
+						<p:rowToggler/>
+					</p:column>
+									
+					<p:column  headerText="DATA" style="width: 7%"> 
+		            	<h:outputText value="#{entregaCursor.data_entrega}">
+		            		<f:convertDateTime pattern="dd/MM/yyyy"/>
+		            	</h:outputText>  
+		        	</p:column> 
+		        	        	
+		        	<p:column headerText="DAV" style="width: 12%" filterBy="#{entregaCursor.dav}">  
+		            	<h:outputText value="#{entregaCursor.dav} - #{entregaCursor.identificador}" />  
+		        	</p:column> 	        		        	
+		        	
+		        	<p:column field="entregador" filterBy="#{entregaCursor.entregador}" headerText="ENTREGADOR" style="width: 10%" filterMatchMode="exact" sortable="false">	
+		        		<f:facet name="filter">
+                			<p:selectOneMenu  onchange="PF('tabela_entrega').filter()" styleClass="custom-filter" id="entregador" value="#{entregaBean.entregaCadastro.entregador}" converter="entregadorConverter">
+			            		<f:selectItem itemLabel="TODOS" itemValue="#{null}" noSelectionOption="true" />
+			                	<f:selectItems value="#{entregaBean.listaEntregadores}" itemValue="#{entregador}" itemLabel="#{entregador.codigo} - #{entregador.nome.toUpperCase()}" var="entregador"/>		                        		                
+			            	</p:selectOneMenu>
+            			</f:facet>	  
+		            	<h:outputText value="#{entregaCursor.entregador.nome.toUpperCase()}"/>	
+		        	</p:column>		        	       
+		        	
+		        	<p:column headerText="CLIENTE" style="width: 18%" filterBy="#{entregaCursor.cliente}">  
+		            	<h:outputText value="#{entregaCursor.cliente}" />  
+		        	</p:column>  
+		        	 
+		        	<p:column field="bairro" filterBy="#{entregaCursor.bairro}" headerText="BAIRRO" style="width: 16%" filterMatchMode="exact" sortable="false">	 
+		        		<f:facet name="filter">
+                			<p:selectOneMenu  onchange="PF('tabela_entrega').filter()" styleClass="custom-filter" id="bairro" value="#{entregaBean.entregaCadastro.bairro}" converter="bairroConverter" filter="true" filterMatchMode="contains" filterNormalize="true">
+			            		<f:selectItem itemLabel="TODOS" itemValue="#{null}" noSelectionOption="true" />
+			                	<f:selectItems value="#{entregaBean.listaBairrosEntrega}" itemValue="#{bairro}" itemLabel="#{bairro.descricao.toUpperCase()}" var="bairro"/>		                        		                
+			            	</p:selectOneMenu>
+            			</f:facet> 
+		            	<h:outputText value="#{entregaCursor.bairro.descricao}" />  
+		        	</p:column>
+		        	
+		        	<p:column headerText="TAXA" style="width: 6%">  
+		            	<h:outputText value="#{entregaCursor.taxa}">  
+							<f:convertNumber type="currency" currencySymbol="R$"/>
+						</h:outputText>
+		        	</p:column>
+		        	
+		        	<p:column headerText="V. DAV" style="width: 6%">  
+		            	<h:outputText value="#{entregaCursor.valor_dav}">  
+							<f:convertNumber type="currency" currencySymbol="R$"/>
+						</h:outputText>
+		        	</p:column>
+		        	
+		        	<p:column headerText="V. RECEBER" style="width: 7%">  
+		            	<h:outputText value="#{entregaCursor.valor_receber}">
+		            		<f:convertNumber type="currency" currencySymbol="R$"/>
+						</h:outputText>  
+		        	</p:column> 	
+		        	
+		        	<p:column headerText="" style="width:2%" >		         		 		         		
+		        		<h:outputText id="autorizacao_entrega" value="!"  styleClass="#{entregaCursor.autorizacao_entrega le false ? 'status-badge status-pendente' : 'status-badge status-dispensado'}" style="font-weight:bold; font-size: 20px;" rendered="#{entregaCursor.entregador.vinculo != 'CELETISTA'}"/>	        		
+		        		<p:tooltip for="autorizacao_entrega" autoHide="true">
+        					<h:outputText value="#{entregaCursor.autorizacao_entrega le false ? 'NÃO AUTORIZADO' : 'AUTORIZADO'}"/>
+    					</p:tooltip>												             			
+		        	</p:column>
+		        	
+		        	<p:column field="status" filterBy="#{entregaCursor.status}" headerText="STATUS" style="width: 12%" filterMatchMode="exact" sortable="false">	
+		        		<f:facet name="filter">
+                			<p:selectOneMenu onchange="PF('tabela_entrega').filter()" styleClass="custom-filter">
+                    			<f:selectItem itemLabel="TODOS" itemValue="#{null}" noSelectionOption="true" />
+                    			<f:selectItems value="#{entregaCursor.status}" />
+                    			<f:selectItem itemLabel="PENDENTE" itemValue="PENDENTE" noSelectionOption="true" />
+                    			<f:selectItem itemLabel="REALIZADA" itemValue="REALIZADA" noSelectionOption="true" />
+                			</p:selectOneMenu>
+            			</f:facet>	         		
+ 		         		<h:outputText value="#{entregaCursor.status}" styleClass="status-badge status-#{entregaCursor.status.toLowerCase()}" style="font-weight:bold; font-size: 20px;"/>
+		        	</p:column>	        	     			       
+					
+ 					<p:column headerText="" style="width: 2.6%" exportable="false">					
+						<p:button value="." outcome="/pages/entregaCadastro.xhtml" style="width:33px;" styleClass="ui-button-secondary"  icon="pi pi-check" rendered="#{entregaCursor.status == 'PENDENTE'}">
+  							<f:param name="saccod" value="#{entregaCursor.codigo}"/>
+						 	<f:param name="sacacao" value="Editar"/>
+						</p:button>					
+					</p:column>						
+					
+					<p:rowExpansion>
+		                <div class="entrega_observacoes">                   		                                           
+		            	 	<p:panelGrid columns="2" styleClass="custom-panelgrid">
+			            		<p:outputLabel value="ATENDENTE: " style="font-weight:bold; width: 50px"/>
+			            		<h:outputText value="#{entregaCursor.funcionario.nome.toUpperCase()}"/>
+			            			
+			            		<p:outputLabel value="AUTORIZAÇÃO: " style="font-weight:bold; width: 50px"/>
+			            		<h:outputText value="#{entregaCursor.autorizacao_entrega le false ? 'NÃO AUTORIZADO' : 'AUTORIZADO'}"/>
+			            			
+			            		<p:outputLabel value="FUNCIONÁRIO AUT.: " style="font-weight:bold; width: 50px" rendered="#{entregaCursor.autorizador.nome != null}"/>
+			            		<h:outputText value="#{entregaCursor.autorizador.nome}" rendered="#{entregaCursor.autorizador.nome != null}"/>
+			            			
+			            		<p:outputLabel value="DATA AUT.: " style="font-weight:bold; width: 50px" rendered="#{entregaCursor.autorizador.nome != null}"/>
+			            		<h:outputText value="#{entregaCursor.data_autorizacao}" rendered="#{entregaCursor.autorizador.nome != null}">
+			            			<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/>
+			            		</h:outputText>
+			            		
+			            		<p:outputLabel value="FUNCIONÁRIO FIN.: " style="font-weight:bold; width: 50px" rendered="#{entregaCursor.financeiro.nome != null}"/>
+			            		<h:outputText value="#{entregaCursor.financeiro.nome}" rendered="#{entregaCursor.financeiro.nome != null}"/>
+			            			
+			            		<p:outputLabel value="DATA FIN.: " style="font-weight:bold; width: 50px" rendered="#{entregaCursor.financeiro.nome != null}"/>
+			            		<h:outputText value="#{entregaCursor.data_financeiro}" rendered="#{entregaCursor.financeiro.nome != null}">
+			            			<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/>
+			            		</h:outputText>			            						            			
+			            			
+			            		<p:outputLabel value="CIDADE: " style="font-weight:bold; width: 50px" rendered="#{entregaCursor.cidade.nome != null}"/>
+			            		<h:outputText value="#{entregaCursor.cidade.nome.toUpperCase()} - #{entregaCursor.cidade.uf.toUpperCase()}" rendered="#{entregaCursor.cidade.nome != null}"/>
+			            			
+			            		<p:outputLabel value="OBSERVAÇÃO: " style="font-weight:bold; width: 50px" rendered="#{entregaCursor.observacao != null}"/>
+			            		<h:outputText value="#{entregaCursor.observacao}" rendered="#{entregaCursor.observacao != null}"/>	
+			            		
+			            		<p:outputLabel value="OBSERVAÇÃO FIN: " style="font-weight:bold; width: 50px" rendered="#{entregaCursor.observacao_fin != null}"/>
+			            		<h:outputText value="#{entregaCursor.observacao_fin}" rendered="#{entregaCursor.observacao_fin != null}"/>	            			
+		            		</p:panelGrid>
+		                </div>
+		            </p:rowExpansion> 
+				</p:dataTable>
+			</h:form>				
+	</ui:define>
+	</ui:composition>
+</html>
+   

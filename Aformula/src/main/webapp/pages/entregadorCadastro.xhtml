@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<ui:composition template="/templates/modeloGeral.xhtml">
+		<ui:define name="metadata">
+			<f:metadata>
+			 	<f:viewParam name="filacao" value="#{entregadorBean.acao}"/>
+				<f:viewParam name="filcod" value="#{entregadorBean.codigo}"/>		
+	 			<f:event listener="#{entregadorBean.carregarCadastro}" type="preRenderView"/>
+	 		</f:metadata>
+		</ui:define>
+		<ui:define name="conteudo">
+			<h:form id="frmFilCad">
+				<p:toolbar>
+					<f:facet name="left">
+						<h:outputText value="CADASTRO DE ENTREGADOR"/>
+					</f:facet>
+				</p:toolbar>
+				
+				<h:panelGrid id="pnlFilCadDados" columns="4" cellpadding="5">
+					<p:outputLabel value="CÓDIGO " style="font-weight:bold"/>
+					<p:inputText size="20" readonly="true"/>
+					
+					<p:outputLabel value="NOME" style="font-weight:bold"/>
+					<p:inputText maxlength="100" size="30" value="#{entregadorBean.entregadorCadastro.nome}" readonly="#{filialBean.acao == 'Excluir'}">
+						<f:validateBean />
+					</p:inputText>
+									
+					<p:outputLabel value="VÍNCULO " style="font-weight:bold"/>
+					<p:selectOneMenu size="40" value="#{entregadorBean.entregadorCadastro.vinculo}" style="width: 227px;">
+						<f:validateBean />
+						<f:selectItem itemValue="" itemLabel="Selecione uma opção"/>
+						<f:selectItem itemValue="CELETISTA" itemLabel="CELETISTA"/>
+						<f:selectItem itemValue="TERCEIRIZADO" itemLabel="TERCEIRIZADO"/>
+						<f:selectItem itemValue="OUTROS" itemLabel="OUTROS"/>								
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="TRANSPORTADORA" style="font-weight:bold" />
+			        <p:toggleSwitch id="transportadora" value="#{entregadorBean.entregadorCadastro.transportadora}" onIcon="pi pi-check" offIcon="pi pi-times"/>
+					
+					<p:outputLabel value="STATUS" style="font-weight:bold" />
+			        <p:toggleSwitch id="status" value="#{entregadorBean.entregadorCadastro.status}" onIcon="pi pi-check" offIcon="pi pi-times"/>			     
+				</h:panelGrid>
+				
+				<h:panelGrid columns="5">
+  				    <p:commandButton value="NOVO" actionListener="#{entregadorBean.novo}" update=":frmFilCad:pnlFilCadDados" rendered="#{entregadorBean.acao == 'Novo'}" icon="pi pi-user-plus"/> 
+					<p:commandButton value="SALVAR" actionListener="#{entregadorBean.salvar}" update=":msgGlobal :frmFilCad:pnlFilCadDados" rendered="#{entregadorBean.acao == 'Novo'}" icon="pi pi-check"/>
+					<p:commandButton value="EXCLUIR" actionListener="#{entregadorBean.excluir}" update=":msgGlobal" rendered="#{entregadorBean.acao == 'Excluir'}" icon="pi pi-trash"/> 
+					<p:commandButton value="EDITAR" actionListener="#{entregadorBean.editar}" update=":msgGlobal" rendered="#{entregadorBean.acao == 'Editar'}" icon="pi pi-file-edit"/>
+					
+					<p:button value="VOLTAR" outcome="/pages/entregadorPesquisa.xhtml" icon="pi pi-chevron-left"/>
+				</h:panelGrid>	
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>

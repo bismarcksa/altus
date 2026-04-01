@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloGeral.xhtml">
+
+    <ui:define name="metadata"> 
+        <f:metadata>
+            <f:event listener="#{controlePontoBean.carregarPesquisaUsuario}" type="preRenderView"/>
+            <f:event listener="#{controlePontoBean.carregarCadastro}" type="preRenderView"/>
+        </f:metadata>
+
+        <style>
+            body, .ui-widget, .ui-button, .ponto-card, .ponto-header, .ponto-detail {
+                font-family: 'Open Sans', sans-serif;
+            }
+
+            .card-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 1rem;
+                margin-top: 1rem;
+            }
+
+            .ponto-card {
+                background-color: #ffffff;
+                border-radius: 10px;
+                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+                padding: 1rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                transition: box-shadow 0.3s, transform 0.3s;
+            }
+
+            .ponto-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+            }
+
+            .ponto-header {
+                font-size: 1.3rem;
+                font-weight: 600;
+                color: #333;
+                margin-bottom: 0.5rem;
+            }
+
+            .ponto-detail {
+                font-size: 1rem;
+                color: #444;
+                margin-bottom: 0.3rem;
+                display: flex;
+                align-items: center;
+            }
+
+            .ponto-detail i {
+                margin-right: 6px;
+                color: #888;
+            }
+
+            .banco-positivo {
+                color: #28a745;
+                font-weight: bold;
+            }
+
+            .banco-negativo {
+                color: #dc3545;
+                font-weight: bold;
+            }
+
+            .banco-zero {
+                color: #ffc107;
+                font-weight: bold;
+            }
+
+            body .status-badge,.status-badge {
+			    font-size: 1.4rem !important;
+			    font-weight: bold !important;
+			    height: 42px;
+			    min-width: 150px;
+			    display: inline-flex;
+			    align-items: center;
+			    justify-content: center;
+			    text-transform: uppercase;
+			    letter-spacing: 0.5px;
+			}
+
+            .status-aberto {
+                background-color: #28a745;
+                color: #fff;
+            }
+
+            .status-fechado {
+                background-color: #dc3545;
+                color: #fff;
+            }
+
+            .card-actions {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 1rem;
+            }
+
+            .ui-button-secondary {
+                background-color: #007bff;
+                border: none;
+                color: #fff;
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem !important;
+                font-weight: 600;
+                border-radius: 6px;
+                height: 42px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                text-transform: uppercase;
+            }
+
+            .ui-button-secondary:hover {
+                background-color: #0056b3;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="conteudo">
+        <h:form id="frmControlePonto">
+            <div class="card-grid">
+                <ui:repeat value="#{controlePontoBean.listaControlePontosUsuario}" var="controlePontoCursor">
+                    <div class="ponto-card">
+
+                        <div class="ponto-header">
+                            <i class="pi pi-user" style="margin-right:5px;"></i> 
+                            #{controlePontoCursor.funcionario.nome.toUpperCase()}
+                        </div>
+
+                        <div class="ponto-detail">
+                            <i class="pi pi-briefcase"></i>
+                            #{controlePontoCursor.funcionario.funcao.toUpperCase()}
+                        </div>
+
+                        <div class="ponto-detail">
+                            <i class="pi pi-calendar"></i>
+                            #{controlePontoCursor.competencia}
+                        </div>
+
+                        <div class="ponto-detail">
+                            <i class="pi pi-clock"></i>
+                            <span class="#{controlePontoCursor.bancoHora gt 0 ? 'banco-positivo' : 
+                                            (controlePontoCursor.bancoHora lt 0 ? 'banco-negativo' : 
+                                            'banco-zero')}">
+                                #{controlePontoCursor.bancoHoraTexto}
+                            </span>
+                        </div>
+
+                        <div class="card-actions">
+                            <p:button value="Ver Ponto" outcome="/pages/controlePontoDetalhe.xhtml"  icon="pi pi-eye" styleClass="ui-button-secondary">
+                                <f:param name="funccod" value="#{controlePontoCursor.funcionario.codigo}" />
+                                <f:param name="compet" value="#{controlePontoCursor.competencia}" />
+                            </p:button>
+
+                            <div class="status-badge status-#{controlePontoCursor.status.toLowerCase()}">
+                                #{controlePontoCursor.status}
+                            </div>
+                        </div>
+
+                    </div>
+                </ui:repeat>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+</html>

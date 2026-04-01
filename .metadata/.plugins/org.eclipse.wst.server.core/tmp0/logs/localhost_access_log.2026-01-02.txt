@@ -1,0 +1,19 @@
+127.0.0.1 - - [02/Jan/2026:06:39:40 -0300] "GET / HTTP/1.1" 404 763
+0:0:0:0:0:0:0:1 - - [02/Jan/2026:06:39:41 -0300] "GET /aformula/ HTTP/1.1" 302 -
+0:0:0:0:0:0:0:1 - - [02/Jan/2026:06:39:52 -0300] "-" 400 -
+0:0:0:0:0:0:0:1 - - [02/Jan/2026:06:39:53 -0300] "-" 400 -
+0:0:0:0:0:0:0:1 - - [02/Jan/2026:06:39:53 -0300] "-" 400 -
+0:0:0:0:0:0:0:1 - - [02/Jan/2026:06:39:53 -0300] "-" 400 -
+0:0:0:0:0:0:0:1 - - [02/Jan/2026:06:39:54 -0300] "GET /aformula/ HTTP/1.1" 200 5269
+0:0:0:0:0:0:0:1 - - [02/Jan/2026:06:39:54 -0300] "-" 400 -
+0:0:0:0:0:0:0:1 - - [02/Jan/2026:06:39:54 -0300] "-" 400 -
+0:0:0:0:0:0:0:1 - - [02/Jan/2026:06:39:54 -0300] "GET /aformula/javax.faces.resource/theme.css.xhtml?ln=primefaces-saga&v=13.0.0-RC2 HTTP/1.1" 200 201489
+0:0:0:0:0:0:0:1 - - [02/Jan/2026:06:39:54 -0300] "GET /aformula/javax.faces.resource/estilos.css.xhtml?ln=css HTTP/1.1" 200 3905
+0:0:0:0:0:0:0:1 - - [02/Jan/2026:06:39:54 -0300] "GET /aformula/javax.faces.resource/jquery/jquery.js.xhtml?ln=primefaces&v=13.0.0-RC2 HTTP/1.1" 200 87555
+0:0:0:0:0:0:0:1 - - [02/Jan/2026:06:39:54 -0300] "GET /aformula/javax.faces.resource/primeicons/primeicons.css.xhtml?ln=primefaces&v=13.0.0-RC2 HTTP/1.1" 200 11223
+0:0:0:0:0:0:0:1 - - [02/Jan/2026:06:39:54 -0300] "GET /aformula/javax.faces.resource/core.js.xhtml?ln=primefaces&v=13.0.0-RC2 HTTP/1.1" 200 57335
+0:0:0:0:0:0:0:1 - - [02/Jan/2026:06:39:54 -0300] "GET /aformula/javax.faces.resource/jquery/jquery-plugins.js.xhtml?ln=primefaces&v=13.0.0-RC2 HTTP/1.1" 200 146776
+0:0:0:0:0:0:0:1 - - [02/Jan/2026:06:39:54 -0300] "GET /aformula/javax.faces.resource/aformula.png.xhtml?ln=images HTTP/1.1" 200 103462
+0:0:0:0:0:0:0:1 - - [02/Jan/2026:06:39:54 -0300] "GET /aformula/javax.faces.resource/components.js.xhtml?ln=primefaces&v=13.0.0-RC2 HTTP/1.1" 200 495734
+0:0:0:0:0:0:0:1 - - [02/Jan/2026:06:39:54 -0300] "GET /aformula/javax.faces.resource/components.css.xhtml?ln=primefaces&v=13.0.0-RC2 HTTP/1.1" 200 109057
+0:0:0:0:0:0:0:1 - - [02/Jan/2026:06:39:55 -0300] "GET /aformula/javax.faces.resource/primeicons/primeicons.woff2.xhtml?ln=primefaces&v=13.0.0-RC2 HTTP/1.1" 200 30217

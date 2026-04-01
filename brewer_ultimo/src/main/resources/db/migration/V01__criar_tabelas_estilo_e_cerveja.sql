@@ -1,0 +1,30 @@
+CREATE TABLE estilo (
+  codigo BIGINT PRIMARY KEY,
+  descricao VARCHAR(50) NOT NULL
+);
+
+CREATE SEQUENCE sequence_estilo INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1;
+
+CREATE TABLE cerveja (
+  codigo BIGINT PRIMARY KEY,
+  sku VARCHAR(50) NOT NULL,
+  nome VARCHAR(80) NOT NULL,
+  descricao TEXT NOT NULL,
+  valor DECIMAL(10, 2) NOT NULL,
+  teor_alcoolico DECIMAL(10, 2) NOT NULL,
+  comissao DECIMAL(10, 2) NOT NULL,
+  quantidade_estoque INT NOT NULL,
+  sabor VARCHAR(50) NOT NULL,
+  origem VARCHAR(50) NOT NULL,
+  codigo_estilo BIGINT NOT NULL,
+  foto VARCHAR(150),
+  content_type VARCHAR(100),
+  CONSTRAINT fk_codigo_estilo FOREIGN KEY (codigo_estilo) REFERENCES estilo(codigo) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE SEQUENCE sequence_cerveja INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1;
+
+INSERT INTO estilo VALUES (1, 'Amber Lager');
+INSERT INTO estilo VALUES (2, 'Dark Lager');
+INSERT INTO estilo VALUES (3, 'Pale Lager');
+INSERT INTO estilo VALUES (4, 'Pilsner');

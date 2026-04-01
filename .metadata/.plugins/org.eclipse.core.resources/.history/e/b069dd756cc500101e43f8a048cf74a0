@@ -1,0 +1,51 @@
+package com.algaworks.brewer.controller;
+
+import com.algaworks.brewer.model.Cidade;
+import com.algaworks.brewer.model.Cliente;
+import com.algaworks.brewer.model.TipoPessoa;
+import com.algaworks.brewer.repository.CidadeRepository;
+import com.algaworks.brewer.repository.EstadoRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
+
+@Controller
+@RequestMapping("/cidades")
+public class CidadesController {
+
+	@Autowired
+	private EstadoRepository estadoRepository;	
+	
+    @Autowired
+    private CidadeRepository cidadeRepository;
+
+    @RequestMapping("/novo")
+    public String novo(){
+        return "cidade/CadastroCidade";
+    }
+    public ModelAndView novo(Cidade cidade){
+        ModelAndView mv = new ModelAndView("cidade/CadastroCidade");
+        mv.addObject("estados", estadoRepository.findAll());
+        return mv;
+    }
+
+    @Cacheable("cidades")
+    @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody List<Cidade> pesquisarPorCodigoEstado(
+            @RequestParam(name = "estado", defaultValue = "-1") Long codigoEstado){
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return cidadeRepository.findByEstadoCodigo(codigoEstado);
+    }
+}
