@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Copy element &apos;EstiloService.java&apos; to &apos;com.algaworks.brewer.services.EstiloService.java&apos;&#x0D;&#x0A;- Original project: &apos;brewer&apos;&#x0D;&#x0A;- Destination element: &apos;com.algaworks.brewer.services.EstiloService.java&apos;&#x0D;&#x0A;- Original element: &apos;com.algaworks.brewer.services.EstiloService.java&apos;" description="Copy compilation unit" destination="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.algaworks.brewer.services{EstiloService.java" element1="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.algaworks.brewer.services{EstiloService.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1763574151147" units="1" version="1.0"/>
-</session>

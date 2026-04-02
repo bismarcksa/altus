@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Delete resource &apos;brewer/src/main/resources/static/stylesheets/vendors/uikit.min.css&apos;" deleteContents="false" description="Delete resource &apos;brewer/src/main/resources/static/stylesheets/vendors/uikit.min.css&apos;" element1="/brewer/src/main/resources/static/stylesheets/vendors/uikit.min.css" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1759028029590"/>
-</session>

@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename resource &apos;brewer/src/main/resources/static/javascripts/cerveja-upload-foto.js&apos; to &apos;cerveja.upload-foto.js&apos;" description="Rename resource &apos;cerveja-upload-foto.js&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/main/resources/static/javascripts/cerveja-upload-foto.js" name="cerveja.upload-foto.js" stamp="1759028712912" updateReferences="true"/>
-</session>
