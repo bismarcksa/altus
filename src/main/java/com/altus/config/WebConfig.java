@@ -2,9 +2,10 @@ package com.altus.config;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 
+import nz.net.ultraq.thymeleaf.layoutdialect.LayoutDialect;
+
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
@@ -33,6 +34,11 @@ public class WebConfig {
         bundle.setBasename("classpath:/messages");
         bundle.setDefaultEncoding("UTF-8");
         return bundle;
+    }
+    
+    @Bean // ANTES ERA NO TEMPLATEENGINE
+    public LayoutDialect layoutDialect() {
+        return new LayoutDialect();
     }
     
     //TODOS OS RECURSOS STATICOS VAI PROCURAR NESSE CAMINHO
