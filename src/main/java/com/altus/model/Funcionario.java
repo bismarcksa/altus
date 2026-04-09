@@ -2,8 +2,6 @@ package com.altus.model;
 
 import java.io.Serializable;
 import java.util.Objects;
-import org.hibernate.validator.constraints.br.CPF;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 //import jakarta.persistence.Column;
 //import jakarta.persistence.Embedded;
 //import jakarta.persistence.Entity;
@@ -25,6 +23,7 @@ public class Funcionario implements Serializable{
 //    @Id 
 //	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_funcionario")
 //	@SequenceGenerator(name =  "sequence_funcionario", sequenceName = "sequence_funcionario", initialValue = 1, allocationSize = 1)
+//    @Column(name = "codigo")    
     private Long codigo;
 
     @NotBlank(message = "Nome é obrigatório.")

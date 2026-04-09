@@ -33,6 +33,6 @@ public class FuncionarioController {
 	
 	@RequestMapping("/funcionario/cadastro")
 	public String cadastro() {
-		return "funcionario/funcionario-cadastro";
+		return "funcionario/CadastroFuncionario";
 	}
 }

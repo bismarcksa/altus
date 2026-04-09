@@ -1,6 +1,8 @@
 package com.altus.model;
-/*
+
 import java.io.Serializable;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -9,13 +11,20 @@ import jakarta.persistence.ManyToOne;
 public class Endereco implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @Column(name = "logradouro")
     private String logradouro;
     
+    @Column(name = "numero")
     private String numero;
     
+    @Column(name = "complemento")
     private String complemento;
-    
+
+    @Column(name = "cep")
     private String cep;
+    
+    @Column(name = "bairro")
+    private String bairro;
 
     @ManyToOne
     @JoinColumn(name = "codigo_cidade")
@@ -23,7 +32,6 @@ public class Endereco implements Serializable {
 
     @jakarta.persistence.Transient
     private Estado estado;
-    
     
     
     public String getLogradouro() {
@@ -57,8 +65,16 @@ public class Endereco implements Serializable {
     public void setCep(String cep) {
         this.cep = cep;
     }
+    
+    public String getBairro() {
+		return bairro;
+	}
 
-    public Cidade getCidade() {
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
+
+	public Cidade getCidade() {
         return cidade;
     }
 
@@ -82,4 +98,4 @@ public class Endereco implements Serializable {
 		return null;
 	}
     
-}*/
+}

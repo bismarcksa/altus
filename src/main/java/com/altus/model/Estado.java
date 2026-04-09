@@ -1,5 +1,5 @@
 package com.altus.model;
-/*
+
 import java.io.Serializable;
 import java.util.Objects;
 import jakarta.persistence.Entity;
@@ -56,4 +56,3 @@ public class Estado implements Serializable{
         return Objects.hash(codigo, nome, sigla);
     }
 }
-*/

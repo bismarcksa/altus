@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<!-- beautify ignore:start -->
+<html lang="pt" 
+	class="light-style layout-menu-fixed" 
+	dir="ltr" 
+	data-theme="theme-default" 
+	data-assets-path="/layout/" 
+	data-template="vertical-menu-template-free"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/LayoutPadrao}">
+
+<head></head>
+
+<body>
+	<section layout:fragment="conteudo">
+		<div class="content-wrapper">
+			<div class="container-xxl flex-grow-1 container-p-y">
+				<h4 class="fw-bold py-3 mb-4">
+    					<span class="text-muted fw-light">Empresa /</span> Cadastro de Empresa
+				</h4>
+
+				<div class="card mb-4">
+					<h5 class="card-header">Dados da Empresa</h5>
+					<div class="card-body">
+						<form id="formEmpresa" method="POST" th:object="${empresa}">
+							<!-- ABAS -->
+							<ul class="nav nav-tabs mb-3">
+							    <li class="nav-item">
+							        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#dadosEmpresa">Dados Gerais</button>
+							    </li>
+							    <li class="nav-item">
+							        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#endereco">Endereço</button>
+							    </li>
+							    <li class="nav-item">
+							        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#contato">Contato</button>
+							    </li>
+							    <li class="nav-item">
+							        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#configuracoes">Configurações</button>
+							    </li>
+							</ul>
+
+							<div class="tab-content">
+								<!-- ================= DADOS EMPRESA ================= -->
+								<div class="tab-pane fade show active" id="dadosEmpresa">
+									<div class="row">	
+										<div class="mb-3 col-md-6">
+											<label class="form-label">Razão Social</label>
+											<input class="form-control" type="text" th:field="*{razaoSocial}" required />
+										</div>
+								
+										<div class="mb-3 col-md-6">
+											<label class="form-label">Nome Fantasia</label>
+											<input class="form-control" type="text" th:field="*{nomeFantasia}" />
+										</div>
+								
+										<div class="mb-3 col-md-4">
+											<label class="form-label">CNPJ</label>
+											<input class="form-control" type="text" th:field="*{cnpj}" required />
+										</div>
+								
+										<div class="mb-3 col-md-4">
+											<label class="form-label">Inscrição Estadual</label>
+											<input class="form-control" type="text" th:field="*{inscricaoEstadual}" />
+										</div>
+								
+										<div class="mb-3 col-md-4">
+											<label class="form-label">Inscrição Municipal</label>
+											<input class="form-control" type="text" th:field="*{inscricaoMunicipal}" />
+										</div>
+										
+										<div class="mb-3 col-md-6">
+											<label class="form-label">Data de Abertura</label>
+											<input class="form-control" type="date" th:field="*{dataAbertura}" />
+										</div>
+								
+										<div class="mb-3 col-md-6">
+											<label class="form-label">Regime Tributário</label>
+											<select class="form-select" th:field="*{regimeTributario}">
+											    <option value="">Selecione</option>
+											    <option value="SIMPLES">Simples Nacional</option>
+											    <option value="LUCRO_PRESUMIDO">Lucro Presumido</option>
+											    <option value="LUCRO_REAL">Lucro Real</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								
+								<!-- ================= ENDEREÇO ================= -->
+								<div class="tab-pane fade" id="endereco">
+									<div class="row">					
+										<div class="mb-3 col-md-4">
+											<label class="form-label">CEP</label>
+											<input class="form-control" th:field="*{cep}" />
+										</div>
+										
+										<div class="mb-3 col-md-8">
+											<label class="form-label">Logradouro</label>
+											<input class="form-control" th:field="*{logradouro}" />
+										</div>
+										
+										<div class="mb-3 col-md-2">
+											<label class="form-label">Número</label>
+											<input class="form-control" th:field="*{numero}" />
+										</div>
+									
+										<div class="mb-3 col-md-4">
+											<label class="form-label">Complemento</label>
+											<input class="form-control" th:field="*{complemento}" />
+										</div>
+										
+										<div class="mb-3 col-md-6">
+											<label class="form-label">Bairro</label>
+											<input class="form-control" th:field="*{bairro}" />
+										</div>
+										
+										<div class="mb-3 col-md-6">
+											<label class="form-label">Cidade</label>
+											<input class="form-control" th:field="*{cidade}" />
+										</div>
+										
+										<div class="mb-3 col-md-6">
+											<label class="form-label">Estado</label>
+											<input class="form-control" th:field="*{estado}" />
+										</div>
+									</div>
+								</div>
+
+								<!-- ================= CONTATO ================= -->
+								<div class="tab-pane fade" id="contato">
+									<div class="row">
+										<div class="mb-3 col-md-6">
+											<label class="form-label">E-mail</label>
+											<input class="form-control" type="email" th:field="*{email}" />
+										</div>
+										
+										<div class="mb-3 col-md-3">
+											<label class="form-label">Telefone</label>
+											<input class="form-control" th:field="*{telefone}" />
+										</div>
+										
+										<div class="mb-3 col-md-3">
+											<label class="form-label">Celular</label>
+											<input class="form-control" th:field="*{celular}" />
+										</div>
+										
+										<div class="mb-3 col-md-6">
+											<label class="form-label">Site</label>
+											<input class="form-control" th:field="*{site}" />
+										</div>
+									</div>
+								</div>
+
+								<!-- ================= CONFIGURAÇÕES ================= -->
+								<div class="tab-pane fade" id="configuracoes">
+									<div class="row">
+										<div class="mb-3 col-md-4">
+											<label class="form-label">Quantidade Máxima de Funcionários</label>
+											<input class="form-control" type="number" th:field="*{limiteFuncionarios}" />
+										</div>
+										
+										<div class="mb-3 col-md-4">
+											<label class="form-label">Ativo</label>
+											<select class="form-select" th:field="*{ativo}">
+										    		<option value="true">Sim</option>
+										    		<option value="false">Não</option>
+											</select>
+										</div>
+										
+										<div class="mb-3 col-md-4">
+											<label class="form-label">Data de Cadastro</label>
+											<input class="form-control" type="date" th:field="*{dataCadastro}" />
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- BOTÕES -->
+							<div class="mt-3">
+								<button type="submit" class="btn btn-primary">Salvar Empresa</button>
+								<button type="reset" class="btn btn-outline-secondary">Cancelar</button>
+							</div>
+						</form>
+					</div>
+				</div>			
+			</div>
+		</div>
+	</section>
+</body>
+</html>

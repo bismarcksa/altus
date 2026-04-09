@@ -1,9 +1,10 @@
 package com.altus.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-/*
+
 import java.io.Serializable;
 import java.util.Objects;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -11,7 +12,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -21,13 +21,16 @@ import jakarta.validation.constraints.NotNull;
 public class Cidade implements Serializable{
     private static final long serialVersionUID = -354972066147544764L;
 
-    @Id 
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_cidade")
-	@SequenceGenerator(name =  "sequence_cidade", sequenceName = "sequence_cidade", initialValue = 1, allocationSize = 1)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "codigo")
     private Long codigo;
     
     @NotBlank(message = "Nome é obrigatório")
     private String nome;
+    
+    @Column(name="codigo_ibge")
+    private String codigo_ibge;
 
     @NotNull(message = "Estado é obrigatório")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -51,7 +54,15 @@ public class Cidade implements Serializable{
         this.nome = nome;
     }
 
-    public Estado getEstado() {
+    public String getCodigo_ibge() {
+		return codigo_ibge;
+	}
+
+	public void setCodigo_ibge(String codigo_ibge) {
+		this.codigo_ibge = codigo_ibge;
+	}
+
+	public Estado getEstado() {
         return estado;
     }
 
@@ -76,4 +87,3 @@ public class Cidade implements Serializable{
         return Objects.hash(codigo);
     }
 }
-*/
