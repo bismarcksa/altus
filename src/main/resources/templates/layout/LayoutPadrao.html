@@ -43,9 +43,13 @@
 	<!--! Os arquivos de configuração do personalizador de modelo e do tema DEVEM ser incluídos após as folhas de estilo principais e helpers.js na seção <head> -->
 	<!--? Config: O arquivo de configuração do tema obrigatório contém vars globais e opções de tema padrão. Defina sua opção de tema preferida neste arquivo.  -->
 	<script src="/layout/js/config.js"></script>
+	
+	<link rel="stylesheet" type="text/css" th:href="@{/stylesheets/vendors/bootstrap-datepicker.standalone.min.css}"/>
+	
 </head>
 	
 <body>
+    
 	<!-- Layout wrapper -->
 	<div class="layout-wrapper layout-content-navbar">
       	<div class="layout-container">
@@ -246,6 +250,22 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-		
+ 
+	
+	<script th:src="@{/javascripts/vendors/jquery.maskMoney.min.js}"></script>
+	<!-- <script th:src="@{/javascripts/vendors/jquery.masknumber.min.js}"></script>-->
+	<script th:src="@{/javascripts/vendors/jquery.mask.min.js}"></script>
+	
+	<script th:src="@{/javascripts/vendors/bootstrap-datepicker.min.js}"></script>
+	<script th:src="@{/javascripts/vendors/bootstrap-datepicker.pt-BR.min.js}"></script>
+	
+	<script th:src="@{/javascripts/vendors/numeral.min.js}"></script>
+	<script th:src="@{/javascripts/vendors/pt-br.min.js}"></script>
+	
+	<script th:src="@{/javascripts/altus.js}"></script>		
+	
+	
+	<th:block layout:fragment="javascript-extra"></th:block>
+			
 </body>
 </html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+    <div class="alert alert-success alert-dismissible fade show d-flex align-items-center gap-2" role="alert" th:if="${mensagem != null}" th:fragment="msgsucesso">
+
+    <!-- Ícone moderno (Bootstrap Icons ou similar) -->
+    <i class="bi bi-check-circle-fill fs-5"></i>
+
+    <!-- Mensagem -->
+    <div class="flex-grow-1" th:text="${mensagem}"></div>
+
+    <!-- Botão fechar moderno -->
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+
+</html>

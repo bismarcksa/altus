@@ -63,7 +63,8 @@ public class Endereco implements Serializable {
     }
 
     public void setCep(String cep) {
-        this.cep = cep;
+        // REMOVE OS ELEMENTOS DA MASCARA PARA SALVAR APENAS O NÚMERO
+        this.cep = cep != null ? cep.replaceAll("\\D", "") : null;
     }
     
     public String getBairro() {

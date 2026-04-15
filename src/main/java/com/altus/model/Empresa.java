@@ -7,10 +7,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "empresa")
@@ -24,31 +28,38 @@ public class Empresa implements Serializable{
 	private Long codigo;
     
     @Column(name = "razaoSocial")
+    @NotBlank(message = "Razão Social é obrigatória.")
     private String razaoSocial;
     
     @Column(name = "nomeFantasia")
+    @NotBlank(message = "Nome Fantasia é obrigatório.")
     private String nomeFantasia;
     
     @Column(name = "cnpj", length = 14)
+    @NotBlank(message = "CNPJ é obrigatório.")
     private String cnpj;
     
     @Column(name = "inscricaoEstadual")
     private String inscricaoEstadual;
     
-    @Column(name = "inscricaoMunicipal")
-    private String inscricaoMunicipal;
-    
     @Column(name = "dataAbertura")
-    private LocalDateTime dataAbertura;
+    private LocalDate dataAbertura;
     
+    @Enumerated(EnumType.STRING)
     @Column(name = "regimeTributario")
-    private String regimeTributario;
+    @NotNull(message = "Regime tributário é obrigatório.")
+    private RegimeTributario regimeTributario;
+    
+    @NotNull(message="Tipo é obrigatótia")
+	@Enumerated(EnumType.STRING)
+	private Tipo tipo;
 
     @JsonIgnore
     @Embedded
     private Endereco endereco;
 
     @Column(name = "email")
+    @NotBlank(message = "Email é obrigatório.")
     private String email;
     
     @Column(name = "telefone")
@@ -59,14 +70,11 @@ public class Empresa implements Serializable{
     
     @Column(name = "site")
     private String site;
-
-    @Column(name = "limiteFuncionarios")
-    private Integer limiteFuncionarios;
     
     @Column(name = "ativo")
     private Boolean ativo;
     
-    @Column(name = "dataCadastro")
+    @Column(name = "dataCadastro", insertable = false, updatable = false)
     private LocalDateTime dataCadastro;
     
     public Long getCodigo() {
@@ -98,7 +106,8 @@ public class Empresa implements Serializable{
 	}
 	
 	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
+		// REMOVE OS ELEMENTOS DA MASCARA PARA SALVAR APENAS O NÚMERO
+		this.cnpj = cnpj != null ? cnpj.replaceAll("\\D", "") : null;
 	}
 	
 	public String getInscricaoEstadual() {
@@ -109,30 +118,38 @@ public class Empresa implements Serializable{
 		this.inscricaoEstadual = inscricaoEstadual;
 	}
 	
-	public String getInscricaoMunicipal() {
-		return inscricaoMunicipal;
-	}
-	
-	public void setInscricaoMunicipal(String inscricaoMunicipal) {
-		this.inscricaoMunicipal = inscricaoMunicipal;
-	}
-	
-	public LocalDateTime getDataAbertura() {
+	public LocalDate getDataAbertura() {
 		return dataAbertura;
 	}
 	
-	public void setDataAbertura(LocalDateTime dataAbertura) {
+	public void setDataAbertura(LocalDate dataAbertura) {
 		this.dataAbertura = dataAbertura;
 	}
 	
-	public String getRegimeTributario() {
+	public RegimeTributario getRegimeTributario() {
 		return regimeTributario;
 	}
-	
-	public void setRegimeTributario(String regimeTributario) {
+
+	public void setRegimeTributario(RegimeTributario regimeTributario) {
 		this.regimeTributario = regimeTributario;
 	}
-	
+
+	public Tipo getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(Tipo tipo) {
+		this.tipo = tipo;
+	}
+
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -146,7 +163,8 @@ public class Empresa implements Serializable{
 	}
 	
 	public void setTelefone(String telefone) {
-		this.telefone = telefone;
+		// REMOVE OS ELEMENTOS DA MASCARA PARA SALVAR APENAS O NÚMERO
+        this.telefone = telefone != null ? telefone.replaceAll("\\D", "") : null;
 	}
 	
 	public String getCelular() {
@@ -154,7 +172,8 @@ public class Empresa implements Serializable{
 	}
 	
 	public void setCelular(String celular) {
-		this.celular = celular;
+		// REMOVE OS ELEMENTOS DA MASCARA PARA SALVAR APENAS O NÚMERO
+        this.celular = celular != null ? celular.replaceAll("\\D", "") : null;
 	}
 	
 	public String getSite() {
@@ -163,14 +182,6 @@ public class Empresa implements Serializable{
 	
 	public void setSite(String site) {
 		this.site = site;
-	}
-	
-	public Integer getLimiteFuncionarios() {
-		return limiteFuncionarios;
-	}
-	
-	public void setLimiteFuncionarios(Integer limiteFuncionarios) {
-		this.limiteFuncionarios = limiteFuncionarios;
 	}
 	
 	public Boolean getAtivo() {

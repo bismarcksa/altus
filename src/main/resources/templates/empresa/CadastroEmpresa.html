@@ -9,6 +9,7 @@
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:data="http://www.thymeleaf.org/extras/data"
 	layout:decorate="~{layout/LayoutPadrao}">
 
 <head></head>
@@ -24,20 +25,16 @@
 				<div class="card mb-4">
 					<h5 class="card-header">Dados da Empresa</h5>
 					<div class="card-body">
+						<th:block th:include="msgs/MsgSucesso"></th:block>
 						<form id="formEmpresa" method="POST" th:object="${empresa}">
+							<th:block th:include="msgs/MsgErroValidacao"></th:block>
 							<!-- ABAS -->
 							<ul class="nav nav-tabs mb-3">
 							    <li class="nav-item">
-							        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#dadosEmpresa">Dados Gerais</button>
-							    </li>
+							        <a class="nav-link active" data-bs-toggle="tab" data-bs-target="#dadosEmpresa">Dados Gerais</a>
+							    </li>				
 							    <li class="nav-item">
-							        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#endereco">Endereço</button>
-							    </li>
-							    <li class="nav-item">
-							        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#contato">Contato</button>
-							    </li>
-							    <li class="nav-item">
-							        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#configuracoes">Configurações</button>
+							        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#configuracoes">Configurações</a>
 							    </li>
 							</ul>
 
@@ -45,107 +42,131 @@
 								<!-- ================= DADOS EMPRESA ================= -->
 								<div class="tab-pane fade show active" id="dadosEmpresa">
 									<div class="row">	
-										<div class="mb-3 col-md-6">
+										<div class="mb-3 col-md-4">
 											<label class="form-label">Razão Social</label>
-											<input class="form-control" type="text" th:field="*{razaoSocial}" required />
+											<input class="form-control" type="text" th:field="*{razaoSocial}"/>
 										</div>
 								
-										<div class="mb-3 col-md-6">
+										<div class="mb-3 col-md-5">
 											<label class="form-label">Nome Fantasia</label>
-											<input class="form-control" type="text" th:field="*{nomeFantasia}" />
+											<input class="form-control" type="text" th:field="*{nomeFantasia}"/>
 										</div>
 								
-										<div class="mb-3 col-md-4">
+										<div class="mb-3 col-md-3">
 											<label class="form-label">CNPJ</label>
-											<input class="form-control" type="text" th:field="*{cnpj}" required />
+											<input class="form-control js-cnpj" type="text" th:field="*{cnpj}"/>
 										</div>
 								
-										<div class="mb-3 col-md-4">
+										<div class="mb-3 col-md-3">
 											<label class="form-label">Inscrição Estadual</label>
 											<input class="form-control" type="text" th:field="*{inscricaoEstadual}" />
 										</div>
-								
-										<div class="mb-3 col-md-4">
-											<label class="form-label">Inscrição Municipal</label>
-											<input class="form-control" type="text" th:field="*{inscricaoMunicipal}" />
+										
+										<div class="mb-3 col-md-3">
+											<label class="form-label" for="regimeTributario">Regime Tributário</label>
+											<select class="form-select" id="regimeTributario" th:field="*{regimeTributario}">
+											    <option value="">Selecione um registro</option>
+											    <option th:each="regimeTributario : ${regimes}" th:value="${regimeTributario}" th:text="${regimeTributario.descricao}"></option>
+											</select>
 										</div>
 										
-										<div class="mb-3 col-md-6">
+										<div class="mb-3 col-md-3">
 											<label class="form-label">Data de Abertura</label>
 											<input class="form-control" type="date" th:field="*{dataAbertura}" />
 										</div>
-								
-										<div class="mb-3 col-md-6">
-											<label class="form-label">Regime Tributário</label>
-											<select class="form-select" th:field="*{regimeTributario}">
-											    <option value="">Selecione</option>
-											    <option value="SIMPLES">Simples Nacional</option>
-											    <option value="LUCRO_PRESUMIDO">Lucro Presumido</option>
-											    <option value="LUCRO_REAL">Lucro Real</option>
-											</select>
-										</div>
-									</div>
-								</div>
-								
-								<!-- ================= ENDEREÇO ================= -->
-								<div class="tab-pane fade" id="endereco">
-									<div class="row">					
-										<div class="mb-3 col-md-4">
-											<label class="form-label">CEP</label>
-											<input class="form-control" th:field="*{cep}" />
-										</div>
 										
-										<div class="mb-3 col-md-8">
-											<label class="form-label">Logradouro</label>
-											<input class="form-control" th:field="*{logradouro}" />
+										<div class="mb-3 col-md-3">
+											<label class="form-label">Tipo</label>
+											<div>
+												<th:block th:each="tipo : ${tipo}">
+													<div class="radio radio-inline">						
+														<input th:id="|id_${tipo}|" type="radio" th:value="${tipo}" th:field="*{tipo}" >
+														<label th:for="|id_${tipo}|" th:text="${tipo.descricao}"></label>
+													</div>
+												</th:block>				
+											</div>
+										</div>							
+									</div>
+									
+									<!-- SEPARADOR -->
+									<div class="mt-4 mb-2">
+									    <h5 class="fw-semibold text-primary border-bottom pb-2">
+									        <i class="bi bi-geo-alt me-1"></i> Endereço
+									    </h5>
+									</div>
+									
+									<div class="row mt-3">
+									    <div class="mb-3 col-md-2">
+									        <label class="form-label">CEP</label>
+									        <input class="form-control js-cep" th:field="*{endereco.cep}" />
+									    </div>
+									    
+									    <div class="mb-3 col-md-5">
+									        <label class="form-label">Logradouro</label>
+									        <input class="form-control" th:field="*{endereco.logradouro}" />
+									    </div>
+									    
+									    <div class="mb-3 col-md-1">
+									        <label class="form-label">Número</label>
+									        <input class="form-control" th:field="*{endereco.numero}" />
+									    </div>
+									
+									    <div class="mb-3 col-md-3">
+									        <label class="form-label">Complemento</label>
+									        <input class="form-control" th:field="*{endereco.complemento}" />
+									    </div>
+									    
+									    <div class="mb-3 col-md-3">
+									        <label class="form-label">Bairro</label>
+									        <input class="form-control" th:field="*{endereco.bairro}" />
+									    </div>
+									    
+									    <div class="mb-3 col-md-2">
+									        <label class="form-label">Estado</label>
+									        <select id="estado" class="form-select" th:field="*{endereco.estado}">
+									            <option value="">Selecione o estado</option>
+									            <option th:each="estado : ${estados}" th:value="${estado.codigo}" th:text="${estado.nome}"></option>
+									        </select>
+									    </div>
+									
+									    <div class="mb-3 col-md-3">
+									        <label class="form-label">Cidade</label>
+									        <div class="altus-field-action">
+									            <input type="hidden" id="inputHiddenCidadeSelecionada" th:value="*{endereco.cidade} != null ? *{endereco.cidade.codigo}"/>
+									            
+									            <select id="cidade" class="form-select" th:attr="data-url=@{/cidades}" th:field="*{endereco.cidade}"></select>
+									
+									            <div class="altus-field-action__icon js-img-loading" style="display: none;">
+									                <img th:src="@{/images/mini-loading.gif}"/>
+									            </div>
+									        </div>
+									    </div>
+									</div>
+									
+									<!-- SEPARADOR -->
+									<div class="mt-4 mb-2">
+									    <h5 class="fw-semibold text-primary border-bottom pb-2">
+									        <i class="bi bi-telephone me-1"></i> Contato
+									    </h5>
+									</div>
+									
+									<div class="row">
+										<div class="mb-3 col-md-4">
+											<label class="form-label">E-mail</label>
+											<input class="form-control" type="email" th:field="*{email}"/>
 										</div>
 										
 										<div class="mb-3 col-md-2">
-											<label class="form-label">Número</label>
-											<input class="form-control" th:field="*{numero}" />
-										</div>
-									
-										<div class="mb-3 col-md-4">
-											<label class="form-label">Complemento</label>
-											<input class="form-control" th:field="*{complemento}" />
-										</div>
-										
-										<div class="mb-3 col-md-6">
-											<label class="form-label">Bairro</label>
-											<input class="form-control" th:field="*{bairro}" />
-										</div>
-										
-										<div class="mb-3 col-md-6">
-											<label class="form-label">Cidade</label>
-											<input class="form-control" th:field="*{cidade}" />
-										</div>
-										
-										<div class="mb-3 col-md-6">
-											<label class="form-label">Estado</label>
-											<input class="form-control" th:field="*{estado}" />
-										</div>
-									</div>
-								</div>
-
-								<!-- ================= CONTATO ================= -->
-								<div class="tab-pane fade" id="contato">
-									<div class="row">
-										<div class="mb-3 col-md-6">
-											<label class="form-label">E-mail</label>
-											<input class="form-control" type="email" th:field="*{email}" />
-										</div>
-										
-										<div class="mb-3 col-md-3">
 											<label class="form-label">Telefone</label>
-											<input class="form-control" th:field="*{telefone}" />
+											<input class="form-control js-telefone" th:field="*{telefone}" />
 										</div>
 										
-										<div class="mb-3 col-md-3">
+										<div class="mb-3 col-md-2">
 											<label class="form-label">Celular</label>
-											<input class="form-control" th:field="*{celular}" />
+											<input class="form-control js-telefone" th:field="*{celular}" />
 										</div>
 										
-										<div class="mb-3 col-md-6">
+										<div class="mb-3 col-md-4">
 											<label class="form-label">Site</label>
 											<input class="form-control" th:field="*{site}" />
 										</div>
@@ -156,22 +177,12 @@
 								<div class="tab-pane fade" id="configuracoes">
 									<div class="row">
 										<div class="mb-3 col-md-4">
-											<label class="form-label">Quantidade Máxima de Funcionários</label>
-											<input class="form-control" type="number" th:field="*{limiteFuncionarios}" />
-										</div>
-										
-										<div class="mb-3 col-md-4">
 											<label class="form-label">Ativo</label>
 											<select class="form-select" th:field="*{ativo}">
 										    		<option value="true">Sim</option>
 										    		<option value="false">Não</option>
 											</select>
-										</div>
-										
-										<div class="mb-3 col-md-4">
-											<label class="form-label">Data de Cadastro</label>
-											<input class="form-control" type="date" th:field="*{dataCadastro}" />
-										</div>
+										</div>							
 									</div>
 								</div>
 							</div>
@@ -187,5 +198,9 @@
 			</div>
 		</div>
 	</section>
+	
+	<th:block layout:fragment="javascript-extra">
+		<script th:src="@{/javascripts/empresa.combo-estado-cidade.js}"></script>
+	</th:block>
 </body>
 </html>
