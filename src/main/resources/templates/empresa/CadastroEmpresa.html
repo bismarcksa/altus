@@ -12,7 +12,9 @@
 	xmlns:data="http://www.thymeleaf.org/extras/data"
 	layout:decorate="~{layout/LayoutPadrao}">
 
-<head></head>
+<head>
+	<link rel="stylesheet" type="text/css" th:href="@{/stylesheets/vendors/bootstrap-switch.min.css}"/>
+</head>
 
 <body>
 	<section layout:fragment="conteudo">
@@ -28,15 +30,6 @@
 						<th:block th:include="msgs/MsgSucesso"></th:block>
 						<form id="formEmpresa" method="POST" th:object="${empresa}">
 							<th:block th:include="msgs/MsgErroValidacao"></th:block>
-							<!-- ABAS -->
-							<ul class="nav nav-tabs mb-3">
-							    <li class="nav-item">
-							        <a class="nav-link active" data-bs-toggle="tab" data-bs-target="#dadosEmpresa">Dados Gerais</a>
-							    </li>				
-							    <li class="nav-item">
-							        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#configuracoes">Configurações</a>
-							    </li>
-							</ul>
 
 							<div class="tab-content">
 								<!-- ================= DADOS EMPRESA ================= -->
@@ -78,10 +71,10 @@
 										<div class="mb-3 col-md-3">
 											<label class="form-label">Tipo</label>
 											<div>
-												<th:block th:each="tipo : ${tipo}">
-													<div class="radio radio-inline">						
-														<input th:id="|id_${tipo}|" type="radio" th:value="${tipo}" th:field="*{tipo}" >
-														<label th:for="|id_${tipo}|" th:text="${tipo.descricao}"></label>
+												<th:block th:each="tipo : ${tipos}">
+													<div class="form-check form-check-inline">						
+														<input class="form-check-input" th:id="|id_${tipo}|" type="radio" th:value="${tipo}" th:field="*{tipo}" >
+														<label class="form-check-label ms-2" th:for="|id_${tipo}|" th:text="${tipo.descricao}"></label>
 													</div>
 												</th:block>				
 											</div>
@@ -171,20 +164,23 @@
 											<input class="form-control" th:field="*{site}" />
 										</div>
 									</div>
-								</div>
-
-								<!-- ================= CONFIGURAÇÕES ================= -->
-								<div class="tab-pane fade" id="configuracoes">
+									
+									<!-- SEPARADOR -->
+									<div class="mt-4 mb-2">
+									    <h5 class="fw-semibold text-primary border-bottom pb-2">
+									        <i class="bi bi-telephone me-1"></i>Configurações
+									    </h5>
+									</div>
+									
 									<div class="row">
 										<div class="mb-3 col-md-4">
-											<label class="form-label">Ativo</label>
-											<select class="form-select" th:field="*{ativo}">
-										    		<option value="true">Sim</option>
-										    		<option value="false">Não</option>
-											</select>
-										</div>							
+											<label  class="form-label">Status</label>
+							                <div>
+							                	<input type="checkbox" class="js-status" data-size="small" data-off-color="danger" data-on-text="ATIVO" data-off-text="INATIVO" th:field="*{ativo}" />
+							                </div>									
+										</div>
 									</div>
-								</div>
+								</div>					
 							</div>
 
 							<!-- BOTÕES -->
@@ -201,6 +197,15 @@
 	
 	<th:block layout:fragment="javascript-extra">
 		<script th:src="@{/javascripts/empresa.combo-estado-cidade.js}"></script>
+		<script th:src="@{/javascripts/vendors/bootstrap-switch.min.js}"></script>
+		<script>
+        //$('.js-status').bootstrapSwitch();
+        $('.js-status').each(function () {
+	        var $this = $(this);
+	        $this.bootstrapSwitch();
+	        $this.bootstrapSwitch('state', $this.prop('checked'), true);
+	    });
+    </script>
 	</th:block>
 </body>
 </html>

@@ -66,6 +66,9 @@
 											<button class="nav-link" data-bs-toggle="tab" data-bs-target="#endereco">Endereço</button>
 										</li>
 										<li class="nav-item">
+											<button class="nav-link" data-bs-toggle="tab" data-bs-target="#documentacao">Documentação</button>
+										</li>									
+										<li class="nav-item">
 											<button class="nav-link" data-bs-toggle="tab" data-bs-target="#profissional">Dados Profissionais</button>
 										</li>
 										<li class="nav-item">
@@ -80,83 +83,151 @@
 											<div class="row">
 												<div class="mb-3 col-md-6">
 					      							<label class="form-label">Nome Completo</label>
-					      							<input class="form-control" type="text" name="nome" required />
-					    							</div>
-					
-					    							<div class="mb-3 col-md-3">
-					      							<label class="form-label">CPF</label>
-					      							<input class="form-control" type="text" name="cpf" required />
-					    							</div>
-					
-					    							<div class="mb-3 col-md-3">
-					      							<label class="form-label">Data de Nascimento</label>
-					      							<input class="form-control" type="date" name="dataNascimento" />
-					    							</div>
-					    							
-					    							<div class="mb-3 col-md-6">
-						      						<label class="form-label">E-mail</label>
-						      						<input class="form-control" type="email" name="email" />
-						    						</div>
-						    						
-						    						<div class="mb-3 col-md-3">
+					      							<input class="form-control" type="text" name="nome"/>
+					    						</div>
+					    						
+					    						<div class="mb-3 col-md-6">
+					      							<label class="form-label">Nome Social</label>
+					      							<input class="form-control" type="text" name="nome"/>
+					    						</div>
+					    						
+					    						<div class="mb-3 col-md-3">
 						      						<label class="form-label">Telefone</label>
 						      						<input class="form-control" type="text" name="telefone" />
-						    						</div>	
+						    					</div>	
+						    					
+						    					<div class="mb-3 col-md-6">
+						      						<label class="form-label">E-mail</label>
+						      						<input class="form-control" type="email" name="email" />
+						    					</div>
+						    					
+						    					<div class="mb-3 col-md-3">
+					      							<label class="form-label">Data de Nascimento</label>
+					      							<input class="form-control" type="date" name="dataNascimento" />
+					    						</div>
 					
-						    						<div class="mb-3 col-md-3">
-						      						<label class="form-label">Sexo</label>
-						      						<select class="form-select" name="sexo">
-						        							<option value="">Selecione</option>
-						        							<option value="M">Masculino</option>
-						        							<option value="F">Feminino</option>
-						      						</select>
-						    						</div>								
+												<div class="mb-3 col-md-3">
+													<label class="form-label" for="sexo">Sexo</label>
+													<select class="form-select" id="sexo" th:field="*{sexo}">
+													    <option value="">Sexo</option>
+													    <option th:each="sexo : ${sexos}" th:value="${sexo}" th:text="${sexo.descricao}"></option>
+													</select>
+												</div>
+												
+												<div class="mb-3 col-md-3">
+													<label class="form-label" for="estadoCivil">Estado Civil</label>
+													<select class="form-select" id="estadoCivil" th:field="*{estadoCivil}">
+													    <option value="">Estado Civil</option>
+													    <option th:each="estadoCivil : ${estadoCivils}" th:value="${estadoCivil}" th:text="${estadoCivil.descricao}"></option>
+													</select>
+												</div>
+												
+												<div class="mb-3 col-md-6">
+					      							<label class="form-label">Nome do Pai</label>
+					      							<input class="form-control" type="text" name="nomePai"/>
+					    						</div>
+					    						
+					    						<div class="mb-3 col-md-6">
+					      							<label class="form-label">Nome da Mãe</label>
+					      							<input class="form-control" type="text" name="nomeMae"/>
+					    						</div>
+					    						
+					    						<div class="mb-3 col-md-6">
+					      							<label class="form-label">Contato emergência</label>
+					      							<input class="form-control" type="text" name="nomeContatoEmergencia"/>
+					    						</div>
+					    						
+					    						<div class="mb-3 col-md-3">
+						      						<label class="form-label">Telefone emergência</label>
+						      						<input class="form-control" type="text" name="telefoneContatoEmergencia" />
+						    					</div>					
 											</div>
 										</div>
 	
 									    <!-- ================= ENDEREÇO ================= -->
 									    <div class="tab-pane fade" id="endereco">
-											<div class="row">
-										        <div class="mb-3 col-md-4">
-										        		<label class="form-label">CEP</label>
-										        		<input class="form-control" type="text" name="cep" />
-										        </div>
-									
-										        <div class="mb-3 col-md-8">
-										        		<label class="form-label">Logradouro</label>
-										        		<input class="form-control" type="text" name="logradouro" />
-										        </div>
-										
-										        <div class="mb-3 col-md-2">
-										        		<label class="form-label">Número</label>
-										        		<input class="form-control" type="text" name="numero" />
-										        </div>
-									
-										        <div class="mb-3 col-md-4">
-										          	<label class="form-label">Complemento</label>
-										          	<input class="form-control" type="text" name="complemento" />
-										        </div>
-										
-										        <div class="mb-3 col-md-6">
-										          	<label class="form-label">Bairro</label>
-										          	<input class="form-control" type="text" name="bairro" />
-										        </div>
-										
-										        <div class="mb-3 col-md-6">
-										          	<label class="form-label">Cidade</label>
-										          	<input class="form-control" type="text" name="cidade" />
-										        </div>
-									
-										        <div class="mb-3 col-md-6">
-										          	<label class="form-label">Estado</label>
-										          	<input class="form-control" type="text" name="estado" />
-										        </div>		
-									    		</div>
+											<div class="row mt-3">
+											    <div class="mb-3 col-md-2">
+											        <label class="form-label">CEP</label>
+											        <input class="form-control js-cep" th:field="*{endereco.cep}" />
+											    </div>
+											    
+											    <div class="mb-3 col-md-5">
+											        <label class="form-label">Logradouro</label>
+											        <input class="form-control" th:field="*{endereco.logradouro}" />
+											    </div>
+											    
+											    <div class="mb-3 col-md-1">
+											        <label class="form-label">Número</label>
+											        <input class="form-control" th:field="*{endereco.numero}" />
+											    </div>
+											
+											    <div class="mb-3 col-md-3">
+											        <label class="form-label">Complemento</label>
+											        <input class="form-control" th:field="*{endereco.complemento}" />
+											    </div>
+											    
+											    <div class="mb-3 col-md-3">
+											        <label class="form-label">Bairro</label>
+											        <input class="form-control" th:field="*{endereco.bairro}" />
+											    </div>
+											    
+											    <div class="mb-3 col-md-2">
+											        <label class="form-label">Estado</label>
+											        <select id="estado" class="form-select" th:field="*{endereco.estado}">
+											            <option value="">Selecione o estado</option>
+											            <option th:each="estado : ${estados}" th:value="${estado.codigo}" th:text="${estado.nome}"></option>
+											        </select>
+											    </div>
+											
+											    <div class="mb-3 col-md-3">
+											        <label class="form-label">Cidade</label>
+											        <div class="altus-field-action">
+											            <input type="hidden" id="inputHiddenCidadeSelecionada" th:value="*{endereco.cidade} != null ? *{endereco.cidade.codigo}"/>
+											            
+											            <select id="cidade" class="form-select" th:attr="data-url=@{/cidades}" th:field="*{endereco.cidade}"></select>
+											
+											            <div class="altus-field-action__icon js-img-loading" style="display: none;">
+											                <img th:src="@{/images/mini-loading.gif}"/>
+											            </div>
+											        </div>
+											    </div>
+											</div>
 									    </div>
+	
+										<!-- ================= DOCUMENTAÇÃO ================= -->
+										<div class="tab-pane fade show active" id="dadosPessoais">
+											<div class="row">
+												<div class="mb-3 col-md-6">
+										          	<label class="form-label">CPF</label>
+										          	<input class="form-control" type="text" name="cpf" />
+										        </div>
+										        
+										        <div class="mb-3 col-md-6">
+										          	<label class="form-label">R.G</label>
+										          	<input class="form-control" type="text" name="rg" />
+										        </div>
+										        
+										        <div class="mb-3 col-md-6">
+										          	<label class="form-label">PIS/PASEP/NIT/NIS</label>
+										          	<input class="form-control" type="text" name="pis" />
+										        </div>
+										        
+										        <div class="mb-3 col-md-6">
+										          	<label class="form-label">Título de eleitor</label>
+										          	<input class="form-control" type="text" name="tituloEleitor" />
+										        </div>
+										        
+										        <div class="mb-3 col-md-6">
+										          	<label class="form-label">Carteira de Trabalho</label>
+										          	<input class="form-control" type="text" name="carteiraTrabalho" />
+										        </div>
+											</div>
+										</div>
 	
 									    <!-- ================= PROFISSIONAL ================= -->
 									    <div class="tab-pane fade" id="profissional">
-									    		<div class="row">						
+									    	<div class="row">						
 										        <div class="mb-3 col-md-6">
 										          	<label class="form-label">Matrícula</label>
 										          	<input class="form-control" type="text" name="matricula" />
@@ -215,25 +286,7 @@
 	          					</form>
 	         				</div>
 	         				<!-- /Account -->
-	       				</div>
-		       			<div class="card">
-		         			<h5 class="card-header">Excluir conta</h5>
-			             	<div class="card-body">
-			             		<div class="mb-3 col-12 mb-0">
-			                 		<div class="alert alert-warning">
-			                   			<h6 class="alert-heading fw-bold mb-1">Tem certeza de que deseja excluir sua conta?</h6>
-			                   			<p class="mb-0">Depois de excluir sua conta, não há como voltar atrás. Certifique-se disso.</p>
-			                 		</div>
-		               			</div>
-		               			<form id="formAccountDeactivation" onsubmit="return false">
-		                 			<div class="form-check mb-3">
-		                   				<input class="form-check-input" type="checkbox" name="accountActivation" id="accountActivation"/>
-		                   				<label class="form-check-label" for="accountActivation">Confirmo a desativação da minha conta.</label>
-		                 			</div>
-		                 			<button type="submit" class="btn btn-danger deactivate-account">Desativar conta</button>
-		               			</form>
-		             		</div>
-		       			</div>
+	       				</div>		       			
 	     			</div>
 	   			</div>
  			</div>

@@ -26,12 +26,10 @@ public class CidadesController {
     
 //    @Cacheable(value = "cidades", key= "#p0") //ESSE "#p0" É O PRIMEIRO PARAMETRO DE CACHE/FUNÇÃO
 	@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody List<Cidade> pesquisarPorCodigoEstado(
-			@RequestParam(name = "estado", defaultValue = "-1") Long codigoEstado) {
+	public @ResponseBody List<Cidade> pesquisarPorCodigoEstado(@RequestParam(name = "estado", defaultValue = "-1") Long codigoEstado) {
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {	}
-		System.out.println("VER SE VAI EXIBIR");
 		
 		return cidades.findByEstadoCodigo(codigoEstado);
 	}

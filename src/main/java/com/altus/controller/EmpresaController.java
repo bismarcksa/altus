@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.altus.model.Empresa;
 import com.altus.model.RegimeTributario;
+import com.altus.model.Tipo;
 import com.altus.repository.Estados;
 import com.altus.service.CadastroEmpresaService;
 
@@ -27,17 +28,16 @@ public class EmpresaController {
 	@RequestMapping("/empresa/novo")
 	public ModelAndView novo(Empresa empresa) {
 		ModelAndView mv = new ModelAndView("empresa/CadastroEmpresa");
-//	    empresa.setEndereco(new Endereco());    
-//	    mv.addObject("empresa", empresa);
 	    
-		mv.addObject("regimes", RegimeTributario.values());		
+		mv.addObject("regimes", RegimeTributario.values());
+		mv.addObject("tipos", Tipo.values());
 		mv.addObject("estados", estados.findAll());
 		
 		return mv;
 	}
 	
 	@RequestMapping(value = "/empresa/novo", method = RequestMethod.POST)
-	public ModelAndView cadastrar(@Valid Empresa empresa, BindingResult result, Model model, RedirectAttributes attributes) {
+	public ModelAndView cadastrar(@Valid Empresa empresa, BindingResult result, RedirectAttributes attributes) {
 		if(result.hasErrors()) {
 			result.getAllErrors().forEach(e -> System.out.println("VEJA O ERRO: " + e));
 			return novo(empresa);

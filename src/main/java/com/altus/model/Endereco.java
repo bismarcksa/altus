@@ -6,31 +6,39 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Embeddable
 public class Endereco implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Column(name = "logradouro")
+    @NotBlank(message = "Logradouro é obrigatório.")
     private String logradouro;
     
     @Column(name = "numero")
+    @NotBlank(message = "Número é obrigatório.")
     private String numero;
     
     @Column(name = "complemento")
     private String complemento;
 
     @Column(name = "cep")
+    @NotBlank(message = "CEP é obrigatório.")
     private String cep;
     
     @Column(name = "bairro")
+    @NotBlank(message = "Bairro é obrigatório.")
     private String bairro;
 
     @ManyToOne
     @JoinColumn(name = "codigo_cidade")
+    @NotNull(message="Cidade é obrigatótio.")
     private Cidade cidade;
 
     @jakarta.persistence.Transient
+    @NotNull(message="Estado é obrigatótio.")
     private Estado estado;
     
     

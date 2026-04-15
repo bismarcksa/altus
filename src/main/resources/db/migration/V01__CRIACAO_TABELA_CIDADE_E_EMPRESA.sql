@@ -5642,7 +5642,7 @@ CREATE TABLE empresa (
   telefone VARCHAR(11),
   celular VARCHAR(11),
   site VARCHAR(100),
-  ativo BOOLEAN DEFAULT TRUE,
+  ativo BOOLEAN DEFAULT TRUE NOT NULL,
   data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
   CONSTRAINT fk_empresa_cidade

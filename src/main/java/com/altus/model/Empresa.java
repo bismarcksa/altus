@@ -13,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -50,11 +51,12 @@ public class Empresa implements Serializable{
     @NotNull(message = "Regime tributário é obrigatório.")
     private RegimeTributario regimeTributario;
     
-    @NotNull(message="Tipo é obrigatótia")
+    @NotNull(message="Tipo de empresa é obrigatótio")
 	@Enumerated(EnumType.STRING)
 	private Tipo tipo;
 
     @JsonIgnore
+    @Valid
     @Embedded
     private Endereco endereco;
 
@@ -63,6 +65,7 @@ public class Empresa implements Serializable{
     private String email;
     
     @Column(name = "telefone")
+    @NotBlank(message = "Telefone é obrigatório.")
     private String telefone;
     
     @Column(name = "celular")
@@ -72,7 +75,7 @@ public class Empresa implements Serializable{
     private String site;
     
     @Column(name = "ativo")
-    private Boolean ativo;
+    private Boolean ativo = true;
     
     @Column(name = "dataCadastro", insertable = false, updatable = false)
     private LocalDateTime dataCadastro;
