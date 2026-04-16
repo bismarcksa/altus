@@ -23,6 +23,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 
 
@@ -39,49 +40,53 @@ public class Funcionario implements Serializable{
 
     @NotBlank(message = "Nome é obrigatório.")
     @Size(max = 80)
+    @Column(name = "nome")
     private String nome;
     
     @Size(max = 80)
+    @Column(name = "nome_social")
     private String nomeSocial;
 
-    @Column(name = "telefone")
     @NotBlank(message = "Telefone é obrigatório.")
+    @Column(name = "telefone")
     private String telefone;
 
     @Email(message = "E-mail inválido")
+    @Column(name = "email")
     private String email;
     
-    @NotBlank(message = "Data de nascimento é obrigatória.")
-    @Column(name = "dataNascimento")
+    @NotNull(message = "Data de nascimento é obrigatória.")
+    @Past(message = "Data de nascimento deve ser no passado.")
+    @Column(name = "data_nascimento")
     private LocalDate dataNascimento;
     
     @NotNull(message="Sexo é obrigatótio")
 	@Enumerated(EnumType.STRING)
     @Column(name = "sexo")
-    private String sexo;
+    private Sexo sexo;
     
-    @NotNull(message="Estado Civil é obrigatótio")
+    @NotNull(message="Estado Civil é obrigatório.")
 	@Enumerated(EnumType.STRING)
-    @Column(name = "estadoCivil")
-    private String estadoCivil;
+    @Column(name = "estado_civil")
+    private EstadoCivil estadoCivil;
     
     @NotBlank(message = "Nome da mãe é obrigatório.")
-    @Column(name = "nomeMae")
+    @Column(name = "nome_mae")
     private String nomeMae;
 
-    @Column(name = "nomePai")
+    @Column(name = "nome_pai")
     private String nomePai;
     
-    @Column(name = "telefoneContatoEmergencia")
+    @Column(name = "telefone_contato_emergencia")
     private String telefoneContatoEmergencia;
     
-    @Column(name = "nomeContatoEmergencia")
+    @Column(name = "nome_contato_emergencia")
     @Size(max = 50)
     private String nomeContatoEmergencia;
     
-    @NotBlank(message = "Data de admissão é obrigatória.")
-    @Column(name = "dataAdmissao")
-    private LocalDate dataAdmiissao;
+    @NotNull(message = "Data de admissão é obrigatória.")
+    @Column(name = "data_admissao")
+    private LocalDate dataAdmissao;
 
     @JsonIgnore
     @Valid
@@ -100,10 +105,10 @@ public class Funcionario implements Serializable{
     @Column(name = "pis", length = 11)
     private String pis;
     
-    @Column(name = "tituloEleitor", length = 13)
+    @Column(name = "titulo_eleitor", length = 13)
     private String tituloEleitor;
     
-    @Column(name = "carteiraTrabalho")
+    @Column(name = "carteira_trabalho")
     private String carteiraTrabalho;
 
     @Column(name = "nacionalidade")
@@ -121,13 +126,14 @@ public class Funcionario implements Serializable{
     @Column(name = "salario")
     private BigDecimal salario;
     
-    @Column(name = "dataDemissao")
+    @Column(name = "data_demissao")
     private LocalDate dataDemissao;
     
     @NotBlank(message = "Tipo de contrato é obrigatório.")
+    @Column(name = "tipo_contrato")
     private String tipoContrato; // CLT, PJ, Estágio
 
-    @Column(name = "jornadaTrabalho")
+    @Column(name = "jornada_trabalho")
     private String jornadaTrabalho;
     
     @Column(name = "situacao")
@@ -136,7 +142,7 @@ public class Funcionario implements Serializable{
     @Column(name = "observacoes")
     private String observacoes;
     
-    @Column(name = "dataCadastro", insertable = false, updatable = false)
+    @Column(name = "data_cadastro", insertable = false, updatable = false)
     private LocalDateTime dataCadastro;
       
     public Long getCodigo() {
@@ -205,19 +211,19 @@ public class Funcionario implements Serializable{
 		this.dataNascimento = dataNascimento;
 	}
 
-	public String getSexo() {
+	public Sexo getSexo() {
 		return sexo;
 	}
 
-	public void setSexo(String sexo) {
+	public void setSexo(Sexo sexo) {
 		this.sexo = sexo;
 	}
 
-	public String getEstadoCivil() {
+	public EstadoCivil getEstadoCivil() {
 		return estadoCivil;
 	}
 
-	public void setEstadoCivil(String estadoCivil) {
+	public void setEstadoCivil(EstadoCivil estadoCivil) {
 		this.estadoCivil = estadoCivil;
 	}
 
@@ -253,12 +259,12 @@ public class Funcionario implements Serializable{
 		this.nomeContatoEmergencia = nomeContatoEmergencia;
 	}
 
-	public LocalDate getDataAdmiissao() {
-		return dataAdmiissao;
+	public LocalDate getDataAdmissao() {
+		return dataAdmissao;
 	}
 
-	public void setDataAdmiissao(LocalDate dataAdmiissao) {
-		this.dataAdmiissao = dataAdmiissao;
+	public void setDataAdmissao(LocalDate dataAdmissao) {
+		this.dataAdmissao = dataAdmissao;
 	}
 
 	public String getRg() {

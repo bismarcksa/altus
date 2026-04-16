@@ -3,7 +3,7 @@ package com.altus.model;
 public enum EstadoCivil {
 	SOLTEIRO("SOLTEIRO(A)"),
 	CASADO("CASADO(A)"),
-	DIVORCIADO("DIVORDIADO(A)"),
+	DIVORCIADO("DIVORCIADO(A)"),
 	VIUVO("VIÚVO(A)");
 	
 	private String descricao;

@@ -28,11 +28,11 @@ public class Empresa implements Serializable{
 	@Column(name = "codigo")
 	private Long codigo;
     
-    @Column(name = "razaoSocial")
+    @Column(name = "razao_social")
     @NotBlank(message = "Razão Social é obrigatória.")
     private String razaoSocial;
     
-    @Column(name = "nomeFantasia")
+    @Column(name = "nome_fantasia")
     @NotBlank(message = "Nome Fantasia é obrigatório.")
     private String nomeFantasia;
     
@@ -40,19 +40,20 @@ public class Empresa implements Serializable{
     @NotBlank(message = "CNPJ é obrigatório.")
     private String cnpj;
     
-    @Column(name = "inscricaoEstadual")
+    @Column(name = "inscricao_estadual")
     private String inscricaoEstadual;
     
-    @Column(name = "dataAbertura")
+    @Column(name = "data_abertura")
     private LocalDate dataAbertura;
     
     @Enumerated(EnumType.STRING)
-    @Column(name = "regimeTributario")
+    @Column(name = "regime_tributario")
     @NotNull(message = "Regime tributário é obrigatório.")
     private RegimeTributario regimeTributario;
     
     @NotNull(message="Tipo de empresa é obrigatótio")
 	@Enumerated(EnumType.STRING)
+    @Column(name = "tipo")
 	private Tipo tipo;
 
     @JsonIgnore
@@ -77,7 +78,7 @@ public class Empresa implements Serializable{
     @Column(name = "ativo")
     private Boolean ativo = true;
     
-    @Column(name = "dataCadastro", insertable = false, updatable = false)
+    @Column(name = "data_cadastro", insertable = false, updatable = false)
     private LocalDateTime dataCadastro;
     
     public Long getCodigo() {

@@ -55,8 +55,10 @@
 	           					</div>
 	         				</div>
 	         				<hr class="my-0" />
-	         				<div class="card-body">                                        
-	         					<form id="formFuncionario" method="POST" th:object="${funcionario}">
+	         				<div class="card-body"> 
+	         					<th:block th:include="msgs/MsgSucesso"></th:block>                                       
+	         					<form id="formFuncionario" method="POST" th:object="${funcionario}" novalidate>
+	         						<th:block th:include="msgs/MsgErroValidacao"></th:block>
 									<!-- Abas -->
 								 	<ul class="nav nav-tabs mb-3" role="tablist">
 								   		<li class="nav-item">
@@ -74,6 +76,9 @@
 										<li class="nav-item">
 											<button class="nav-link" data-bs-toggle="tab" data-bs-target="#contrato">Contrato</button>
 										</li>
+										<li class="nav-item">
+											<button class="nav-link" data-bs-toggle="tab" data-bs-target="#dependentes">Dependentes</button>
+										</li>
 									</ul>
 	
 									<!-- Conteúdo das abas -->
@@ -81,32 +86,32 @@
 										<!-- ================= DADOS PESSOAIS ================= -->
 										<div class="tab-pane fade show active" id="dadosPessoais">
 											<div class="row">
-												<div class="mb-3 col-md-6">
+												<div class="mb-3 col-md-4">
 					      							<label class="form-label">Nome Completo</label>
-					      							<input class="form-control" type="text" name="nome"/>
+					      							<input class="form-control" type="text" th:field="*{nome}"/>
 					    						</div>
 					    						
-					    						<div class="mb-3 col-md-6">
+					    						<div class="mb-3 col-md-4">
 					      							<label class="form-label">Nome Social</label>
-					      							<input class="form-control" type="text" name="nome"/>
+					      							<input class="form-control" type="text" th:field="*{nomeSocial}"/>
+					    						</div>
+					    						
+					    						<div class="mb-3 col-md-2">
+						      						<label class="form-label">Telefone</label>
+						      						<input class="form-control js-telefone" type="text" th:field="*{telefone}"/>
+						    					</div>		
+						    					
+						    					<div class="mb-3 col-md-2">
+					      							<label class="form-label">Data de Nascimento</label>
+					      							<input class="form-control" type="date" th:field="*{dataNascimento}"/>
 					    						</div>
 					    						
 					    						<div class="mb-3 col-md-3">
-						      						<label class="form-label">Telefone</label>
-						      						<input class="form-control" type="text" name="telefone" />
-						    					</div>	
-						    					
-						    					<div class="mb-3 col-md-6">
 						      						<label class="form-label">E-mail</label>
-						      						<input class="form-control" type="email" name="email" />
+						      						<input class="form-control" type="email" th:field="*{email}"/>
 						    					</div>
-						    					
-						    					<div class="mb-3 col-md-3">
-					      							<label class="form-label">Data de Nascimento</label>
-					      							<input class="form-control" type="date" name="dataNascimento" />
-					    						</div>
-					
-												<div class="mb-3 col-md-3">
+	
+												<div class="mb-3 col-md-2">
 													<label class="form-label" for="sexo">Sexo</label>
 													<select class="form-select" id="sexo" th:field="*{sexo}">
 													    <option value="">Sexo</option>
@@ -114,32 +119,32 @@
 													</select>
 												</div>
 												
-												<div class="mb-3 col-md-3">
+												<div class="mb-3 col-md-2">
 													<label class="form-label" for="estadoCivil">Estado Civil</label>
 													<select class="form-select" id="estadoCivil" th:field="*{estadoCivil}">
 													    <option value="">Estado Civil</option>
-													    <option th:each="estadoCivil : ${estadoCivils}" th:value="${estadoCivil}" th:text="${estadoCivil.descricao}"></option>
+													    <option th:each="estadoCivil : ${estadoCivis}" th:value="${estadoCivil}" th:text="${estadoCivil.descricao}"></option>
 													</select>
 												</div>
 												
-												<div class="mb-3 col-md-6">
+												<div class="mb-3 col-md-4">
 					      							<label class="form-label">Nome do Pai</label>
-					      							<input class="form-control" type="text" name="nomePai"/>
+					      							<input class="form-control" type="text" th:field="*{nomePai}"/>
 					    						</div>
 					    						
-					    						<div class="mb-3 col-md-6">
+					    						<div class="mb-3 col-md-4">
 					      							<label class="form-label">Nome da Mãe</label>
-					      							<input class="form-control" type="text" name="nomeMae"/>
-					    						</div>
-					    						
-					    						<div class="mb-3 col-md-6">
-					      							<label class="form-label">Contato emergência</label>
-					      							<input class="form-control" type="text" name="nomeContatoEmergencia"/>
+					      							<input class="form-control" type="text" th:field="*{nomeMae}"/>
 					    						</div>
 					    						
 					    						<div class="mb-3 col-md-3">
+					      							<label class="form-label">Contato emergência</label>
+					      							<input class="form-control" type="text" th:field="*{nomeContatoEmergencia}"/>
+					    						</div>
+					    						
+					    						<div class="mb-3 col-md-2">
 						      						<label class="form-label">Telefone emergência</label>
-						      						<input class="form-control" type="text" name="telefoneContatoEmergencia" />
+						      						<input class="form-control js-telefone" type="text" th:field="*{telefoneContatoEmergencia}"/>
 						    					</div>					
 											</div>
 										</div>
@@ -196,91 +201,89 @@
 									    </div>
 	
 										<!-- ================= DOCUMENTAÇÃO ================= -->
-										<div class="tab-pane fade show active" id="dadosPessoais">
+										<div class="tab-pane fade" id="documentacao">
 											<div class="row">
-												<div class="mb-3 col-md-6">
+												<div class="mb-3 col-md-2">
 										          	<label class="form-label">CPF</label>
-										          	<input class="form-control" type="text" name="cpf" />
+										          	<input class="form-control" type="text" th:field="*{cpf}"/>
 										        </div>
 										        
-										        <div class="mb-3 col-md-6">
-										          	<label class="form-label">R.G</label>
-										          	<input class="form-control" type="text" name="rg" />
+										        <div class="mb-3 col-md-2">
+										          	<label class="form-label">R.G.</label>
+										          	<input class="form-control" type="text" th:field="*{rg}"/>
 										        </div>
 										        
-										        <div class="mb-3 col-md-6">
+										        <div class="mb-3 col-md-2">
 										          	<label class="form-label">PIS/PASEP/NIT/NIS</label>
-										          	<input class="form-control" type="text" name="pis" />
+										          	<input class="form-control" type="text" th:field="*{pis}"/>
 										        </div>
 										        
-										        <div class="mb-3 col-md-6">
-										          	<label class="form-label">Título de eleitor</label>
-										          	<input class="form-control" type="text" name="tituloEleitor" />
+										        <div class="mb-3 col-md-2">
+										          	<label class="form-label">Título de Eleitor</label>
+										          	<input class="form-control" type="text" th:field="*{tituloEleitor}"/>
 										        </div>
 										        
-										        <div class="mb-3 col-md-6">
+										        <div class="mb-3 col-md-2">
 										          	<label class="form-label">Carteira de Trabalho</label>
-										          	<input class="form-control" type="text" name="carteiraTrabalho" />
+										          	<input class="form-control" type="text" th:field="*{carteiraTrabalho}"/>
 										        </div>
 											</div>
 										</div>
 	
 									    <!-- ================= PROFISSIONAL ================= -->
 									    <div class="tab-pane fade" id="profissional">
-									    	<div class="row">						
-										        <div class="mb-3 col-md-6">
-										          	<label class="form-label">Matrícula</label>
-										          	<input class="form-control" type="text" name="matricula" />
-										        </div>
-										
-										        <div class="mb-3 col-md-6">
+									    	<div class="row">																
+										        <div class="mb-3 col-md-2">
 										          	<label class="form-label">Cargo</label>
-										          	<input class="form-control" type="text" name="cargo" />
+										          	<input class="form-control" type="text" th:field="*{cargo}"/>
 										        </div>
 										
-										        <div class="mb-3 col-md-6">
+										        <div class="mb-3 col-md-2">
 										          	<label class="form-label">Departamento</label>
-										          	<input class="form-control" type="text" name="departamento" />
+										          	<input class="form-control" type="text" th:field="*{departamento}"/>
 										        </div>
 										
-										        <div class="mb-3 col-md-6">
+										        <div class="mb-3 col-md-2">
 										          	<label class="form-label">Salário</label>
-										          	<input class="form-control" type="number" step="0.01" name="salario" />
+										          	<input class="form-control" type="number" step="0.01" th:field="*{salario}"/>
 										        </div>						
-									    		</div>
+									    	</div>
 									    </div>
 	
 									    <!-- ================= CONTRATO ================= -->
 									    <div class="tab-pane fade" id="contrato">
-									    		<div class="row">
-										        <div class="mb-3 col-md-6">
+									    	<div class="row">
+										        <div class="mb-3 col-md-2">
 										          	<label class="form-label">Data de Admissão</label>
-										          	<input class="form-control" type="date" name="dataAdmissao" required />
+										          	<input class="form-control" type="date" th:field="*{dataAdmissao}"/>
 										        </div>
 										
-										        <div class="mb-3 col-md-6">
-										          	<label class="form-label">Tipo de Contrato</label>
-										          	<select class="form-select" name="tipoContrato">
-										            		<option value="CLT">CLT</option>
-										            		<option value="PJ">PJ</option>
-										            		<option value="ESTAGIO">Estágio</option>
-										          	</select>
-										        </div>
+										        <div class="mb-3 col-md-2">
+													<label class="form-label" for="tipoContrato">Tipo de Contrato</label>
+													<select class="form-select" id="tipoContrato" th:field="*{tipoContrato}">
+													    <option value="">Tipode Contrato</option>
+													    <option th:each="tipoContrato : ${tipoContratos}" th:value="${tipoContrato}" th:text="${tipoContrato.descricao}"></option>
+													</select>
+												</div>
 									
-										        <div class="mb-3 col-md-6">
-										          	<label class="form-label">Status</label>
-										          	<select class="form-select" name="status">
-										            		<option value="ATIVO">Ativo</option>
-										            		<option value="INATIVO">Inativo</option>
-										          	</select>
-										        </div>						
-									    		</div>
+										        <div class="mb-3 col-md-2">
+													<label class="form-label" for="situacao">Situação</label>
+													<select class="form-select" id="situacao" th:field="*{situacao}">
+													    <option value="">Situação</option>
+													    <option th:each="situacao : ${situacoes}" th:value="${situacao}" th:text="${situacao.descricao}"></option>
+													</select>
+												</div>						
+									    	</div>
+									    </div>
+									    
+									    <!-- ================= DEPENDENTES ================= -->
+									    <div class="tab-pane fade" id="dependentes">
 									    </div>	
 									</div>
 	
 								 	<!-- Botões -->
 								 	<div class="mt-3">
-								   		<button type="submit" class="btn btn-primary">Salvar Funcionário</button>
+								   		<button type="submit" class="btn btn-primary">Cadastrar Funcionário</button>
 								   		<button type="reset" class="btn btn-outline-secondary">Cancelar</button>
 								 	</div>
 	          					</form>
