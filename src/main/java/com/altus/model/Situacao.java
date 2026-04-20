@@ -4,7 +4,7 @@ public enum Situacao {
 	ATIVO("ATIVO"),
 	AFASTADO("AFASTADO"),
 	DEMITIDO("DEMITIDO"),
-	FERIAS("FERIAS");
+	FERIAS("FÉRIAS");
 	
 	private String descricao;
 	

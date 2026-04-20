@@ -1,6 +1,6 @@
 /*
 ######################
-# UTILIDADES
+# UTILIDADES - ALTUS
 ######################
 */
 .bw-glyphicon-large {
@@ -18,11 +18,12 @@
 ######################
 */
 
-/* Field Action */
+/* Field Action ALTUS*/
 .altus-field-action {
     display: flex;
 }
 
+/*ALTUS*/
 .altus-field-action__icon {
     margin: 6px 0 0 5px;
 }

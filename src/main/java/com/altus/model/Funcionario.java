@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 import org.hibernate.validator.constraints.br.CPF;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -57,6 +58,7 @@ public class Funcionario implements Serializable{
     
     @NotNull(message = "Data de nascimento é obrigatória.")
     @Past(message = "Data de nascimento deve ser no passado.")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "data_nascimento")
     private LocalDate dataNascimento;
     
@@ -85,6 +87,7 @@ public class Funcionario implements Serializable{
     private String nomeContatoEmergencia;
     
     @NotNull(message = "Data de admissão é obrigatória.")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "data_admissao")
     private LocalDate dataAdmissao;
 
@@ -166,7 +169,7 @@ public class Funcionario implements Serializable{
     }
 
     public void setCpf(String cpf) {
-    	// REMOVE OS ELEMENTOS DA MASCARA PARA SALVAR APENAS O NÚMERO
+    		// REMOVE OS ELEMENTOS DA MASCARA PARA SALVAR APENAS O NÚMERO
      	this.cpf = cpf != null ? cpf.replaceAll("\\D", "") : null;
     }
 
@@ -248,7 +251,8 @@ public class Funcionario implements Serializable{
 	}
 
 	public void setTelefoneContatoEmergencia(String telefoneContatoEmergencia) {
-		this.telefoneContatoEmergencia = telefoneContatoEmergencia;
+		// REMOVE OS ELEMENTOS DA MASCARA PARA SALVAR APENAS O NÚMERO
+     	this.telefoneContatoEmergencia = telefoneContatoEmergencia != null ? telefoneContatoEmergencia.replaceAll("\\D", "") : null;
 	}
 
 	public String getNomeContatoEmergencia() {

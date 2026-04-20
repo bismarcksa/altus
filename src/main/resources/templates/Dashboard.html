@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt"
+	class="light-style layout-menu-fixed"
+	dir="ltr"
+	data-theme="theme-default"
+	data-assets-path="/layout/"
+	data-template="vertical-menu-template-free"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/LayoutPadrao}">
+
+<head></head>
+
+<body>
+
+<section layout:fragment="conteudo">
+
+<div class="container-xxl flex-grow-1 container-p-y">
+
+	<h4 class="fw-bold py-3 mb-4">
+		<span class="text-muted fw-light">RH /</span> Dashboard
+	</h4>
+
+	<!-- ================= KPI CARDS ================= -->
+	<div class="row">
+
+		<div class="col-md-3">
+			<div class="card">
+				<div class="card-body">
+					<span class="fw-semibold d-block mb-1">Funcionários Ativos</span>
+					<h3 class="card-title mb-1">128</h3>
+					<small class="text-muted">Total atual</small><br>
+					<small class="text-success fw-semibold">
+						<i class="bx bx-up-arrow-alt"></i> +5 este mês
+					</small>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-3">
+			<div class="card">
+				<div class="card-body">
+					<span class="fw-semibold d-block mb-1">Admissões</span>
+					<h3 class="card-title mb-1">12</h3>
+					<small class="text-muted">Últimos 30 dias</small>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-3">
+			<div class="card">
+				<div class="card-body">
+					<span class="fw-semibold d-block mb-1">Desligamentos</span>
+					<h3 class="card-title mb-1">3</h3>
+					<small class="text-muted">Últimos 30 dias</small><br>
+					<small class="text-danger fw-semibold">
+						<i class="bx bx-down-arrow-alt"></i> -2 comparado ao mês passado
+					</small>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-3">
+			<div class="card">
+				<div class="card-body">
+					<span class="fw-semibold d-block mb-1">Em Férias</span>
+					<h3 class="card-title mb-1">6</h3>
+					<small class="text-muted">Hoje</small>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- ================= GRÁFICOS ================= -->
+	<div class="row mt-4">
+
+		<!-- Funcionários por Departamento -->
+		<div class="col-md-6">
+			<div class="card">
+				<h5 class="card-header">Funcionários por Departamento</h5>
+				<div class="card-body" style="height: 300px;">
+					<div style="max-width: 300px; margin: auto;">
+						<canvas id="chartDepartamento"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Evolução de Funcionários -->
+		<div class="col-md-6">
+			<div class="card">
+				<h5 class="card-header">Evolução de Funcionários</h5>
+				<div class="card-body" style="height: 300px;">
+					<canvas id="chartEvolucao"></canvas>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- ================= ALERTAS ================= -->
+	<div class="row mt-4">
+
+		<div class="col-md-6">
+			<div class="card">
+				<h5 class="card-header text-danger">Alertas Importantes</h5>
+				<div class="card-body">
+
+					<ul class="list-group">
+
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							<span>
+								<i class="bx bx-error-circle text-danger me-2"></i>
+								Contratos vencendo em 30 dias
+							</span>
+							<span class="badge bg-danger">4</span>
+						</li>
+
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							<span>
+								<i class="bx bx-time text-warning me-2"></i>
+								Documentos pendentes
+							</span>
+							<span class="badge bg-warning">7</span>
+						</li>
+
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							<span>
+								<i class="bx bx-calendar text-info me-2"></i>
+								Férias próximas do vencimento
+							</span>
+							<span class="badge bg-info">3</span>
+						</li>
+
+					</ul>
+
+				</div>
+			</div>
+		</div>
+
+		<!-- Novos Funcionários -->
+		<div class="col-md-6">
+			<div class="card">
+				<h5 class="card-header">Últimos Admitidos</h5>
+				<div class="card-body">
+
+					<ul class="list-group">
+						<li class="list-group-item">João Silva - Financeiro</li>
+						<li class="list-group-item">Maria Souza - RH</li>
+						<li class="list-group-item">Carlos Lima - TI</li>
+					</ul>
+
+				</div>
+			</div>
+		</div>
+		
+		
+		
+		<!-- ================= NOVOS GRÁFICOS RH ================= -->
+<div class="row mt-4">
+
+	<!-- Faixa Etária -->
+	<div class="col-md-6">
+		<div class="card">
+			<h5 class="card-header">Funcionários por Faixa Etária</h5>
+			<div class="card-body" style="height: 300px;">
+				<canvas id="chartIdade"></canvas>
+			</div>
+		</div>
+	</div>
+
+	<!-- Distribuição por Sexo -->
+	<div class="col-md-6">
+		<div class="card">
+			<h5 class="card-header">Distribuição por Sexo</h5>
+			<div class="card-body" style="height: 300px;">
+				<canvas id="chartSexo"></canvas>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div class="row mt-4">
+
+	<!-- Absenteísmo -->
+	<div class="col-md-6">
+		<div class="card">
+			<h5 class="card-header">Taxa de Absenteísmo</h5>
+			<div class="card-body" style="height: 300px;">
+				<canvas id="chartAbsenteismo"></canvas>
+			</div>
+		</div>
+	</div>
+
+	<!-- Turnover -->
+	<div class="col-md-6">
+		<div class="card">
+			<h5 class="card-header">Turnover</h5>
+			<div class="card-body" style="height: 300px;">
+				<canvas id="chartTurnover"></canvas>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+	</div>
+
+</div>
+
+</section>
+
+<!-- ================= JS ================= -->
+<th:block layout:fragment="javascript-extra">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+	// Gráfico Departamento
+	new Chart(document.getElementById('chartDepartamento'), {
+		type: 'doughnut',
+		data: {
+			labels: ['RH', 'Financeiro', 'TI', 'Operacional'],
+			datasets: [{
+				data: [10, 25, 15, 78],
+				backgroundColor: [
+					'#696cff',
+					'#03c3ec',
+					'#71dd37',
+					'#ffab00'
+				]
+			}]
+		},
+		options: {
+			maintainAspectRatio: false
+		}
+	});
+
+	// Evolução
+	new Chart(document.getElementById('chartEvolucao'), {
+		type: 'line',
+		data: {
+			labels: ['Jan', 'Fev', 'Mar', 'Abr'],
+			datasets: [{
+				label: 'Funcionários',
+				data: [100, 110, 120, 128],
+				tension: 0.4,
+				fill: true
+			}]
+		},
+		options: {
+			maintainAspectRatio: false
+		}
+	});
+	
+	
+	// ================= FAIXA ETÁRIA =================
+	new Chart(document.getElementById('chartIdade'), {
+		type: 'bar',
+		data: {
+			labels: ['18-25', '26-35', '36-45', '46-60'],
+			datasets: [{
+				label: 'Funcionários',
+				data: [20, 50, 35, 23],
+				backgroundColor: '#696cff'
+			}]
+		},
+		options: {
+			indexAxis: 'y',
+			maintainAspectRatio: false
+		}
+	});
+
+	// ================= SEXO =================
+	new Chart(document.getElementById('chartSexo'), {
+		type: 'doughnut',
+		data: {
+			labels: ['Masculino', 'Feminino'],
+			datasets: [{
+				data: [70, 58],
+				backgroundColor: ['#03c3ec', '#ff6384']
+			}]
+		},
+		options: {
+			cutout: '60%',
+			maintainAspectRatio: false
+		}
+	});
+
+	// ================= ABSENTEÍSMO =================
+	new Chart(document.getElementById('chartAbsenteismo'), {
+		type: 'doughnut',
+		data: {
+			labels: ['Presente', 'Faltas'],
+			datasets: [{
+				data: [92, 8], // 8% absenteísmo
+				backgroundColor: ['#71dd37', '#ff3e1d']
+			}]
+		},
+		options: {
+			circumference: 180,
+			rotation: 270,
+			cutout: '70%',
+			maintainAspectRatio: false
+		}
+	});
+
+	// ================= TURNOVER =================
+	new Chart(document.getElementById('chartTurnover'), {
+		type: 'bar',
+		data: {
+			labels: ['Admissões', 'Desligamentos'],
+			datasets: [{
+				label: 'Quantidade',
+				data: [12, 3],
+				backgroundColor: ['#71dd37', '#ff3e1d']
+			}]
+		},
+		options: {
+			maintainAspectRatio: false
+		}
+	});
+	
+</script>
+
+</th:block>
+
+</body>
+</html>
