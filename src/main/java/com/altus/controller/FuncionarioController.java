@@ -18,12 +18,14 @@ import com.altus.model.TipoContrato;
 import com.altus.repository.Estados;
 import com.altus.repository.Funcionarios;
 import com.altus.repository.filter.FuncionarioFilter;
-import com.altus.service.CadastroFuncionarioService;
+import com.altus.service.FuncionarioService;
+import com.altus.service.exception.ObjetoJaExisteException;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @Controller
+@RequestMapping("/funcionario")
 public class FuncionarioController {
 	
 	@Autowired
@@ -33,9 +35,9 @@ public class FuncionarioController {
 	private Funcionarios funcionarios;
 	
 	@Autowired
-	private CadastroFuncionarioService cadastroFuncionarioService;
+	private FuncionarioService cadastroFuncionarioService;
 	
-	@RequestMapping("/funcionario/novo")
+	@RequestMapping("/novo")
 	public ModelAndView novo(Funcionario funcionario) {
 		ModelAndView mv = new ModelAndView("funcionario/CadastroFuncionario");
 	    
@@ -48,23 +50,29 @@ public class FuncionarioController {
 		return mv;
 	}
 	
-	@RequestMapping(value = "/funcionario/novo", method = RequestMethod.POST)
+	@RequestMapping(value = "/novo", method = RequestMethod.POST)
 	public ModelAndView cadastrar(@Valid Funcionario funcionario, BindingResult result, RedirectAttributes attributes) {
 		if(result.hasErrors()) {
 			result.getAllErrors().forEach(e -> System.out.println("VEJA O ERRO: " + e));
 			return novo(funcionario);
 		}
 		
-		cadastroFuncionarioService.salvar(funcionario);
+		try {
+			cadastroFuncionarioService.salvar(funcionario);
+		}catch (ObjetoJaExisteException e){
+			   result.rejectValue("cpf", e.getMessage(), e.getMessage());
+			   return novo(funcionario);
+		}
+		
 		attributes.addFlashAttribute("mensagem", "Funcionário salvo com sucesso.");	
 		return new ModelAndView("redirect:/funcionario/novo");
 	}
 	
-	
-	@GetMapping("/funcionarios")
+	@GetMapping
     public ModelAndView pesquisar(FuncionarioFilter funcionarioFilter, BindingResult result, @PageableDefault(size = 10) Pageable pageable, HttpServletRequest request){
-        ModelAndView mv = new ModelAndView("funcionario/ListagemFuncionario");
-
+        ModelAndView mv = new ModelAndView("funcionario/PesquisarFuncionario");
+        
+        mv.addObject("funcionarios", funcionarios.findAll());
           
 //        PageWrapper<Funcionario> pageWrapper = new PageWrapper<>(funcionarios.filtrar(funcionarioFilter, pageable),request);
 //        mv.addObject("pagina", pageWrapper);

@@ -1,4 +1,3 @@
-
 var Altus = Altus || {};
 
 Altus.ComboEstado = (function(){
@@ -13,7 +12,8 @@ Altus.ComboEstado = (function(){
         this.combo.on('change', onEstadoAlterado.bind(this));
 
         function onEstadoAlterado() {
-            this.emitter.trigger('alterado', this.combo.val());
+//			console.log('ESTADO ALTERADO: ', this.combo.val());
+            this.emitter.trigger('alterado', this.combo.val());			
         }
     };
     return ComboEstado;
@@ -31,22 +31,22 @@ Altus.ComboCidade = (function(){
     ComboCidade.prototype.iniciar = function(){
         resetComboCidade.call(this);
         this.comboEstado.on('alterado', onEstadoAlterado.bind(this));
-		var codigoEstado = this.comboEstado.combo.val();
-		inicializarCidades.call(this, codigoEstado);
+		var idEstado = this.comboEstado.combo.val();
+		inicializarCidades.call(this, idEstado);
     };
 
-    function onEstadoAlterado(evento, codigoEstado) {      		
+    function onEstadoAlterado(evento, idEstado) {  		
 		this.inputHiddenCidadeSelecionada.val('');
-		inicializarCidades.call(this, codigoEstado);
+		inicializarCidades.call(this, idEstado);
     }
 	
-	function inicializarCidades(codigoEstado){
-		if(codigoEstado){
+	function inicializarCidades(idEstado){
+		if(idEstado){
 		    var resposta = $.ajax({
 			    	url: this.combo.data('url'),
 			    	method: 'GET',
 			    	contentType: 'application/json',
-			    	data: {'estado': codigoEstado},
+			    	data: {'estado': idEstado},
 			    	beforeSend: iniciarRequisicao.bind(this),
 			    	complete: finalizarRequisicao.bind(this)
 		    });
@@ -57,10 +57,12 @@ Altus.ComboCidade = (function(){
 	}
 
     function onBuscarCidadesFinalizado(cidades) {
+		console.log('VEJA: ', cidades);
         var options = [];
-            cidades.forEach(function(cidade){
-                options.push('<option value="' + cidade.codigo + '">' + cidade.nome + '</option>');
-            });
+        cidades.forEach(function(cidade){
+        		options.push('<option value="' + cidade.id + '">' + cidade.nome + '</option>');
+        });
+		
         this.combo.html(options.join(''));
         this.combo.removeAttr('disabled');
 		

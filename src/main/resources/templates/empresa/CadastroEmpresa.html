@@ -118,14 +118,14 @@
 									        <label class="form-label">Estado</label>
 									        <select id="estado" class="form-select" th:field="*{endereco.estado}">
 									            <option value="">Selecione o estado</option>
-									            <option th:each="estado : ${estados}" th:value="${estado.codigo}" th:text="${estado.nome}"></option>
+									            <option th:each="estado : ${estados}" th:value="${estado.id}" th:text="${estado.nome}"></option>
 									        </select>
 									    </div>
 									
 									    <div class="mb-3 col-md-3">
 									        <label class="form-label">Cidade</label>
 									        <div class="altus-field-action">
-									            <input type="hidden" id="inputHiddenCidadeSelecionada" th:value="*{endereco.cidade} != null ? *{endereco.cidade.codigo}"/>
+									            <!-- <input type="hidden" id="inputHiddenCidadeSelecionada" th:value="*{endereco.cidade} != null ? *{endereco.cidade.id}"/>  -->
 									            
 									            <select id="cidade" class="form-select" th:attr="data-url=@{/cidades}" th:field="*{endereco.cidade}"></select>
 									
@@ -133,7 +133,7 @@
 									                <img th:src="@{/images/mini-loading.gif}"/>
 									            </div>
 									        </div>
-									    </div>
+									    </div>  
 									</div>
 									
 									<!-- SEPARADOR -->
@@ -199,7 +199,6 @@
 		<script th:src="@{/javascripts/empresa.combo-estado-cidade.js}"></script>
 		<script th:src="@{/javascripts/vendors/bootstrap-switch.min.js}"></script>
 		<script>
-        //$('.js-status').bootstrapSwitch();
         $('.js-status').each(function () {
 	        var $this = $(this);
 	        $this.bootstrapSwitch();

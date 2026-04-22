@@ -33,15 +33,14 @@ public class Endereco implements Serializable {
     private String bairro;
 
     @ManyToOne
-    @JoinColumn(name = "codigo_cidade")
+    @JoinColumn(name = "cidade_id")
     @NotNull(message="Cidade é obrigatótio.")
     private Cidade cidade;
 
     @jakarta.persistence.Transient
     @NotNull(message="Estado é obrigatótio.")
     private Estado estado;
-    
-    
+        
     public String getLogradouro() {
         return logradouro;
     }

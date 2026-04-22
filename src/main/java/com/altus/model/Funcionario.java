@@ -36,8 +36,8 @@ public class Funcionario implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "codigo")    
-    private Long codigo;
+    @Column(name = "id")    
+    private Long id;
 
     @NotBlank(message = "Nome é obrigatório.")
     @Size(max = 80)
@@ -84,12 +84,7 @@ public class Funcionario implements Serializable{
     
     @Column(name = "nome_contato_emergencia")
     @Size(max = 50)
-    private String nomeContatoEmergencia;
-    
-    @NotNull(message = "Data de admissão é obrigatória.")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Column(name = "data_admissao")
-    private LocalDate dataAdmissao;
+    private String nomeContatoEmergencia;  
 
     @JsonIgnore
     @Valid
@@ -102,6 +97,7 @@ public class Funcionario implements Serializable{
     private String cpf;
     
     @NotBlank(message = "RG é obrigatório.")
+    @Column(name = "rg")
     private String rg;
     
     //PIS, PASEP, NIT, NIS 
@@ -119,23 +115,7 @@ public class Funcionario implements Serializable{
 
     @Column(name = "naturalidade")
     private String naturalidade;
-    
-    @NotBlank(message = "Cargo é obrigatório.")
-    private String cargo;
-
-    @NotBlank(message = "Departamento é obrigatório.")
-    private String departamento;
-
-    @Column(name = "salario")
-    private BigDecimal salario;
-    
-    @Column(name = "data_demissao")
-    private LocalDate dataDemissao;
-    
-    @NotBlank(message = "Tipo de contrato é obrigatório.")
-    @Column(name = "tipo_contrato")
-    private String tipoContrato; // CLT, PJ, Estágio
-
+ 
     @Column(name = "jornada_trabalho")
     private String jornadaTrabalho;
     
@@ -146,17 +126,17 @@ public class Funcionario implements Serializable{
     private String observacoes;
     
     @Column(name = "data_cadastro", insertable = false, updatable = false)
-    private LocalDateTime dataCadastro;
-      
-    public Long getCodigo() {
-        return codigo;
-    }
+    private LocalDateTime dataCadastro;    
 
-    public void setCodigo(Long codigo) {
-        this.codigo = codigo;
-    }
+    public Long getId() {
+		return id;
+	}
 
-    public String getNome() {
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getNome() {
         return nome;
     }
 
@@ -263,14 +243,6 @@ public class Funcionario implements Serializable{
 		this.nomeContatoEmergencia = nomeContatoEmergencia;
 	}
 
-	public LocalDate getDataAdmissao() {
-		return dataAdmissao;
-	}
-
-	public void setDataAdmissao(LocalDate dataAdmissao) {
-		this.dataAdmissao = dataAdmissao;
-	}
-
 	public String getRg() {
 		return rg;
 	}
@@ -319,46 +291,6 @@ public class Funcionario implements Serializable{
 		this.naturalidade = naturalidade;
 	}
 
-	public String getCargo() {
-		return cargo;
-	}
-
-	public void setCargo(String cargo) {
-		this.cargo = cargo;
-	}
-
-	public String getDepartamento() {
-		return departamento;
-	}
-
-	public void setDepartamento(String departamento) {
-		this.departamento = departamento;
-	}
-
-	public BigDecimal getSalario() {
-		return salario;
-	}
-
-	public void setSalario(BigDecimal salario) {
-		this.salario = salario;
-	}
-
-	public LocalDate getDataDemissao() {
-		return dataDemissao;
-	}
-
-	public void setDataDemissao(LocalDate dataDemissao) {
-		this.dataDemissao = dataDemissao;
-	}
-
-	public String getTipoContrato() {
-		return tipoContrato;
-	}
-
-	public void setTipoContrato(String tipoContrato) {
-		this.tipoContrato = tipoContrato;
-	}
-
 	public String getJornadaTrabalho() {
 		return jornadaTrabalho;
 	}
@@ -396,11 +328,11 @@ public class Funcionario implements Serializable{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Funcionario funcionario = (Funcionario) o;
-        return Objects.equals(codigo, funcionario.codigo);
+        return Objects.equals(id, funcionario.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(codigo);
+        return Objects.hash(id);
     }
 }

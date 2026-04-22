@@ -1,4 +1,4 @@
-package com.altus.repository.helper;
+package com.altus.repository.helper.funcionario;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,7 +22,7 @@ import jakarta.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FuncionariosImpl implements FuncionariosQueries {
+public class FuncionarioImpl implements FuncionarioQueries {
 
     @PersistenceContext
     private EntityManager manager;

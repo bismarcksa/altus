@@ -7,11 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.altus.model.Cidade;
 import com.altus.model.Empresa;
+import com.altus.model.Endereco;
 import com.altus.model.RegimeTributario;
 import com.altus.model.Tipo;
 import com.altus.repository.Estados;
-import com.altus.service.CadastroEmpresaService;
+import com.altus.service.EmpresaService;
 
 import jakarta.validation.Valid;
 
@@ -22,12 +25,13 @@ public class EmpresaController {
 	private Estados estados;
 	
 	@Autowired
-	private CadastroEmpresaService cadastroEmpresaService;
+	private EmpresaService cadastroEmpresaService;
 	
 	@RequestMapping("/empresa/novo")
 	public ModelAndView novo(Empresa empresa) {
 		ModelAndView mv = new ModelAndView("empresa/CadastroEmpresa");
 	    
+		
 		mv.addObject("regimes", RegimeTributario.values());
 		mv.addObject("tipos", Tipo.values());
 		mv.addObject("estados", estados.findAll());

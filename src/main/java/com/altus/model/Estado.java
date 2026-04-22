@@ -15,19 +15,19 @@ public class Estado implements Serializable{
     
 	@Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long codigo;
+    private Long id;
     private String nome;
     private String sigla;
 
-    public Long getCodigo() {
-        return codigo;
-    }
+    public Long getId() {
+		return id;
+	}
 
-    public void setCodigo(Long codigo) {
-        this.codigo = codigo;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getNome() {
+	public String getNome() {
         return nome;
     }
 
@@ -43,16 +43,20 @@ public class Estado implements Serializable{
         this.sigla = sigla;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Estado estado = (Estado) o;
-        return Objects.equals(codigo, estado.codigo);
-    }
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(codigo, nome, sigla);
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Estado other = (Estado) obj;
+		return Objects.equals(id, other.id);
+	}
 }

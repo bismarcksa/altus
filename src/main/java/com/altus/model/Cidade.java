@@ -23,8 +23,8 @@ public class Cidade implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "codigo")
-    private Long codigo;
+	@Column(name = "id")
+    private Long id;
     
     @NotBlank(message = "Nome é obrigatório")
     private String nome;
@@ -34,19 +34,19 @@ public class Cidade implements Serializable{
 
     @NotNull(message = "Estado é obrigatório")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "codigo_estado")
+    @JoinColumn(name = "estado_id")
     @JsonIgnore
     private Estado estado;
 
-    public Long getCodigo() {
-        return codigo;
-    }
+    public Long getId() {
+		return id;
+	}
 
-    public void setCodigo(Long codigo) {
-        this.codigo = codigo;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getNome() {
+	public String getNome() {
         return nome;
     }
 
@@ -74,16 +74,22 @@ public class Cidade implements Serializable{
     		return this.estado != null;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Cidade cidade = (Cidade) o;
-        return Objects.equals(codigo, cidade.codigo);
-    }
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(codigo);
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Cidade other = (Cidade) obj;
+		return Objects.equals(id, other.id);
+	}
+
+    
 }

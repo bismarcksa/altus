@@ -3,6 +3,10 @@ package com.altus.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -25,8 +29,8 @@ public class Empresa implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "codigo")
-	private Long codigo;
+	@Column(name = "id")
+	private Long id;
     
     @Column(name = "razao_social")
     @NotBlank(message = "Razão Social é obrigatória.")
@@ -43,6 +47,7 @@ public class Empresa implements Serializable{
     @Column(name = "inscricao_estadual")
     private String inscricaoEstadual;
     
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "data_abertura")
     private LocalDate dataAbertura;
     
@@ -79,16 +84,16 @@ public class Empresa implements Serializable{
     private Boolean ativo = true;
     
     @Column(name = "data_cadastro", insertable = false, updatable = false)
-    private LocalDateTime dataCadastro;
-    
-    public Long getCodigo() {
-		return codigo;
-	}
+    private LocalDateTime dataCadastro;  
 	
-    public void setCodigo(Long codigo) {
-		this.codigo = codigo;
+	public Long getId() {
+		return id;
 	}
-	
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public String getRazaoSocial() {
 		return razaoSocial;
 	}
@@ -202,5 +207,22 @@ public class Empresa implements Serializable{
 	
 	public void setDataCadastro(LocalDateTime dataCadastro) {
 		this.dataCadastro = dataCadastro;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Empresa other = (Empresa) obj;
+		return Objects.equals(id, other.id);
 	} 
 }

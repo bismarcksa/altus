@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt"
+	class="light-style layout-menu-fixed"
+	dir="ltr"
+	data-theme="theme-default"
+	data-assets-path="/layout/"
+	data-template="vertical-menu-template-free"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/LayoutPadrao}">
+
+<body>
+<section layout:fragment='conteudo'>
+
+<div class="container-xxl flex-grow-1 container-p-y">
+
+	<h4 class="fw-bold py-3 mb-4">
+		<span class="text-muted fw-light">RH /</span> Funcionários
+	</h4>
+
+	<!-- ================= KPI CARDS ================= -->
+	<div class="row mb-4">
+		<div class="col-md-3">
+			<div class="card">
+				<div class="card-body">
+					<h6>Total Funcionários</h6>
+					<h3 th:text="${totalFuncionarios}">120</h3>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-3">
+			<div class="card">
+				<div class="card-body">
+					<h6>Ativos</h6>
+					<h3 class="text-success" th:text="${ativos}">95</h3>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-3">
+			<div class="card">
+				<div class="card-body">
+					<h6>Inativos</h6>
+					<h3 class="text-danger" th:text="${inativos}">25</h3>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-3">
+			<div class="card">
+				<div class="card-body">
+					<h6>Admissões no mês</h6>
+					<h3 class="text-primary" th:text="${admissoesMes}">5</h3>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ================= FILTROS ================= -->
+	<div class="card mb-4">
+		<div class="card-body">
+			<form method="GET" th:action="@{/funcionarios}">
+				<div class="row">
+
+					<div class="col-md-3">
+						<input type="text" name="nome" class="form-control" placeholder="Buscar por nome..."/>
+					</div>
+
+					<div class="col-md-2">
+						<select name="situacao" class="form-select">
+							<option value="">Situação</option>
+							<option value="ATIVO">Ativo</option>
+							<option value="INATIVO">Inativo</option>
+						</select>
+					</div>
+
+					<div class="col-md-2">
+						<input type="text" name="cargo" class="form-control" placeholder="Cargo"/>
+					</div>
+
+					<div class="col-md-2">
+						<input type="text" name="departamento" class="form-control" placeholder="Departamento"/>
+					</div>
+
+					<div class="col-md-3">
+						<button class="btn btn-primary">
+							<i class="bx bx-search"></i> Filtrar
+						</button>
+						<a th:href="@{/funcionarios}" class="btn btn-outline-secondary">
+							Limpar
+						</a>
+					</div>
+
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<!-- ================= TABELA ================= -->
+	<div class="card">
+		<div class="card-header d-flex justify-content-between">
+			<h5>Lista de Funcionários</h5>
+
+			<a th:href="@{/funcionarios/novo}" class="btn btn-success">
+				<i class="bx bx-plus"></i> Novo Funcionário
+			</a>
+		</div>
+
+		<div class="table-responsive text-nowrap">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>Foto</th>
+						<th>Nome</th>
+						<th>Cargo</th>
+						<th>Departamento</th>
+						<th>Admissão</th>
+						<th>Status</th>
+						<th>Ações</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr th:each="funcionario : ${funcionarios}">				
+						<td>
+							<img th:src="@{/layout/img/avatars/1.png}" class="rounded-circle" width="40"/>
+						</td>
+
+						<td>
+							<strong th:text="${funcionario.nome}">João</strong><br/>
+							<small th:text="${funcionario.email}"></small>
+						</td>
+
+						<td th:text="${funcionario.cargo}"></td>
+						<td th:text="${funcionario.departamento}"></td>
+
+						<td th:text="${#temporals.format(funcionario.dataAdmissao, 'dd/MM/yyyy')}"></td>
+
+						<td>
+							<span class="badge"
+								th:classappend="${f.situacao.name() == 'ATIVO'} ? 'bg-label-success' : 'bg-label-danger'"
+								th:text="${f.situacao.descricao}">
+							</span>
+						</td>
+
+						<td>
+							<div class="dropdown">
+								<button class="btn btn-sm btn-icon" data-bs-toggle="dropdown">
+									<i class="bx bx-dots-vertical-rounded"></i>
+								</button>
+								<div class="dropdown-menu">
+									<a class="dropdown-item"
+									   th:href="@{/funcionarios/{id}(id=${f.codigo})}">
+										<i class="bx bx-show"></i> Visualizar
+									</a>
+
+									<a class="dropdown-item"
+									   th:href="@{/funcionarios/editar/{id}(id=${f.codigo})}">
+										<i class="bx bx-edit"></i> Editar
+									</a>
+
+									<a class="dropdown-item text-danger"
+									   th:href="@{/funcionarios/desligar/{id}(id=${f.codigo})}">
+										<i class="bx bx-user-x"></i> Desligar
+									</a>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+
+			</table>
+		</div>
+
+		<!-- ================= PAGINAÇÃO ================= -->
+		<div class="card-footer">
+			<nav>
+				<ul class="pagination justify-content-end">
+					<li class="page-item">
+						<a class="page-link" href="#">Anterior</a>
+					</li>
+					<li class="page-item active">
+						<a class="page-link" href="#">1</a>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="#">Próximo</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+
+	</div>
+
+</div>
+
+</section>
+</body>
+</html>

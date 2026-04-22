@@ -8,7 +8,7 @@ import com.altus.model.Empresa;
 import com.altus.repository.Empresas;
 
 @Service
-public class CadastroEmpresaService {
+public class EmpresaService {
 	
 	@Autowired
 	private Empresas empresas;

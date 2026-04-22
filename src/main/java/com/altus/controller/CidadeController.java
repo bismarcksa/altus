@@ -14,7 +14,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/cidades")
-public class CidadesController {	
+public class CidadeController {	
 	
     @Autowired
     private Cidades cidades;   
@@ -26,11 +26,11 @@ public class CidadesController {
     
 //    @Cacheable(value = "cidades", key= "#p0") //ESSE "#p0" É O PRIMEIRO PARAMETRO DE CACHE/FUNÇÃO
 	@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody List<Cidade> pesquisarPorCodigoEstado(@RequestParam(name = "estado", defaultValue = "-1") Long codigoEstado) {
+	public @ResponseBody List<Cidade> pesquisarPorIdEstado(@RequestParam(name = "estado", defaultValue = "-1") Long idEstado) {
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {	}
 		
-		return cidades.findByEstadoCodigo(codigoEstado);
+		return cidades.findByEstadoId(idEstado);
 	}
 }
