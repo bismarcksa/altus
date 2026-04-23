@@ -50,14 +50,13 @@
 	<div class="card">
 		<div class="card-header d-flex justify-content-between">
 			<h5>Lista de Departamentos</h5>
-
-			<a th:href="@{/funcionarios/novo}" class="btn btn-success">
-				<i class="bx bx-plus"></i> Novo Departamento
+			<a href="#" data-bs-toggle="modal" data-bs-target="#modalCadastroDepartamento" class="btn btn-success">
+				<i class="bx bx-plus altus-field-action"></i> Novo Departamento		
 			</a>
 		</div>
 
 		<div class="table-responsive text-nowrap">
-			<table class="table table-hover">
+			<table class="table table-hover js-tabela-departamentos">
 				<thead>
 					<tr>
 						<th>Código</th>
@@ -67,39 +66,29 @@
 					</tr>
 				</thead>
 
-				<tbody>
+				<tbody th:fragment="listaDepartamentos">
 					<tr th:each="departamento : ${departamentos}">				
-						<td h:text="${departamento.codigo}"></td>
-
+						<td th:text="${departamento.id}"></td>
 						<td th:text="${departamento.nome}"></td>
-						<td th:text="${departamento.empresa.nome}"></td>
+						<td th:text="${departamento.empresa.razaoSocial}"></td>
 					
 						<td>
 							<div class="dropdown">
 								<button class="btn btn-sm btn-icon" data-bs-toggle="dropdown">
 									<i class="bx bx-dots-vertical-rounded"></i>
 								</button>
-								<div class="dropdown-menu">
-									<a class="dropdown-item"
-									   th:href="@{/funcionarios/{id}(id=${f.codigo})}">
-										<i class="bx bx-show"></i> Visualizar
-									</a>
-
-									<a class="dropdown-item"
-									   th:href="@{/funcionarios/editar/{id}(id=${f.codigo})}">
-										<i class="bx bx-edit"></i> Editar
-									</a>
-
-									<a class="dropdown-item text-danger"
-									   th:href="@{/funcionarios/desligar/{id}(id=${f.codigo})}">
-										<i class="bx bx-user-x"></i> Desligar
-									</a>
-								</div>
+							 	<div class="dropdown-menu">
+									<a class="dropdown-item" th:href="@{/departamento/{id}(id=${departamento.id})}"><i class="bx bx-show"></i> Visualizar</a>
+									<a class="dropdown-item" th:href="@{/departamento/editar/{id}(id=${departamento.id})}"><i class="bx bx-edit"></i> Editar</a>
+									<a class="dropdown-item text-danger" th:href="@{/departamento/desligar/{id}(id=${departamento.id})}"><i class="bx bx-user-x"></i> Desligar</a>
+								</div> 
 							</div>
 						</td>
 					</tr>
+					<tr th:if="${departamentos.empty}">
+		                <td colspan="3">Nenhum departamento cadastrado</td>
+		            </tr>
 				</tbody>
-
 			</table>
 		</div>
 
@@ -124,6 +113,13 @@
 
 </div>
 
+<div th:replace="departamento/CadastroDepartamento :: modal"></div>
+
 </section>
+
+<th:block layout:fragment="javascript-extra">
+	<script th:src="@{/javascripts/departamento.cadastro.js}"></script>
+</th:block>
+
 </body>
 </html>

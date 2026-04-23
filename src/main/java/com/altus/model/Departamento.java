@@ -12,6 +12,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -24,7 +26,7 @@ public class Departamento implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
-	@NotNull(message = "Nome é obrigatório")
+	@NotBlank(message = "Nome é obrigatório")
 	@Column(nullable = false, length = 100)
     private String nome;
     

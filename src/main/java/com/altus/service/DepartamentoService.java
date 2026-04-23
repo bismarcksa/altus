@@ -12,16 +12,17 @@ import java.util.Optional;
 
 @Service
 public class DepartamentoService {
-
+	
     @Autowired
     private Departamentos departamentos;
 
     @Transactional
     public Departamento salvar(Departamento departamento){
-        Optional<Departamento> departamentoOptional = departamentos.findByNomeIgnoreCaseAndEmpresaId(departamento.getNome(), departamento.getEmpresa().getId());
+        Optional<Departamento> departamentoOptional = departamentos.findByNomeIgnoreCaseAndEmpresaId(departamento.getNome(), departamento.getEmpresa().getId());              
+        
         if(departamentoOptional.isPresent()){
             throw new ObjetoJaExisteException("Nome do departamento já está cadastrado nessa empresa.");
-        }
+        }       
         return departamentos.saveAndFlush(departamento);
     }
 

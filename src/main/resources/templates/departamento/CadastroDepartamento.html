@@ -1,0 +1,35 @@
+<div class="modal fade" id="modalCadastroDepartamento" tabindex="-1" th:fragment="modal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Cadastro de Departamento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="alert alert-danger d-none js-mensagem-cadastro-departamento"></div>
+
+                <form th:action="@{/departamento}" method="post">
+                    <div class="mb-3">
+                        <label class="form-label">Nome Departamento</label>
+                        <input id="nomeDepartamento" name="nome" type="text" class="form-control">
+                    </div>
+                    
+                     <div class="mb-3">
+                        <label class="form-label">Empresa</label>
+                        <select id="empresa" name="empresa" class="form-select">
+						    <option value="">Selecione uma empresa</option>
+						    <option th:each="empresa : ${empresas}" th:value="${empresa.id}" th:text="${empresa.razaoSocial}"></option>
+						</select>	
+                    </div> 
+                    
+                    <div class="modal-footer">
+		                <button type="submit" class="btn btn-primary js-modal-cadastro-salvar-btn">Salvar</button>
+		                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+		            </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

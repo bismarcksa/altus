@@ -1,6 +1,7 @@
 package com.altus.config;
 
 import com.altus.controller.converter.CidadeConverter;
+import com.altus.controller.converter.DepartamentoConverter;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import nz.net.ultraq.thymeleaf.layoutdialect.LayoutDialect;
 import java.util.Locale;
@@ -50,6 +51,7 @@ public class WebConfig implements WebMvcConfigurer{
     @Override //TRABALHA COM MEUS CONVERSORES
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new CidadeConverter());
+        registry.addConverter(new DepartamentoConverter());
     }
 
     @Bean
